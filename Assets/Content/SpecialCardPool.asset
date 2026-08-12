@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28d519f1df68a0c429be42f8c46bcdbe, type: 3}
+  m_Name: SpecialCardPool
+  m_EditorClassIdentifier: Assembly-CSharp::Bunker.Content.SpecialCardPoolSO
+  Entries:
+  - {fileID: 11400000, guid: ca31729f9b5ac9a489fa768ac5262d1c, type: 2}
+  - {fileID: 11400000, guid: f5f5c0988571b0e409e5cedabc28646a, type: 2}
+  - {fileID: 11400000, guid: 2031880ab12b4d144af6f03115d30bfd, type: 2}
+  - {fileID: 11400000, guid: f24dd045a11c7664688aa29386a68219, type: 2}

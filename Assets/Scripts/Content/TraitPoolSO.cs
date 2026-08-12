@@ -12,6 +12,8 @@ namespace Bunker.Content
         public Bunker.Core.CardCategory Category;
         public List<TraitEntrySO> Entries = new();
 
+        public bool AllowRepeatsWithinGame;
+
         public bool IsValid()
         {
             // Basic sanity checks to catch content mistakes early, before runtime.

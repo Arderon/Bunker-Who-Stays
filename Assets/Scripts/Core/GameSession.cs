@@ -20,6 +20,10 @@ namespace Bunker.Core
         private readonly CharacterCardGenerator _cardGenerator;
         private readonly TurnOrderService _turnOrder = new();
         private readonly SpecialCardEffectRegistry _effectRegistry = new();
+        private readonly Dictionary<string, string> _currentVotes = new(); // voterId -> targetId
+        private List<string> _tiebreakerCandidateIds; // null when not in a tiebreaker
+        private int _tiebreakerAttempts;
+        private const int MaxTiebreakerAttempts = 1; // one re-vote, then give up
 
 
         // Fired whenever the phase transitions. UI listens to this to switch screens.
@@ -46,6 +50,17 @@ namespace Bunker.Core
         // (e.g. "Player X used their special card").
         public event Action<PlayerData, SpecialCard> OnSpecialCardUsed;
 
+        // Fired when the discussion timer should start; the actual countdown
+        // is owned by the caller (UI/network), GameSession only marks the phase.
+        public event Action<int> OnDiscussionStarted; // duration in seconds, chosen by caller
+
+        // Fired with the full result once a round's voting is resolved.
+        public event Action<VotingResult> OnVotingResolved;
+
+        // Fired once the game ends, with the full reason + survivor list.
+        // Replaces the simpler List<PlayerData>-only event from section 1.3.
+        public event Action<GameOverResult> OnGameOverResolved;
+
         public string CurrentTurnPlayerId => _turnOrder.CurrentPlayerId;
 
         public GameSession(
@@ -61,19 +76,47 @@ namespace Bunker.Core
             _cardGenerator = cardGenerator;
         }
 
-        // --- Lifecycle -----------------------------------------------------
+        // --- Pre-start validation --------------------------------------------
+
+        // Called by the lobby UI before enabling the "Start" button, and again
+        // defensively inside StartGame itself.
+        public GameStartValidationResult ValidateCanStart()
+        {
+            if (Phase != GamePhase.Lobby)
+                return GameStartValidationResult.Fail("Game has already started.");
+
+            if (Players.Count == 0)
+                return GameStartValidationResult.Fail("No players in the lobby.");
+
+            if (_config.SurvivorsTarget <= 0)
+                return GameStartValidationResult.Fail("Survivors target must be at least 1.");
+
+            // Need strictly more players than the target, otherwise there is
+            // nothing to play — the game would already be "won" at round 0.
+            if (Players.Count <= _config.SurvivorsTarget)
+            {
+                return GameStartValidationResult.Fail(
+                    $"Need more than {_config.SurvivorsTarget} players to start " +
+                    $"(currently {Players.Count}).");
+            }
+
+            // Content sanity check: every player must have a full set of traits
+            // ready to be dealt. Catches a misconfigured/empty trait pool early
+            // instead of failing deep inside CharacterCardGenerator.
+            if (!_cardGenerator.HasEnoughContentFor(Players.Count))
+            {
+                return GameStartValidationResult.Fail("Not enough card content configured for this many players.");
+            }
+
+            return GameStartValidationResult.Ok();
+        }
 
         public void StartGame()
         {
-            if (Phase != GamePhase.Lobby)
+            var validation = ValidateCanStart();
+            if (!validation.CanStart)
             {
-                Debug.LogWarning("[GameSession] StartGame called outside of Lobby phase, ignoring.");
-                return;
-            }
-
-            if (Players.Count <= _config.SurvivorsTarget)
-            {
-                Debug.LogError("[GameSession] Not enough players to run a game with this SurvivorsTarget.");
+                Debug.LogError($"[GameSession] Cannot start game: {validation.FailReason}");
                 return;
             }
 
@@ -84,6 +127,8 @@ namespace Bunker.Core
             CurrentRound = 0;
             StartNextRound();
         }
+
+        // --- Lifecycle -----------------------------------------------------
 
         private void StartNextRound()
         {
@@ -178,31 +223,170 @@ namespace Bunker.Core
             OnPhaseChanged?.Invoke(newPhase);
         }
 
-        // --- Voting (minimal skeleton, full rules land in section 1.6) -----
+        // --- Discussion phase -------------------------------------------------
 
-        private readonly Dictionary<string, string> _currentVotes = new(); // voterId -> targetId
-
-        public void CastVote(string voterPlayerId, string targetPlayerId)
+        // Called once the reveal pass is done (see OnRevealPassCompleted from 1.4).
+        // durationSeconds is passed by the caller since GameSession doesn't own real time.
+        public void StartDiscussionPhase(int durationSeconds)
         {
-            if (Phase != GamePhase.Voting)
+            if (Phase != GamePhase.Reveal)
             {
-                Debug.LogWarning("[GameSession] Vote cast outside of Voting phase, ignored.");
+                Debug.LogWarning("[GameSession] StartDiscussionPhase called outside of Reveal phase.");
                 return;
             }
 
-            _currentVotes[voterPlayerId] = targetPlayerId;
+            SetPhase(GamePhase.Discussion);
+            OnDiscussionStarted?.Invoke(durationSeconds);
         }
 
-        public void ResolveRound()
+        // Called by the caller's timer once discussion time is up (or all players
+        // signal ready — that policy lives outside GameSession).
+        public void StartVotingPhase()
         {
-            var eliminated = TallyVotesAndGetEliminated();
-
-            if (eliminated != null)
+            if (Phase != GamePhase.Discussion)
             {
-                eliminated.IsEliminated = true;
-                OnPlayerEliminated?.Invoke(eliminated);
+                Debug.LogWarning("[GameSession] StartVotingPhase called outside of Discussion phase.");
+                return;
             }
 
+            _tiebreakerCandidateIds = null;
+            _tiebreakerAttempts = 0;
+            _currentVotes.Clear();
+            SetPhase(GamePhase.Voting);
+        }
+
+        // --- Voting  ------------------------------------------------------------
+
+        public bool CastVote(string voterPlayerId, string targetPlayerId)
+        {
+            bool inTiebreaker = Phase == GamePhase.VotingTiebreaker;
+
+            if (Phase != GamePhase.Voting && !inTiebreaker)
+            {
+                Debug.LogWarning("[GameSession] Vote cast outside of Voting phase, ignored.");
+                return false;
+            }
+
+            var voter = GetPlayer(voterPlayerId);
+            if (voter == null || voter.IsEliminated)
+            {
+                Debug.LogWarning($"[GameSession] Invalid voter: {voterPlayerId}");
+                return false;
+            }
+
+            if (voterPlayerId == targetPlayerId)
+            {
+                Debug.LogWarning("[GameSession] Self-voting is not allowed.");
+                return false;
+            }
+
+            var target = GetPlayer(targetPlayerId);
+            if (target == null || target.IsEliminated)
+            {
+                Debug.LogWarning($"[GameSession] Invalid vote target: {targetPlayerId}");
+                return false;
+            }
+
+            if (target.HasVoteImmunityThisRound)
+            {
+                Debug.LogWarning($"[GameSession] {targetPlayerId} is immune this round, vote rejected.");
+                return false;
+            }
+
+            // During a tiebreaker, votes may only go to the tied candidates
+            // from the previous round of voting.
+            if (inTiebreaker && !_tiebreakerCandidateIds.Contains(targetPlayerId))
+            {
+                Debug.LogWarning("[GameSession] Vote target is not part of the tiebreaker candidates.");
+                return false;
+            }
+
+            _currentVotes[voterPlayerId] = targetPlayerId;
+            return true;
+        }
+
+        // Called by the caller once every active player has voted (or a voting
+        // timer expired). Resolves the round and transitions phases accordingly.
+        public VotingResult ResolveVotes()
+        {
+            var result = TallyVotes();
+            OnVotingResolved?.Invoke(result);
+
+            switch (result.ResultType)
+            {
+                case VotingResult.Outcome.PlayerEliminated:
+                    result.EliminatedPlayer.IsEliminated = true;
+                    OnPlayerEliminated?.Invoke(result.EliminatedPlayer);
+                    FinishRound();
+                    break;
+
+                case VotingResult.Outcome.TieRequiresRevote:
+                    _tiebreakerCandidateIds = result.TiedCandidates.Select(p => p.PlayerId).ToList();
+                    _tiebreakerAttempts++;
+                    _currentVotes.Clear();
+                    SetPhase(GamePhase.VotingTiebreaker);
+                    break;
+
+                case VotingResult.Outcome.TieUnresolvedNoElimination:
+                case VotingResult.Outcome.NoVotesCast:
+                    FinishRound();
+                    break;
+            }
+
+            return result;
+        }
+
+        private VotingResult TallyVotes()
+        {
+            var voteCounts = new Dictionary<string, int>();
+
+            foreach (var targetId in _currentVotes.Values)
+            {
+                voteCounts.TryGetValue(targetId, out int current);
+                voteCounts[targetId] = current + 1;
+            }
+
+            if (voteCounts.Count == 0)
+            {
+                return new VotingResult
+                {
+                    ResultType = VotingResult.Outcome.NoVotesCast,
+                    VoteCounts = voteCounts
+                };
+            }
+
+            int topCount = voteCounts.Values.Max();
+            var topIds = voteCounts.Where(kv => kv.Value == topCount).Select(kv => kv.Key).ToList();
+
+            if (topIds.Count == 1)
+            {
+                return new VotingResult
+                {
+                    ResultType = VotingResult.Outcome.PlayerEliminated,
+                    EliminatedPlayer = GetPlayer(topIds[0]),
+                    VoteCounts = voteCounts
+                };
+            }
+
+            // Tie: decide whether to allow a re-vote or give up.
+            var tiedPlayers = topIds.Select(GetPlayer).ToList();
+
+            bool canRetry = _tiebreakerAttempts < MaxTiebreakerAttempts;
+
+            return new VotingResult
+            {
+                ResultType = canRetry
+                    ? VotingResult.Outcome.TieRequiresRevote
+                    : VotingResult.Outcome.TieUnresolvedNoElimination,
+                TiedCandidates = tiedPlayers,
+                VoteCounts = voteCounts
+            };
+        }
+
+        // --- Round wrap-up -------------------------------------------------
+
+        private void FinishRound()
+        {
             SetPhase(GamePhase.RoundResult);
 
             if (IsGameOver())
@@ -215,31 +399,6 @@ namespace Bunker.Core
             }
         }
 
-        private PlayerData TallyVotesAndGetEliminated()
-        {
-            if (_currentVotes.Count == 0) return null;
-
-            var counts = _currentVotes.Values
-                .GroupBy(targetId => targetId)
-                .Select(g => new { PlayerId = g.Key, Count = g.Count() })
-                .OrderByDescending(x => x.Count)
-                .ToList();
-
-            int topCount = counts[0].Count;
-            var topCandidates = counts.Where(c => c.Count == topCount).ToList();
-
-            if (topCandidates.Count > 1 && !_config.AllowVoteTies)
-            {
-                // Tie handling is intentionally left as a hook for section 1.6.
-                // For now, no one is eliminated on a tie.
-                Debug.Log("[GameSession] Vote tie detected, no elimination this round.");
-                return null;
-            }
-
-            var eliminatedId = topCandidates[0].PlayerId;
-            return Players.FirstOrDefault(p => p.PlayerId == eliminatedId);
-        }
-
         // --- Win condition ---------------------------------------------------
 
         private bool IsGameOver()
@@ -250,7 +409,20 @@ namespace Bunker.Core
         private void EndGame()
         {
             SetPhase(GamePhase.GameOver);
-            OnGameOver?.Invoke(ActivePlayers().ToList());
+
+            var survivors = ActivePlayers().ToList();
+
+            var reason = survivors.Count > 0
+                ? GameOverResult.Reason.SurvivorsTargetReached
+                : GameOverResult.Reason.AllPlayersEliminated;
+
+            var result = new GameOverResult
+            {
+                EndReason = reason,
+                Survivors = survivors
+            };
+
+            OnGameOverResolved?.Invoke(result);
         }
 
         // --- Special Cards ---------------------------------------------------

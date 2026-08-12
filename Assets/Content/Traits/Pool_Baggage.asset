@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38307e3870f854345a8032f06391764a, type: 3}
+  m_Name: Pool_Baggage
+  m_EditorClassIdentifier: Assembly-CSharp::Bunker.Content.TraitPoolSO
+  Category: 4
+  Entries:
+  - {fileID: 11400000, guid: 72d78fd1b00fda44da357cd7e88e170d, type: 2}
+  - {fileID: 11400000, guid: 09a9e1159ae2f1648b3a2e6cdc7690b7, type: 2}
+  - {fileID: 11400000, guid: 63a8077264927fe41a7cd061f6aa61e7, type: 2}
+  - {fileID: 11400000, guid: 3506ecc6057ce7a40b9b331720c34be1, type: 2}
+  - {fileID: 11400000, guid: 9a01beb45e58bf642aca1749d11ac735, type: 2}
+  - {fileID: 11400000, guid: 80369c3cca254114bb7cb406f7044037, type: 2}
+  - {fileID: 11400000, guid: 7dc730f28ab14784a9fe60ef07be4599, type: 2}
+  - {fileID: 11400000, guid: d2e672fbea2130342a754fdea04c8a5b, type: 2}
+  - {fileID: 11400000, guid: f969c9ac4a71ccf48a414a90c48ff355, type: 2}
+  - {fileID: 11400000, guid: 471f4a5cafb02154cb102ae2f063a52d, type: 2}

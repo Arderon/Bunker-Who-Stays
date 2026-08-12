@@ -49,7 +49,6 @@ namespace Bunker.Content
         // for the same category within a single game (e.g. two "Surgeon" professions).
         public void DealToPlayers(List<PlayerData> players, bool withinGameNoRepeat = true)
         {
-            // Track already-used entry ids per category to enforce no-repeat rule.
             var usedIdsPerCategory = new Dictionary<CardCategory, HashSet<string>>();
 
             foreach (var pool in _traitPools)
@@ -63,12 +62,14 @@ namespace Bunker.Content
 
                 foreach (var pool in _traitPools)
                 {
-                    var entry = PickEntry(pool, usedIdsPerCategory[pool.Category], withinGameNoRepeat);
+                    // A pool explicitly marked as repeatable ignores the no-repeat rule
+                    // entirely, regardless of the global withinGameNoRepeat flag.
+                    bool enforceNoRepeat = withinGameNoRepeat && !pool.AllowRepeatsWithinGame;
+
+                    var entry = PickEntry(pool, usedIdsPerCategory[pool.Category], enforceNoRepeat);
 
                     if (entry == null)
                     {
-                        // Pool exhausted (more players than unique entries available).
-                        // Fall back to allowing repeats rather than crashing the deal.
                         Debug.LogWarning($"[CharacterCardGenerator] Pool '{pool.Category}' exhausted, allowing repeat.");
                         entry = PickEntry(pool, usedIdsPerCategory[pool.Category], allowNoRepeat: false);
                     }
@@ -80,6 +81,25 @@ namespace Bunker.Content
                 player.AssignTraits(traits);
                 player.Special = PickSpecialCard();
             }
+        }
+
+        // Rough sanity check: with no-repeat dealing, each pool must have at
+        // least playerCount entries, otherwise the deal will silently fall
+        // back to allowing repeats. This lets the lobby
+        // UI warn before starting rather than the generator warning mid-deal.
+        public bool HasEnoughContentFor(int playerCount)
+        {
+            foreach (var pool in _traitPools)
+            {
+                // Repeatable pools (e.g. Gender) don't need enough unique entries
+                // for every player — only non-repeatable pools do.
+                if (!pool.AllowRepeatsWithinGame && pool.Entries.Count < playerCount)
+                {
+                    return false;
+                }
+            }
+
+            return _specialCardPool.Entries.Count > 0;
         }
 
         private TraitEntrySO PickEntry(TraitPoolSO pool, HashSet<string> usedIds, bool allowNoRepeat)

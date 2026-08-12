@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38307e3870f854345a8032f06391764a, type: 3}
+  m_Name: Pool_Health
+  m_EditorClassIdentifier: Assembly-CSharp::Bunker.Content.TraitPoolSO
+  Category: 2
+  Entries:
+  - {fileID: 11400000, guid: 84ddf1cc85f28be4fbed91ae87cad879, type: 2}
+  - {fileID: 11400000, guid: 0723227308b3b4c4fbcca6cbde90667b, type: 2}
+  - {fileID: 11400000, guid: 323d458efbb908f4cb941d1af2aced5b, type: 2}
+  - {fileID: 11400000, guid: b0cfd23104427c04aa18f7948103b951, type: 2}
+  - {fileID: 11400000, guid: 67fb20bdfac03ef46b8a1f1010c92e6a, type: 2}
+  - {fileID: 11400000, guid: efbec003642772a4b8944d3e97a91f17, type: 2}
+  - {fileID: 11400000, guid: 315e3312f5481a243a88c874dc7f2479, type: 2}
+  - {fileID: 11400000, guid: 7e87c8eb4eb49d04592b48bcf8fd68a5, type: 2}
+  - {fileID: 11400000, guid: 7660c306e5a933549b7aa2b30e7aa2ba, type: 2}
+  - {fileID: 11400000, guid: 9497ac56d4f490c47af735fb39d9978e, type: 2}

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38307e3870f854345a8032f06391764a, type: 3}
+  m_Name: Pool_Profession
+  m_EditorClassIdentifier: Assembly-CSharp::Bunker.Content.TraitPoolSO
+  Category: 3
+  Entries:
+  - {fileID: 11400000, guid: 10ec6c7831593fd4a9ec486747f9e500, type: 2}
+  - {fileID: 11400000, guid: b1958ab614c4adf42a0f53d54602cc20, type: 2}
+  - {fileID: 11400000, guid: a8405ad4b84c9c74689b3704266d6082, type: 2}
+  - {fileID: 11400000, guid: 5543334029bf74f439ebeb0ec2bc7191, type: 2}
+  - {fileID: 11400000, guid: c95350892261a3f4490d939ee9c3e3b9, type: 2}
+  - {fileID: 11400000, guid: ad3b072de8730664a8fbc86a7670d787, type: 2}
+  - {fileID: 11400000, guid: e3bfdcf8694b21a44a6205c0fd5ed576, type: 2}
+  - {fileID: 11400000, guid: ae7fa1c7138314941b3fe885a126f8f2, type: 2}
+  - {fileID: 11400000, guid: 189fdefef4e619044a1412cc545d700a, type: 2}
+  - {fileID: 11400000, guid: 6023a95ee88fa064ba9b12860f4b3ee4, type: 2}
+  - {fileID: 11400000, guid: 0cffdd276c9a7a040b4ddc488f1a6152, type: 2}
+  - {fileID: 11400000, guid: d10deca1084b7074d88ecdd594ae59ad, type: 2}

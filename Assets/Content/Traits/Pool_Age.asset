@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38307e3870f854345a8032f06391764a, type: 3}
+  m_Name: Pool_Age
+  m_EditorClassIdentifier: Assembly-CSharp::Bunker.Content.TraitPoolSO
+  Category: 1
+  Entries:
+  - {fileID: 11400000, guid: 9dbf1670f2ad02d42aa5c3a625a1dc1d, type: 2}
+  - {fileID: 11400000, guid: 2ecc7f891d2467a48b59a0a2280307f8, type: 2}
+  - {fileID: 11400000, guid: 564a94cbc11ee5244976ff4225d58c06, type: 2}
+  - {fileID: 11400000, guid: 19307b1ab7d206c4093b8546cd235d37, type: 2}
+  - {fileID: 11400000, guid: 5b24910bfd1168d4f8de1fa701d7610a, type: 2}
+  - {fileID: 11400000, guid: 01b13e5b3e9e2ae46a84c252e206b97c, type: 2}
+  - {fileID: 11400000, guid: 240705110d487f34cbc7675bfea2e96d, type: 2}
+  - {fileID: 11400000, guid: 6fdb4295597e78b4ab73dfd248f4397b, type: 2}
+  - {fileID: 11400000, guid: 1958060787d31624c9b0bff3e1818596, type: 2}
+  - {fileID: 11400000, guid: e01f3ce9d4acac04fa2d78953e0f7c03, type: 2}

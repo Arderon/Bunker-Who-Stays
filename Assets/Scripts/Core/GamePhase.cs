@@ -9,6 +9,7 @@ namespace Bunker.Core
         Reveal,
         Discussion,
         Voting,
+        VotingTiebreaker,   // re-vote among tied candidates only
         RoundResult,
         GameOver
     }
