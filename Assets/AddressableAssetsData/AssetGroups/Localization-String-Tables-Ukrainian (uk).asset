@@ -14,8 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
   m_GroupName: Localization-String-Tables-Ukrainian (uk)
   m_GUID: 9d49e780dd8fb5641925d84fd9dffbaf
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 687fcae3f120141498dc231bedeae227
+    m_Address: UI-Table_uk
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-uk
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: da0cb2d07b085074eb52c64de298982e
+    m_Address: CardContent_uk
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-uk
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 9def68cd621326d40910be0a577602e5, type: 2}
   m_SchemaSet:
-    m_Schemas: []
+    m_Schemas:
+    - {fileID: 11400000, guid: 6a49dafc3f83b4e4c9f4498f3ad86811, type: 2}
+    - {fileID: 11400000, guid: 14f13e97c09c30843a9d59c7bfa11b95, type: 2}
