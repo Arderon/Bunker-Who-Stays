@@ -10,26 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Localization-Locales
+  m_Name: Localization-Assets-Shared
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
-  m_GroupName: Localization-Locales
-  m_GUID: 12c91bfccf5a9a848ad8cf6a8f163f73
+  m_GroupName: Localization-Assets-Shared
+  m_GUID: 69065240a25879740894e5750ae4df6a
   m_SerializeEntries:
-  - m_GUID: 5de42ca36cc5faa469436571ccda3cfa
-    m_Address: Ukrainian (uk)
+  - m_GUID: 292eb420f18c47c479c37eb75cb539c9
+    m_Address: Assets/Localization/tables/CardContent Shared Data.asset
     m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f5388d1da6589bf43a0e74840365d553
-    m_Address: English (en)
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 9def68cd621326d40910be0a577602e5, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 4c8b18dc42602384398841652d884e1f, type: 2}
-    - {fileID: 11400000, guid: 93812fd91694b1c43a1e6098d1cf391e, type: 2}
+    - {fileID: 11400000, guid: 419848247f928394b9a44814756ddefe, type: 2}
+    - {fileID: 11400000, guid: 513fc5fa19a1af641b9be6266658d025, type: 2}

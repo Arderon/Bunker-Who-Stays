@@ -1,0 +1,375 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: UI-Table_en
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 42d1b47f97fc1d147bba66e5eb279a64, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 41014013952
+    m_Localized: Bunker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013953
+    m_Localized: Create Lobby
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013954
+    m_Localized: Join by Code
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013955
+    m_Localized: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013956
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013957
+    m_Localized: Exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013958
+    m_Localized: Enter lobby code
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013959
+    m_Localized: e.g. A1B2C3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013960
+    m_Localized: Join
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013961
+    m_Localized: Cancel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013962
+    m_Localized: No lobby found with this code
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013963
+    m_Localized: Lobby is full
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013964
+    m_Localized: The game in this lobby has already started
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013965
+    m_Localized: Lobby
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013966
+    m_Localized: Lobby Code
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013967
+    m_Localized: Copy Code
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013968
+    m_Localized: 'Players: {0}/{1}'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013969
+    m_Localized: You are the host
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013970
+    m_Localized: Waiting for host to start...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013971
+    m_Localized: Start Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013972
+    m_Localized: Leave Lobby
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013973
+    m_Localized: Number of Winners
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013974
+    m_Localized: Ready
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013975
+    m_Localized: Not Ready
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013976
+    m_Localized: The game has already started
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013977
+    m_Localized: There are no players in the lobby
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013978
+    m_Localized: At least {0} players are required, currently {1}
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013979
+    m_Localized: Invalid number of winners
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013980
+    m_Localized: Not enough content configured for this many players
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013981
+    m_Localized: Round {0}
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013982
+    m_Localized: Your turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013983
+    m_Localized: '{0}''s turn'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013984
+    m_Localized: Your Card
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013985
+    m_Localized: Reveal Trait
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013986
+    m_Localized: Gender
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013987
+    m_Localized: Age
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013988
+    m_Localized: Health
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013989
+    m_Localized: Profession
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013990
+    m_Localized: Baggage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013991
+    m_Localized: Hobby
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013992
+    m_Localized: Fact
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013993
+    m_Localized: Hidden
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013994
+    m_Localized: Eliminated
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013995
+    m_Localized: Special Card
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013996
+    m_Localized: Use
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013997
+    m_Localized: Used
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013998
+    m_Localized: Select a player
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013999
+    m_Localized: Select a category
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014000
+    m_Localized: Confirm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014001
+    m_Localized: You have already used your special card
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014002
+    m_Localized: Cannot apply this to that player
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014003
+    m_Localized: Discussion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014004
+    m_Localized: 'Time left: {0}'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014005
+    m_Localized: Skip Discussion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014006
+    m_Localized: Voting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014007
+    m_Localized: Who should leave the bunker?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014008
+    m_Localized: Vote
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014009
+    m_Localized: You voted for {0}
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014010
+    m_Localized: Waiting for other players...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014011
+    m_Localized: You cannot vote for yourself
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014012
+    m_Localized: This player is immune this round
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014013
+    m_Localized: Tie!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014014
+    m_Localized: 'Re-vote between: {0}'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014015
+    m_Localized: "The tie remained unresolved \u2014 no one leaves this round"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014016
+    m_Localized: Round Result
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014017
+    m_Localized: '{0} leaves the bunker'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014018
+    m_Localized: Continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014019
+    m_Localized: 'Votes: {0}'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014020
+    m_Localized: Game Over
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985472
+    m_Localized: Winners
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985473
+    m_Localized: '{0} remained in the bunker'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985474
+    m_Localized: "All players were eliminated \u2014 no winners"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985475
+    m_Localized: Play Again
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985476
+    m_Localized: Back to Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985477
+    m_Localized: Confirm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985478
+    m_Localized: Cancel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985479
+    m_Localized: Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985480
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985481
+    m_Localized: No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985482
+    m_Localized: Loading...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985483
+    m_Localized: Connection lost
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985484
+    m_Localized: Reconnecting...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985485
+    m_Localized: Something went wrong
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985486
+    m_Localized: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985487
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985488
+    m_Localized: Sound
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985489
+    m_Localized: Music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985490
+    m_Localized: Back
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

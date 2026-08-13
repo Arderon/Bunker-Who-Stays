@@ -1,0 +1,295 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: CardContent_en
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 292eb420f18c47c479c37eb75cb539c9, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 130822451200
+    m_Localized: Male
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228416
+    m_Localized: Female
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228417
+    m_Localized: 5 years old
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228418
+    m_Localized: 12 years old
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228419
+    m_Localized: 19 years old
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228420
+    m_Localized: 27 years old
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228421
+    m_Localized: 35 years old
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228422
+    m_Localized: 45 years old
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228423
+    m_Localized: 58 years old
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228424
+    m_Localized: 67 years old
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228425
+    m_Localized: 74 years old
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228426
+    m_Localized: 82 years old
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228427
+    m_Localized: Perfect health
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228428
+    m_Localized: Mild cold
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228429
+    m_Localized: Allergy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228430
+    m_Localized: Asthma
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228431
+    m_Localized: Diabetes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228432
+    m_Localized: Insomnia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228433
+    m_Localized: Poor eyesight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228434
+    m_Localized: Heart condition
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228435
+    m_Localized: Mild anxiety
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228436
+    m_Localized: HIV in remission
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228437
+    m_Localized: Surgeon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228438
+    m_Localized: Teacher
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422720
+    m_Localized: Engineer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422721
+    m_Localized: Programmer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422722
+    m_Localized: Cook
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422723
+    m_Localized: Police officer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422724
+    m_Localized: Firefighter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422725
+    m_Localized: Farmer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422726
+    m_Localized: Psychologist
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422727
+    m_Localized: Lawyer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422728
+    m_Localized: Electrician
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422729
+    m_Localized: Soldier
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422730
+    m_Localized: Medkit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422731
+    m_Localized: Plant seeds
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422732
+    m_Localized: Generator
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422733
+    m_Localized: Weapon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422734
+    m_Localized: Survival books
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422735
+    m_Localized: Radio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422736
+    m_Localized: Toolkit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422737
+    m_Localized: Canned food
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422738
+    m_Localized: Water pump
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422739
+    m_Localized: Tent
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422740
+    m_Localized: Painting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422741
+    m_Localized: Playing guitar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422742
+    m_Localized: Chess
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422743
+    m_Localized: Fishing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422744
+    m_Localized: Yoga
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422745
+    m_Localized: Cooking
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422746
+    m_Localized: Archery
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422747
+    m_Localized: Gardening
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422748
+    m_Localized: Coding
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422749
+    m_Localized: Hunting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422750
+    m_Localized: Has a criminal record
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422751
+    m_Localized: Claustrophobia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422752
+    m_Localized: Army veteran
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422753
+    m_Localized: Was in a psychiatric ward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422754
+    m_Localized: Red Cross volunteer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422755
+    m_Localized: Gambling addiction
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422756
+    m_Localized: Saved someone's life
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422757
+    m_Localized: Former cult member
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422758
+    m_Localized: Single parent of three
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422759
+    m_Localized: Rare blood type
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422760
+    m_Localized: Peek
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422761
+    m_Localized: Immunity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422762
+    m_Localized: Swap
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422763
+    m_Localized: Expose
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

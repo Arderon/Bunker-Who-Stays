@@ -1,0 +1,380 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: UI-Table Shared Data
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
+  m_TableCollectionName: UI-Table
+  m_TableCollectionNameGuidString: 42d1b47f97fc1d147bba66e5eb279a64
+  m_Entries:
+  - m_Id: 41014013952
+    m_Key: ui_menu_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013953
+    m_Key: ui_menu_create_lobby
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013954
+    m_Key: ui_menu_join_lobby
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013955
+    m_Key: ui_menu_settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013956
+    m_Key: ui_menu_language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013957
+    m_Key: ui_menu_exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013958
+    m_Key: ui_join_enter_code
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013959
+    m_Key: ui_join_code_placeholder
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013960
+    m_Key: ui_join_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013961
+    m_Key: ui_join_cancel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013962
+    m_Key: ui_join_error_invalid_code
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013963
+    m_Key: ui_join_error_lobby_full
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013964
+    m_Key: ui_join_error_already_started
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013965
+    m_Key: ui_lobby_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013966
+    m_Key: ui_lobby_code_label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013967
+    m_Key: ui_lobby_copy_code
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013968
+    m_Key: ui_lobby_players_count
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013969
+    m_Key: ui_lobby_you_are_host
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013970
+    m_Key: ui_lobby_waiting_for_host
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013971
+    m_Key: ui_lobby_start_game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013972
+    m_Key: ui_lobby_leave
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013973
+    m_Key: ui_lobby_survivors_target_label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013974
+    m_Key: ui_lobby_player_ready
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013975
+    m_Key: ui_lobby_player_not_ready
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013976
+    m_Key: ui_error_game_already_started
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013977
+    m_Key: ui_error_no_players
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013978
+    m_Key: ui_error_not_enough_players
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013979
+    m_Key: ui_error_invalid_survivors_target
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013980
+    m_Key: ui_error_not_enough_content
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013981
+    m_Key: ui_game_round_label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013982
+    m_Key: ui_game_your_turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013983
+    m_Key: ui_game_waiting_for_player
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013984
+    m_Key: ui_game_your_card
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013985
+    m_Key: ui_game_reveal_trait
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013986
+    m_Key: ui_game_category_gender
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013987
+    m_Key: ui_game_category_age
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013988
+    m_Key: ui_game_category_health
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013989
+    m_Key: ui_game_category_profession
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013990
+    m_Key: ui_game_category_baggage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013991
+    m_Key: ui_game_category_hobby
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013992
+    m_Key: ui_game_category_fact
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013993
+    m_Key: ui_game_hidden_trait
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013994
+    m_Key: ui_game_player_eliminated_tag
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013995
+    m_Key: ui_special_card_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013996
+    m_Key: ui_special_card_use
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013997
+    m_Key: ui_special_card_used
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013998
+    m_Key: ui_special_card_select_target
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014013999
+    m_Key: ui_special_card_select_category
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014000
+    m_Key: ui_special_card_confirm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014001
+    m_Key: ui_special_card_error_already_used
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014002
+    m_Key: ui_special_card_error_invalid_target
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014003
+    m_Key: ui_discussion_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014004
+    m_Key: ui_discussion_time_left
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014005
+    m_Key: ui_discussion_skip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014006
+    m_Key: ui_voting_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014007
+    m_Key: ui_voting_prompt
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014008
+    m_Key: ui_voting_vote_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014009
+    m_Key: ui_voting_you_voted
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014010
+    m_Key: ui_voting_waiting_for_others
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014011
+    m_Key: ui_voting_error_self_vote
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014012
+    m_Key: ui_voting_error_target_immune
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014013
+    m_Key: ui_voting_tie_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014014
+    m_Key: ui_voting_tie_revote_prompt
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014015
+    m_Key: ui_voting_tie_no_elimination
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014016
+    m_Key: ui_round_result_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014017
+    m_Key: ui_round_result_eliminated
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014018
+    m_Key: ui_round_result_continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014019
+    m_Key: ui_round_result_votes_breakdown
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41014014020
+    m_Key: ui_gameover_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985472
+    m_Key: ui_gameover_survivors_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985473
+    m_Key: ui_gameover_survivors_list
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985474
+    m_Key: ui_gameover_all_eliminated
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985475
+    m_Key: ui_gameover_play_again
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985476
+    m_Key: ui_gameover_back_to_menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985477
+    m_Key: ui_common_confirm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985478
+    m_Key: ui_common_cancel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985479
+    m_Key: ui_common_back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985480
+    m_Key: ui_common_yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985481
+    m_Key: ui_common_no
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985482
+    m_Key: ui_common_loading
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985483
+    m_Key: ui_common_connection_lost
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985484
+    m_Key: ui_common_reconnecting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985485
+    m_Key: ui_common_error_generic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985486
+    m_Key: ui_settings_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985487
+    m_Key: ui_settings_language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985488
+    m_Key: ui_settings_sound
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985489
+    m_Key: ui_settings_music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985490
+    m_Key: ui_settings_back
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 5879383642794098691
+  references:
+    version: 2
+    RefIds:
+    - rid: 5879383642794098691
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1786602206010

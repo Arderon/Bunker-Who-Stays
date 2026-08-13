@@ -1,0 +1,300 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: CardContent Shared Data
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
+  m_TableCollectionName: CardContent
+  m_TableCollectionNameGuidString: 292eb420f18c47c479c37eb75cb539c9
+  m_Entries:
+  - m_Id: 130822451200
+    m_Key: trait_gender_male
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228416
+    m_Key: trait_gender_female
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228417
+    m_Key: trait_age_5
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228418
+    m_Key: trait_age_12
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228419
+    m_Key: trait_age_19
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228420
+    m_Key: trait_age_27
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228421
+    m_Key: trait_age_35
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228422
+    m_Key: trait_age_45
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228423
+    m_Key: trait_age_58
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228424
+    m_Key: trait_age_67
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228425
+    m_Key: trait_age_74
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228426
+    m_Key: trait_age_82
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228427
+    m_Key: trait_health_perfect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228428
+    m_Key: trait_health_mild_cold
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228429
+    m_Key: trait_health_allergy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228430
+    m_Key: trait_health_asthma
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228431
+    m_Key: trait_health_diabetes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228432
+    m_Key: trait_health_insomnia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228433
+    m_Key: trait_health_poor_vision
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228434
+    m_Key: trait_health_heart_condition
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228435
+    m_Key: trait_health_mild_anxiety
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228436
+    m_Key: trait_health_hiv_remission
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228437
+    m_Key: trait_profession_surgeon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130839228438
+    m_Key: trait_profession_teacher
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422720
+    m_Key: trait_profession_engineer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422721
+    m_Key: trait_profession_programmer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422722
+    m_Key: trait_profession_cook
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422723
+    m_Key: trait_profession_police
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422724
+    m_Key: trait_profession_firefighter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422725
+    m_Key: trait_profession_farmer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422726
+    m_Key: trait_profession_psychologist
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422727
+    m_Key: trait_profession_lawyer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422728
+    m_Key: trait_profession_electrician
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422729
+    m_Key: trait_profession_soldier
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422730
+    m_Key: trait_baggage_medkit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422731
+    m_Key: trait_baggage_seeds
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422732
+    m_Key: trait_baggage_generator
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422733
+    m_Key: trait_baggage_weapon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422734
+    m_Key: trait_baggage_survival_books
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422735
+    m_Key: trait_baggage_radio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422736
+    m_Key: trait_baggage_tools
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422737
+    m_Key: trait_baggage_canned_food
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422738
+    m_Key: trait_baggage_water_pump
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422739
+    m_Key: trait_baggage_tent
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422740
+    m_Key: trait_hobby_painting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422741
+    m_Key: trait_hobby_guitar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422742
+    m_Key: trait_hobby_chess
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422743
+    m_Key: trait_hobby_fishing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422744
+    m_Key: trait_hobby_yoga
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422745
+    m_Key: trait_hobby_cooking
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422746
+    m_Key: trait_hobby_archery
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422747
+    m_Key: trait_hobby_gardening
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422748
+    m_Key: trait_hobby_coding
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422749
+    m_Key: trait_hobby_hunting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422750
+    m_Key: trait_fact_criminal_record
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422751
+    m_Key: trait_fact_claustrophobia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422752
+    m_Key: trait_fact_army_veteran
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422753
+    m_Key: trait_fact_psych_ward_history
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422754
+    m_Key: trait_fact_red_cross_volunteer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422755
+    m_Key: trait_fact_gambling_addiction
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422756
+    m_Key: trait_fact_saved_a_life
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422757
+    m_Key: trait_fact_former_cult_member
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422758
+    m_Key: trait_fact_single_parent_of_three
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422759
+    m_Key: trait_fact_rare_blood_type
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422760
+    m_Key: special_peek
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422761
+    m_Key: special_immunity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422762
+    m_Key: special_swap
+    m_Metadata:
+      m_Items: []
+  - m_Id: 130843422763
+    m_Key: special_expose
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 5879383642794098690
+  references:
+    version: 2
+    RefIds:
+    - rid: 5879383642794098690
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1786600948594
