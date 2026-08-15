@@ -21,7 +21,7 @@ namespace Bunker.UI
         private void OnCreateLobbyClicked()
         {
             var lobby = LobbyServiceLocator.Current;
-            lobby.CreateLobby(displayName: PlayerPrefsNames.GetLocalDisplayName());
+            lobby.CreateLobby(PlayerPrefsNames.GetLocalDisplayName());
             UIManager.Instance.ShowScreen<LobbyScreen>();
         }
     }
