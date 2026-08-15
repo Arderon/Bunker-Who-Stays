@@ -1,0 +1,6 @@
+﻿<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="vote-target-item-root" class="row list-item">
+        <ui:Label name="name-label" />
+        <ui:Button name="vote-button" />
+    </ui:VisualElement>
+</ui:UXML>

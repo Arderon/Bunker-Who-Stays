@@ -1,0 +1,8 @@
+﻿<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="join-lobby-root" class="screen-root">
+        <ui:TextField name="code-input" />
+        <ui:Button name="join-button" class="menu-button" />
+        <ui:Button name="cancel-button" class="menu-button" />
+        <ui:Label name="error-label" class="error-label hidden" />
+    </ui:VisualElement>
+</ui:UXML>

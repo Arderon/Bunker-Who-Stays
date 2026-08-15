@@ -1,0 +1,8 @@
+﻿<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="special-card-modal-root" class="modal-content">
+        <ui:VisualElement name="target-list-container" class="column" />
+        <ui:VisualElement name="category-list-container" class="column hidden" />
+        <ui:Button name="confirm-button" class="menu-button" />
+        <ui:Label name="error-label" class="error-label hidden" />
+    </ui:VisualElement>
+</ui:UXML>

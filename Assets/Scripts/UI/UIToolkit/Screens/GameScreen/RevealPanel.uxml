@@ -1,0 +1,7 @@
+﻿<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="reveal-panel-root" class="phase-panel">
+        <ui:Label name="turn-indicator-label" class="section-title" />
+        <ui:VisualElement name="category-buttons-container" class="column" />
+        <ui:Button name="start-discussion-button" class="menu-button hidden" />
+    </ui:VisualElement>
+</ui:UXML>

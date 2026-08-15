@@ -1,0 +1,6 @@
+﻿<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="trait-slot-root" class="row trait-slot">
+        <ui:Label name="category-label" />
+        <ui:Label name="value-label" />
+    </ui:VisualElement>
+</ui:UXML>

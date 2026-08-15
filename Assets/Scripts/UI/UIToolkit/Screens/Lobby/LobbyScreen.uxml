@@ -1,0 +1,20 @@
+﻿<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="lobby-root" class="screen-root">
+        <ui:VisualElement class="row">
+            <ui:Label name="lobby-code-value" class="title" />
+            <ui:Button name="copy-code-button" />
+        </ui:VisualElement>
+        <ui:Label name="players-count-label" class="muted-label" />
+        <ui:ListView name="players-list" fixed-item-height="56" />
+        <ui:VisualElement name="survivors-target-selector" class="row">
+            <ui:Label name="survivors-target-label" />
+            <ui:Button name="survivors-decrease-button" text="-" />
+            <ui:Label name="survivors-target-value" />
+            <ui:Button name="survivors-increase-button" text="+" />
+        </ui:VisualElement>
+        <ui:Button name="start-game-button" class="menu-button" />
+        <ui:Label name="start-game-error-label" class="error-label hidden" />
+        <ui:Label name="waiting-for-host-label" class="muted-label hidden" />
+        <ui:Button name="leave-lobby-button" class="menu-button" />
+    </ui:VisualElement>
+</ui:UXML>

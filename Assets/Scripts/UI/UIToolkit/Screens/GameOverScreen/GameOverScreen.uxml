@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="gameover-root" class="screen-root">
+        <ui:Label name="title-label" class="title" />
+        <ui:VisualElement name="survivors-block" class="column">
+            <ui:Label name="survivors-title-label" class="section-title" />
+            <ui:Label name="survivors-list-label" />
+        </ui:VisualElement>
+        <ui:VisualElement name="all-eliminated-block" class="column hidden">
+            <ui:Label name="all-eliminated-label" />
+        </ui:VisualElement>
+        <ui:Button name="play-again-button" class="menu-button" />
+        <ui:Button name="back-to-menu-button" class="menu-button" />
+    </ui:VisualElement>
+</ui:UXML>

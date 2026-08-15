@@ -1,0 +1,9 @@
+﻿<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="main-menu-root" class="screen-root">
+        <ui:Label name="title-label" class="title" />
+        <ui:Button name="create-lobby-button" class="menu-button" />
+        <ui:Button name="join-lobby-button" class="menu-button" />
+        <ui:Button name="settings-button" class="menu-button" />
+        <ui:Button name="exit-button" class="menu-button" />
+    </ui:VisualElement>
+</ui:UXML>

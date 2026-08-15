@@ -1,0 +1,7 @@
+﻿<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="my-card-panel-root" class="card-panel">
+        <ui:Label name="card-title-label" class="section-title" />
+        <ui:VisualElement name="trait-slots-container" class="column" />
+        <ui:Button name="special-card-button" class="menu-button" />
+    </ui:VisualElement>
+</ui:UXML>

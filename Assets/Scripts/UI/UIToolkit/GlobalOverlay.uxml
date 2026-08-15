@@ -1,0 +1,11 @@
+﻿<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="overlay-root" picking-mode="Ignore">
+        <ui:VisualElement name="loading-spinner" class="loading-spinner hidden" />
+        <ui:VisualElement name="connection-lost-banner" class="banner hidden">
+            <ui:Label name="connection-lost-text" />
+        </ui:VisualElement>
+        <ui:VisualElement name="toast-root" class="toast hidden">
+            <ui:Label name="toast-text" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
