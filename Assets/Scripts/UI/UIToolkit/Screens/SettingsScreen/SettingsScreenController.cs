@@ -31,7 +31,7 @@ namespace Bunker.UI
 
         private async void RefreshStaticText()
         {
-            root.Q<Label>("title-label").text = await LocalizedTextService.GetTextAsync(LocalizationTableNames.UI, "ui_settings_title");
+            Root.Q<Label>("title-label").text = await LocalizedTextService.GetTextAsync(LocalizationTableNames.UI, "ui_settings_title");
             _backButton.text = await LocalizedTextService.GetTextAsync(LocalizationTableNames.UI, "ui_settings_back");
         }
 

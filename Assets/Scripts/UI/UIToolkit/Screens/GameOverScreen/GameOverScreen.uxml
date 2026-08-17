@@ -1,14 +1,15 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Scripts/UI/UIToolkit/Theme.uss?fileID=7433441132597879392&amp;guid=0b59999951e38b340aaa46f8de068aa1&amp;type=3#Theme"/>
     <ui:VisualElement name="gameover-root" class="screen-root">
-        <ui:Label name="title-label" class="title" />
+        <ui:Label name="title-label" class="title"/>
         <ui:VisualElement name="survivors-block" class="column">
-            <ui:Label name="survivors-title-label" class="section-title" />
-            <ui:Label name="survivors-list-label" />
+            <ui:Label name="survivors-title-label" class="section-title"/>
+            <ui:Label name="survivors-list-label"/>
         </ui:VisualElement>
         <ui:VisualElement name="all-eliminated-block" class="column hidden">
-            <ui:Label name="all-eliminated-label" />
+            <ui:Label name="all-eliminated-label"/>
         </ui:VisualElement>
-        <ui:Button name="play-again-button" class="menu-button" />
-        <ui:Button name="back-to-menu-button" class="menu-button" />
+        <ui:Button name="play-again-button" class="menu-button"/>
+        <ui:Button name="back-to-menu-button" class="menu-button"/>
     </ui:VisualElement>
 </ui:UXML>

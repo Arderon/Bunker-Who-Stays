@@ -1,11 +1,12 @@
-﻿<ui:UXML xmlns:ui="UnityEngine.UIElements">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Scripts/UI/UIToolkit/Theme.uss?fileID=7433441132597879392&amp;guid=0b59999951e38b340aaa46f8de068aa1&amp;type=3#Theme"/>
     <ui:VisualElement name="overlay-root" picking-mode="Ignore">
-        <ui:VisualElement name="loading-spinner" class="loading-spinner hidden" />
+        <ui:VisualElement name="loading-spinner" class="loading-spinner hidden"/>
         <ui:VisualElement name="connection-lost-banner" class="banner hidden">
-            <ui:Label name="connection-lost-text" />
+            <ui:Label name="connection-lost-text"/>
         </ui:VisualElement>
         <ui:VisualElement name="toast-root" class="toast hidden">
-            <ui:Label name="toast-text" />
+            <ui:Label name="toast-text"/>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

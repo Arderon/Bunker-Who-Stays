@@ -1,11 +1,12 @@
-﻿<ui:UXML xmlns:ui="UnityEngine.UIElements">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Scripts/UI/UIToolkit/Theme.uss?fileID=7433441132597879392&amp;guid=0b59999951e38b340aaa46f8de068aa1&amp;type=3#Theme"/>
     <ui:VisualElement name="game-root" class="screen-root">
-        <ui:VisualElement name="top-bar" />
-        <ui:VisualElement name="my-card-panel" />
-        <ui:VisualElement name="reveal-panel" />
-        <ui:VisualElement name="discussion-panel" />
-        <ui:VisualElement name="voting-panel" />
-        <ui:VisualElement name="round-result-panel" />
-        <ui:VisualElement name="special-card-modal-container" class="modal-overlay hidden" />
+        <ui:VisualElement name="top-bar"/>
+        <ui:VisualElement name="my-card-panel"/>
+        <ui:VisualElement name="reveal-panel"/>
+        <ui:VisualElement name="discussion-panel"/>
+        <ui:VisualElement name="voting-panel"/>
+        <ui:VisualElement name="round-result-panel"/>
+        <ui:VisualElement name="special-card-modal-container" class="modal-overlay hidden"/>
     </ui:VisualElement>
 </ui:UXML>

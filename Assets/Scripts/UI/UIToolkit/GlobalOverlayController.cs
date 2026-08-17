@@ -36,8 +36,17 @@ namespace Bunker.UI
             _toastText.text = await LocalizedTextService.GetTextAsync(LocalizationTableNames.UI, key, arguments);
             _toastRoot.RemoveFromClassList("hidden");
 
-            _toastHideTask?.Pause();
-            _toastHideTask = Root.schedule.Execute(() => _toastRoot.AddToClassList("hidden")).ExecuteLater(2500);
+            if (_toastHideTask != null)
+            {
+                // Re-trigger the existing scheduled item instead of creating a new one.
+                _toastHideTask.ExecuteLater(2500);
+            }
+            else
+            {
+                _toastHideTask = Root.schedule
+                    .Execute(() => _toastRoot.AddToClassList("hidden"))
+                    .StartingIn(2500);
+            }
         }
     }
 }

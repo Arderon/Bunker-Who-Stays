@@ -1,8 +1,9 @@
-﻿<ui:UXML xmlns:ui="UnityEngine.UIElements">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Scripts/UI/UIToolkit/Theme.uss?fileID=7433441132597879392&amp;guid=0b59999951e38b340aaa46f8de068aa1&amp;type=3#Theme"/>
     <ui:VisualElement name="join-lobby-root" class="screen-root">
-        <ui:TextField name="code-input" />
-        <ui:Button name="join-button" class="menu-button" />
-        <ui:Button name="cancel-button" class="menu-button" />
-        <ui:Label name="error-label" class="error-label hidden" />
+        <ui:TextField name="code-input"/>
+        <ui:Button name="join-button" class="menu-button"/>
+        <ui:Button name="cancel-button" class="menu-button"/>
+        <ui:Label name="error-label" class="error-label hidden"/>
     </ui:VisualElement>
 </ui:UXML>

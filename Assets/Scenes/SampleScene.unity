@@ -340,6 +340,114 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1666623853
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1666623856}
+  - component: {fileID: 1666623855}
+  - component: {fileID: 1666623854}
+  - component: {fileID: 1666623857}
+  m_Layer: 5
+  m_Name: UIRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1666623854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666623853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe0e15dce541f4c4086fb9d65972bb0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bunker.UI.UIManager
+  _mainMenuAsset: {fileID: 9197481963319205126, guid: a64a011916462bf48b7aa7536b845181, type: 3}
+  _joinLobbyAsset: {fileID: 9197481963319205126, guid: 45de266ac54e16f479f338079256b172, type: 3}
+  _lobbyAsset: {fileID: 9197481963319205126, guid: ef5cf1d95294a494abd20185551a984f, type: 3}
+  _gameAsset: {fileID: 9197481963319205126, guid: c12e87096002ee5449cf91769dbdc2cf, type: 3}
+  _gameOverAsset: {fileID: 9197481963319205126, guid: 0a3a6af49a987694580d9cde6dac8558, type: 3}
+  _settingsAsset: {fileID: 9197481963319205126, guid: 559d5113010743e4ca279a5ffe8bb21b, type: 3}
+  _globalOverlayAsset: {fileID: 9197481963319205126, guid: 8a95d6493161c0c4d87603796ab20be0, type: 3}
+  _playerListItemAsset: {fileID: 9197481963319205126, guid: 8048eeeb476af6d428676b782a2c6643, type: 3}
+  _voteTargetItemAsset: {fileID: 9197481963319205126, guid: e652cb504524b1446b8f0bf8afa2f091, type: 3}
+  _playerStatusIconAsset: {fileID: 9197481963319205126, guid: 5a25a320b492d5343934048e17943588, type: 3}
+  _traitSlotAsset: {fileID: 9197481963319205126, guid: fb24cd9a17c0b014e93af8e2a1fdb898, type: 3}
+  _topBarAsset: {fileID: 9197481963319205126, guid: 1413b192db966784681fe9d876440d2e, type: 3}
+  _myCardPanelAsset: {fileID: 9197481963319205126, guid: 2a388ac5b6cd90c4594742e9d002394f, type: 3}
+  _revealPanelAsset: {fileID: 9197481963319205126, guid: 9319820ffcef9cd49a08ec7e09474a57, type: 3}
+  _discussionPanelAsset: {fileID: 9197481963319205126, guid: f5d8c45df15f20a48b8a9d3861188a28, type: 3}
+  _votingPanelAsset: {fileID: 9197481963319205126, guid: beb3e9a2dd4dd0440a4d19f7ed37a062, type: 3}
+  _roundResultPanelAsset: {fileID: 9197481963319205126, guid: 83d63b84ca949f443b03f2996468ac13, type: 3}
+  _specialCardModalAsset: {fileID: 9197481963319205126, guid: 3c33c5f40283d954393ba7b037fa4135, type: 3}
+--- !u!114 &1666623855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666623853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
+  m_PanelSettings: {fileID: 11400000, guid: 75418a9195045404bab9e8f6032ea08f, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 0}
+  m_SortingOrder: 0
+  m_Position: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
+  m_PivotReferenceSize: 0
+  m_Pivot: 0
+  m_WorldSpaceCollider: {fileID: 0}
+--- !u!4 &1666623856
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666623853}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1666623857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666623853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1f6f40e25fa7d443adc8eab65b80be3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameBootstrap
+  _traitPools:
+  - {fileID: 11400000, guid: a0c4608cd893a324cbe5c33c1ef25179, type: 2}
+  - {fileID: 11400000, guid: d0fd65c5064079c42974d7bdc8bd5c58, type: 2}
+  - {fileID: 11400000, guid: d8a9637d6d948c24c91b4c55d42595b7, type: 2}
+  - {fileID: 11400000, guid: 1a4e146a90368104c836d526d68552bc, type: 2}
+  - {fileID: 11400000, guid: 12c9ee0b203f30e468c0f428bd339e0e, type: 2}
+  - {fileID: 11400000, guid: bdb9741559325b64fa17be936811dfb8, type: 2}
+  - {fileID: 11400000, guid: 6dbbda3cea8747c4c86d0c905b8ad177, type: 2}
+  _specialCardPool: {fileID: 11400000, guid: 685a85eef5d46024cb63618f8035eb23, type: 2}
 --- !u!1 &1900799722
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,7 +472,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1900799722}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f3160ac040be944f95416cf9e8e87b2, type: 3}
   m_Name: 
@@ -400,3 +508,4 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 1900799724}
+  - {fileID: 1666623856}

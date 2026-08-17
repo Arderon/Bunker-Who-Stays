@@ -1,9 +1,10 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Scripts/UI/UIToolkit/Theme.uss?fileID=7433441132597879392&amp;guid=0b59999951e38b340aaa46f8de068aa1&amp;type=3#Theme"/>
     <ui:VisualElement name="settings-root" class="screen-root">
-        <ui:Label name="title-label" class="title" />
-        <ui:DropdownField name="language-dropdown" />
-        <ui:Toggle name="sound-toggle" />
-        <ui:Toggle name="music-toggle" />
-        <ui:Button name="back-button" class="menu-button" />
+        <ui:Label name="title-label" class="title"/>
+        <ui:DropdownField name="language-dropdown"/>
+        <ui:Toggle name="sound-toggle"/>
+        <ui:Toggle name="music-toggle"/>
+        <ui:Button name="back-button" class="menu-button"/>
     </ui:VisualElement>
 </ui:UXML>
