@@ -1,13 +1,14 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Bunker.UI
 {
     public class PlayerListItem : MonoBehaviour
     {
-        [SerializeField] private Text _displayNameLabel;
+        [SerializeField] private TMP_Text _displayNameLabel;
         [SerializeField] private GameObject _hostTag;
-        [SerializeField] private Text _readyStatusLabel;
+        [SerializeField] private TMP_Text _readyStatusLabel;
 
         public void Bind(LobbyPlayerInfo player)
         {

@@ -1,15 +1,16 @@
-﻿using System.Collections;
+﻿using Bunker.Core;
+using Bunker.Localization;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Bunker.Core;
-using Bunker.Localization;
 
 namespace Bunker.UI
 {
     public class DiscussionPhasePanel : MonoBehaviour
     {
-        [SerializeField] private Text _titleLabel;
-        [SerializeField] private Text _timeLeftLabel;
+        [SerializeField] private TMP_Text _titleLabel;
+        [SerializeField] private TMP_Text _timeLeftLabel;
         [SerializeField] private Button _skipButton;
 
         private GameSession _session;

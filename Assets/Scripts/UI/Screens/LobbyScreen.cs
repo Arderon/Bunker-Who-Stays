@@ -1,24 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using Bunker.Core;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Bunker.Core;
 
 namespace Bunker.UI
 {
     public class LobbyScreen : UIScreen
     {
-        [SerializeField] private Text _lobbyCodeValueLabel;
+        [SerializeField] private TMP_Text _lobbyCodeValueLabel;
         [SerializeField] private Button _copyCodeButton;
-        [SerializeField] private Text _playersCountLabel;
+        [SerializeField] private TMP_Text _playersCountLabel;
         [SerializeField] private Transform _playerListContainer;
         [SerializeField] private PlayerListItem _playerListItemPrefab;
         [SerializeField] private GameObject _survivorsTargetSelector;
-        [SerializeField] private Text _survivorsTargetValueLabel;
+        [SerializeField] private TMP_Text _survivorsTargetValueLabel;
         [SerializeField] private Button _survivorsTargetIncreaseButton;
         [SerializeField] private Button _survivorsTargetDecreaseButton;
         [SerializeField] private Button _startGameButton;
-        [SerializeField] private Text _startGameErrorLabel;
-        [SerializeField] private Text _waitingForHostLabel;
+        [SerializeField] private TMP_Text _startGameErrorLabel;
+        [SerializeField] private TMP_Text _waitingForHostLabel;
         [SerializeField] private Button _leaveLobbyButton;
 
         private ILobbyService _lobby;

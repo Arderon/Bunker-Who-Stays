@@ -1,15 +1,16 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using Bunker.Core;
+﻿using Bunker.Core;
 using Bunker.Localization;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Bunker.UI
 {
     public class RevealPhasePanel : MonoBehaviour
     {
-        [SerializeField] private Text _turnIndicatorLabel;
-        [SerializeField] private Button[] _categoryButtons; // ordered same as CardCategory enum
-        [SerializeField] private Button _startDiscussionButton; // host-only, calls StartDiscussionPhase
+        [SerializeField] private TMP_Text _turnIndicatorLabel;
+        [SerializeField] private Button[] _categoryButtons;
+        [SerializeField] private Button _startDiscussionButton;
 
         private GameSession _session;
         private string _localPlayerId;

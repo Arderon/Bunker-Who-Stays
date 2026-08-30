@@ -1,21 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using Bunker.Core;
+using Bunker.Localization;
+using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Bunker.Core;
-using Bunker.Localization;
-using System.Linq;
 
 namespace Bunker.UI
 {
     public class VotingPhasePanel : MonoBehaviour
     {
-        [SerializeField] private Text _titleLabel;
-        [SerializeField] private Text _promptLabel;
+        [SerializeField] private TMP_Text _titleLabel;
+        [SerializeField] private TMP_Text _promptLabel;
         [SerializeField] private Transform _targetListContainer;
         [SerializeField] private VoteTargetItem _targetItemPrefab;
-        [SerializeField] private Text _youVotedLabel;
-        [SerializeField] private Text _waitingForOthersLabel;
-        [SerializeField] private Button _resolveButton; // host-only, calls ResolveVotes
+        [SerializeField] private TMP_Text _youVotedLabel;
+        [SerializeField] private TMP_Text _waitingForOthersLabel;
+        [SerializeField] private Button _resolveButton;
 
         private GameSession _session;
         private string _localPlayerId;

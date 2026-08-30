@@ -1,14 +1,15 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Bunker.UI
 {
     public class JoinLobbyScreen : UIScreen
     {
-        [SerializeField] private InputField _codeInputField;
+        [SerializeField] private TMP_InputField _codeInputField;
         [SerializeField] private Button _joinButton;
         [SerializeField] private Button _cancelButton;
-        [SerializeField] private Text _errorLabel;
+        [SerializeField] private TMP_Text _errorLabel;
 
         private ILobbyService _lobby;
 

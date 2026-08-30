@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using Bunker.Core;
 
 namespace Bunker.UI
 {
     public class MyCardPanel : MonoBehaviour
     {
-        [SerializeField] private TraitSlotView[] _traitSlots; // one per CardCategory, ordered same as enum
+        [SerializeField] private TraitSlotView[] _traitSlots;
         [SerializeField] private Button _specialCardButton;
-        [SerializeField] private Text _specialCardButtonLabel;
+        [SerializeField] private TMP_Text _specialCardButtonLabel;
 
         private GameSession _session;
         private string _localPlayerId;

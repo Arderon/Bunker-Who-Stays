@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Bunker.Core;
+using Bunker.Localization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Bunker.Core;
-using Bunker.Localization;
 
 namespace Bunker.UI
 {
@@ -16,11 +17,11 @@ namespace Bunker.UI
 
         [SerializeField] private GameObject _root;
         [SerializeField] private Transform _targetListContainer;
-        [SerializeField] private Button _targetButtonPrefab; // simple button + Text child
-        [SerializeField] private Transform _categoryListContainer; // shown only for SwapTrait
+        [SerializeField] private Button _targetButtonPrefab;
+        [SerializeField] private Transform _categoryListContainer;
         [SerializeField] private Button _categoryButtonPrefab;
         [SerializeField] private Button _confirmButton;
-        [SerializeField] private Text _errorLabel;
+        [SerializeField] private TMP_Text _errorLabel;
 
         private GameSession _session;
         private string _localPlayerId;
@@ -66,7 +67,7 @@ namespace Bunker.UI
             foreach (var candidate in candidates)
             {
                 var button = Instantiate(_targetButtonPrefab, _targetListContainer);
-                button.GetComponentInChildren<Text>().text = candidate.DisplayName;
+                button.GetComponentInChildren<TMP_Text>().text = candidate.DisplayName;
                 button.onClick.AddListener(() => _selectedTargetId = candidate.PlayerId);
             }
         }
@@ -81,7 +82,7 @@ namespace Bunker.UI
                 var key = $"ui_game_category_{category.ToString().ToLowerInvariant()}";
                 StartCoroutine(LocalizedTextService.GetTextCoroutine(
                     LocalizationTableNames.UI, key,
-                    text => button.GetComponentInChildren<Text>().text = text));
+                    text => button.GetComponentInChildren<TMP_Text>().text = text));
                 button.onClick.AddListener(() => _selectedCategory = category);
             }
         }

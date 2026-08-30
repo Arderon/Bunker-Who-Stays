@@ -1,13 +1,14 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using Bunker.Core;
+﻿using Bunker.Core;
 using Bunker.Localization;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Bunker.UI
 {
     public class PlayerStatusIcon : MonoBehaviour
     {
-        [SerializeField] private Text _nameLabel;
+        [SerializeField] private TMP_Text _nameLabel;
         [SerializeField] private GameObject _eliminatedTag;
         [SerializeField] private CanvasGroup _canvasGroup;
 
@@ -21,7 +22,7 @@ namespace Bunker.UI
             {
                 StartCoroutine(LocalizedTextService.GetTextCoroutine(
                     LocalizationTableNames.UI, "ui_game_player_eliminated_tag",
-                    text => _eliminatedTag.GetComponentInChildren<Text>().text = text));
+                    text => _eliminatedTag.GetComponentInChildren<TMP_Text>().text = text));
             }
         }
     }

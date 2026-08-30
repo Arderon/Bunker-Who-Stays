@@ -1,7 +1,8 @@
+using Bunker.Localization;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Bunker.Localization;
 
 namespace Bunker.UI
 {
@@ -11,9 +12,9 @@ namespace Bunker.UI
     {
         [SerializeField] private GameObject _loadingSpinner;
         [SerializeField] private GameObject _connectionLostBanner;
-        [SerializeField] private Text _connectionLostText;
+        [SerializeField] private TMP_Text _connectionLostText;
         [SerializeField] private GameObject _toastRoot;
-        [SerializeField] private Text _toastText;
+        [SerializeField] private TMP_Text _toastText;
         [SerializeField] private float _toastDurationSeconds = 2.5f;
 
         private Coroutine _toastRoutine;

@@ -1,16 +1,17 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using Bunker.Core;
+﻿using Bunker.Core;
 using Bunker.Localization;
 using System.Linq;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Bunker.UI
 {
     public class RoundResultPanel : MonoBehaviour
     {
-        [SerializeField] private Text _titleLabel;
-        [SerializeField] private Text _outcomeLabel;
-        [SerializeField] private Text _votesBreakdownLabel;
+        [SerializeField] private TMP_Text _titleLabel;
+        [SerializeField] private TMP_Text _outcomeLabel;
+        [SerializeField] private TMP_Text _votesBreakdownLabel;
         [SerializeField] private Button _continueButton;
 
         private GameSession _session;

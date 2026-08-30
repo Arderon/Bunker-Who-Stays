@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using Bunker.Core;
+﻿using Bunker.Core;
 using Bunker.Localization;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Bunker.UI
 {
@@ -9,8 +10,8 @@ namespace Bunker.UI
     {
         public CardCategory Category;
 
-        [SerializeField] private Text _categoryLabel;
-        [SerializeField] private Text _valueLabel;
+        [SerializeField] private TMP_Text _categoryLabel;
+        [SerializeField] private TMP_Text _valueLabel;
 
         private void Awake()
         {

@@ -1,16 +1,17 @@
-using System;
-using UnityEngine;
-using UnityEngine.UI;
 using Bunker.Core;
 using Bunker.Localization;
+using System;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Bunker.UI
 {
     public class VoteTargetItem : MonoBehaviour
     {
-        [SerializeField] private Text _nameLabel;
+        [SerializeField] private TMP_Text _nameLabel;
         [SerializeField] private Button _voteButton;
-        [SerializeField] private Text _voteButtonLabel;
+        [SerializeField] private TMP_Text _voteButtonLabel;
 
         public void Bind(PlayerData player, Action<PlayerData> onVoteClicked)
         {

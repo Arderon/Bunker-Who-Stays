@@ -1,15 +1,16 @@
-﻿using System.Linq;
+﻿using Bunker.Core;
+using Bunker.Localization;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Bunker.Core;
-using Bunker.Localization;
 
 namespace Bunker.UI
 {
     public class GameOverScreen : UIScreen
     {
         [SerializeField] private GameObject _survivorsBlock;
-        [SerializeField] private Text _survivorsListLabel;
+        [SerializeField] private TMP_Text _survivorsListLabel;
         [SerializeField] private GameObject _allEliminatedBlock;
         [SerializeField] private Button _playAgainButton;
         [SerializeField] private Button _backToMenuButton;

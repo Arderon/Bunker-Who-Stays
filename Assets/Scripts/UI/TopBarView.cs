@@ -1,13 +1,14 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using Bunker.Core;
+﻿using Bunker.Core;
 using Bunker.Localization;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Bunker.UI
 {
     public class TopBarView : MonoBehaviour
     {
-        [SerializeField] private Text _roundLabel;
+        [SerializeField] private TMP_Text _roundLabel;
         [SerializeField] private Transform _playerStatusStripContainer;
         [SerializeField] private PlayerStatusIcon _playerStatusIconPrefab;
 

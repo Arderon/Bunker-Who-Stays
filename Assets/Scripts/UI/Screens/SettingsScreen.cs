@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using Bunker.Localization;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
-using Bunker.Localization;
+using UnityEngine.UI;
 
 namespace Bunker.UI
 {
     public class SettingsScreen : UIScreen
     {
-        [SerializeField] private Dropdown _languageDropdown;
+        [SerializeField] private TMP_Dropdown _languageDropdown;
         [SerializeField] private Toggle _soundToggle;
         [SerializeField] private Toggle _musicToggle;
         [SerializeField] private Button _backButton;
