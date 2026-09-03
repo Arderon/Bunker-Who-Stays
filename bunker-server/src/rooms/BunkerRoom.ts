@@ -1,8 +1,9 @@
 import { Room, Client } from "@colyseus/core";
 
 // Minimal placeholder room — real game logic, message handlers, and state
-// schema are wired up in later stages. For now this only needs to exist
-// so the server can start and rooms can be created/joined for smoke testing.
+// schema (GameSession wiring) are added in stage 3/4 of the migration plan.
+// For now this only needs to exist so the server can start and rooms can
+// be created/joined for smoke testing (see stage 1, steps 9-10).
 export class BunkerRoom extends Room {
   maxClients = 12;
 
@@ -13,7 +14,8 @@ export class BunkerRoom extends Room {
 
   onJoin(client: Client, options: any) {
     // options.playerId is expected to come from Unity Authentication —
-    // trusted as-is for now (see security note below).
+    // trusted as-is for now (see security note in the migration plan
+    // about onAuth-based verification as a future hardening step).
     console.log(`[BunkerRoom] ${client.sessionId} joined as playerId=${options.playerId}`);
   }
 
