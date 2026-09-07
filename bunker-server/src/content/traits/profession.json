@@ -1,0 +1,18 @@
+{
+  "category": 3,
+  "allowRepeatsWithinGame": false,
+  "entries": [
+    { "id": "profession_surgeon", "localizationKey": "trait_profession_surgeon", "weight": 1 },
+    { "id": "profession_teacher", "localizationKey": "trait_profession_teacher", "weight": 1 },
+    { "id": "profession_engineer", "localizationKey": "trait_profession_engineer", "weight": 1 },
+    { "id": "profession_programmer", "localizationKey": "trait_profession_programmer", "weight": 1 },
+    { "id": "profession_cook", "localizationKey": "trait_profession_cook", "weight": 1 },
+    { "id": "profession_police", "localizationKey": "trait_profession_police", "weight": 1 },
+    { "id": "profession_firefighter", "localizationKey": "trait_profession_firefighter", "weight": 1 },
+    { "id": "profession_farmer", "localizationKey": "trait_profession_farmer", "weight": 1 },
+    { "id": "profession_psychologist", "localizationKey": "trait_profession_psychologist", "weight": 1 },
+    { "id": "profession_lawyer", "localizationKey": "trait_profession_lawyer", "weight": 1 },
+    { "id": "profession_electrician", "localizationKey": "trait_profession_electrician", "weight": 1 },
+    { "id": "profession_soldier", "localizationKey": "trait_profession_soldier", "weight": 1 }
+  ]
+}

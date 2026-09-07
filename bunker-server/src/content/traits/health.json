@@ -1,0 +1,16 @@
+{
+  "category": 2,
+  "allowRepeatsWithinGame": true,
+  "entries": [
+    { "id": "health_perfect", "localizationKey": "trait_health_perfect", "weight": 1 },
+    { "id": "health_mild_cold", "localizationKey": "trait_health_mild_cold", "weight": 1 },
+    { "id": "health_allergy", "localizationKey": "trait_health_allergy", "weight": 1 },
+    { "id": "health_asthma", "localizationKey": "trait_health_asthma", "weight": 1 },
+    { "id": "health_diabetes", "localizationKey": "trait_health_diabetes", "weight": 1 },
+    { "id": "health_insomnia", "localizationKey": "trait_health_insomnia", "weight": 1 },
+    { "id": "health_poor_vision", "localizationKey": "trait_health_poor_vision", "weight": 1 },
+    { "id": "health_heart_condition", "localizationKey": "trait_health_heart_condition", "weight": 1 },
+    { "id": "health_mild_anxiety", "localizationKey": "trait_health_mild_anxiety", "weight": 1 },
+    { "id": "health_hiv_remission", "localizationKey": "trait_health_hiv_remission", "weight": 1 }
+  ]
+}

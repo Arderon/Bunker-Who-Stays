@@ -1,0 +1,16 @@
+{
+  "category": 6,
+  "allowRepeatsWithinGame": false,
+  "entries": [
+    { "id": "fact_criminal_record", "localizationKey": "trait_fact_criminal_record", "weight": 1 },
+    { "id": "fact_claustrophobia", "localizationKey": "trait_fact_claustrophobia", "weight": 1 },
+    { "id": "fact_army_veteran", "localizationKey": "trait_fact_army_veteran", "weight": 1 },
+    { "id": "fact_psych_ward_history", "localizationKey": "trait_fact_psych_ward_history", "weight": 1 },
+    { "id": "fact_red_cross_volunteer", "localizationKey": "trait_fact_red_cross_volunteer", "weight": 1 },
+    { "id": "fact_gambling_addiction", "localizationKey": "trait_fact_gambling_addiction", "weight": 1 },
+    { "id": "fact_saved_a_life", "localizationKey": "trait_fact_saved_a_life", "weight": 1 },
+    { "id": "fact_former_cult_member", "localizationKey": "trait_fact_former_cult_member", "weight": 1 },
+    { "id": "fact_single_parent_of_three", "localizationKey": "trait_fact_single_parent_of_three", "weight": 1 },
+    { "id": "fact_rare_blood_type", "localizationKey": "trait_fact_rare_blood_type", "weight": 1 }
+  ]
+}

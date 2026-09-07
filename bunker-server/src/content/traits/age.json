@@ -1,0 +1,16 @@
+{
+  "category": 1,
+  "allowRepeatsWithinGame": true,
+  "entries": [
+    { "id": "age_5", "localizationKey": "trait_age_5", "weight": 1 },
+    { "id": "age_12", "localizationKey": "trait_age_12", "weight": 1 },
+    { "id": "age_19", "localizationKey": "trait_age_19", "weight": 1 },
+    { "id": "age_27", "localizationKey": "trait_age_27", "weight": 1 },
+    { "id": "age_35", "localizationKey": "trait_age_35", "weight": 1 },
+    { "id": "age_45", "localizationKey": "trait_age_45", "weight": 1 },
+    { "id": "age_58", "localizationKey": "trait_age_58", "weight": 1 },
+    { "id": "age_67", "localizationKey": "trait_age_67", "weight": 1 },
+    { "id": "age_74", "localizationKey": "trait_age_74", "weight": 1 },
+    { "id": "age_82", "localizationKey": "trait_age_82", "weight": 1 }
+  ]
+}

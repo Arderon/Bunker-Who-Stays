@@ -1,0 +1,16 @@
+{
+  "category": 5,
+  "allowRepeatsWithinGame": false,
+  "entries": [
+    { "id": "hobby_painting", "localizationKey": "trait_hobby_painting", "weight": 1 },
+    { "id": "hobby_guitar", "localizationKey": "trait_hobby_guitar", "weight": 1 },
+    { "id": "hobby_chess", "localizationKey": "trait_hobby_chess", "weight": 1 },
+    { "id": "hobby_fishing", "localizationKey": "trait_hobby_fishing", "weight": 1 },
+    { "id": "hobby_yoga", "localizationKey": "trait_hobby_yoga", "weight": 1 },
+    { "id": "hobby_cooking", "localizationKey": "trait_hobby_cooking", "weight": 1 },
+    { "id": "hobby_archery", "localizationKey": "trait_hobby_archery", "weight": 1 },
+    { "id": "hobby_gardening", "localizationKey": "trait_hobby_gardening", "weight": 1 },
+    { "id": "hobby_coding", "localizationKey": "trait_hobby_coding", "weight": 1 },
+    { "id": "hobby_hunting", "localizationKey": "trait_hobby_hunting", "weight": 1 }
+  ]
+}

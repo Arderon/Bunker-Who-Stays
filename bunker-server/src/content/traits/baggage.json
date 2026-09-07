@@ -1,0 +1,16 @@
+{
+  "category": 4,
+  "allowRepeatsWithinGame": false,
+  "entries": [
+    { "id": "baggage_medkit", "localizationKey": "trait_baggage_medkit", "weight": 1 },
+    { "id": "baggage_seeds", "localizationKey": "trait_baggage_seeds", "weight": 1 },
+    { "id": "baggage_generator", "localizationKey": "trait_baggage_generator", "weight": 1 },
+    { "id": "baggage_weapon", "localizationKey": "trait_baggage_weapon", "weight": 1 },
+    { "id": "baggage_survival_books", "localizationKey": "trait_baggage_survival_books", "weight": 1 },
+    { "id": "baggage_radio", "localizationKey": "trait_baggage_radio", "weight": 1 },
+    { "id": "baggage_tools", "localizationKey": "trait_baggage_tools", "weight": 1 },
+    { "id": "baggage_canned_food", "localizationKey": "trait_baggage_canned_food", "weight": 1 },
+    { "id": "baggage_water_pump", "localizationKey": "trait_baggage_water_pump", "weight": 1 },
+    { "id": "baggage_tent", "localizationKey": "trait_baggage_tent", "weight": 1 }
+  ]
+}

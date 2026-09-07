@@ -18,19 +18,12 @@ const gameServer = new Server({
   transport: new WebSocketTransport({ server: httpServer }),
 });
 
-// Room definition with built-in code-based matchmaking:
-// clients call client.joinOrCreate("bunker_room", { code: "A1B2C3" }),
-// and Colyseus automatically joins an existing room with the same "code"
-// option, or creates a new one if none exists — this replaces UGS Lobby's
-// "create/join by code" flow entirely, per the stage-0 decision.
 gameServer
   .define("bunker_room", BunkerRoom)
   .filterBy(["code"]);
 
-// Dev-only tools: browser-based room inspector/tester.
-// Remove or guard behind an env check before deploying to production.
 if (process.env.NODE_ENV !== "production") {
-  app.use("/playground", playground);
+  app.use("/playground", playground());
 }
 
 httpServer.listen(port, () => {

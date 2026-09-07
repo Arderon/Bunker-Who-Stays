@@ -17,6 +17,11 @@ export class HeadlessGameRunner {
   private readonly decisionRandom: SeededRandom;
   public readonly log: string[] = [];
 
+  // Tracks the most recent tie's candidate ids, so a subsequent
+  // VotingTiebreaker round knows who is legally votable. Reset whenever a
+  // fresh (non-tiebreaker) voting round starts.
+  private lastTiedCandidateIds: string[] | null = null;
+
   constructor(decisionSeed?: number) {
     this.decisionRandom = new SeededRandom(decisionSeed);
   }
@@ -46,6 +51,11 @@ export class HeadlessGameRunner {
     session.on("votingResolved", (result) => {
       const counts = [...result.voteCounts.entries()].map(([id, c]) => `${id}=${c}`).join(", ");
       this.logLine(`Vote resolved: ${result.resultType} (${counts})`);
+
+      this.lastTiedCandidateIds =
+        result.tiedCandidates && result.tiedCandidates.length > 0
+          ? result.tiedCandidates.map((p) => p.playerId)
+          : null;
     });
     session.on("playerEliminated", (player) => this.logLine(`ELIMINATED: ${player.displayName}`));
     session.on("gameOverResolved", (result) => {
@@ -118,6 +128,17 @@ export class HeadlessGameRunner {
   }
 
   private simulateRevealPhase(session: GameSession): void {
+    // If nobody has a turn at all right now, the reveal pass already
+    // completed synchronously inside startNextRound() (e.g. every active
+    // player had already revealed all 7 traits in an earlier round) —
+    // before this method got a chance to subscribe to the event below.
+    // Proceed straight to Discussion instead of waiting for an event that
+    // already fired.
+    if (session.currentTurnPlayerId === null) {
+      session.startDiscussionPhase(60);
+      return;
+    }
+
     let passCompleted = false;
     const handler = () => {
       passCompleted = true;
@@ -172,10 +193,21 @@ export class HeadlessGameRunner {
   }
 
   private simulateVotingPhase(session: GameSession): void {
+    const isTiebreaker = session.phase === GamePhase.VotingTiebreaker;
+
     for (const voter of session.activePlayers()) {
-      const possibleTargets = session
+      let possibleTargets = session
         .activePlayers()
         .filter((p) => p.playerId !== voter.playerId && !p.hasVoteImmunityThisRound);
+
+      // During a tiebreaker re-vote, GameSession only accepts votes for the
+      // previously tied candidates — restrict simulated choices accordingly,
+      // or every vote outside that set gets rejected (harmless, but noisy
+      // and unrealistic for a simulation meant to mirror real play).
+      if (isTiebreaker && this.lastTiedCandidateIds) {
+        const tiedSet = new Set(this.lastTiedCandidateIds);
+        possibleTargets = possibleTargets.filter((p) => tiedSet.has(p.playerId));
+      }
 
       if (possibleTargets.length === 0) continue;
 

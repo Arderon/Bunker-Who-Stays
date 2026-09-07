@@ -13,6 +13,7 @@ import { TurnOrderService } from "./TurnOrderService";
 import { SpecialCardEffectRegistry } from "./effects/SpecialCardEffectRegistry";
 import { ISpecialCardEffect } from "./effects/ISpecialCardEffect";
 import { SpecialCardEffectResult, ok, fail } from "./effects/SpecialCardEffectResult";
+import { SeededRandom } from "./content/SeededRandom";
 
 // Event map for GameSession's TypedEventEmitter. Each entry mirrors one of
 // the C# `event Action<T>` fields accumulated across sections 1.3-1.7.
@@ -51,6 +52,7 @@ export class GameSession extends TypedEventEmitter<GameSessionEvents> {
   private tiebreakerCandidateIds: string[] | null = null;
   private tiebreakerAttempts = 0;
   private static readonly MAX_TIEBREAKER_ATTEMPTS = 1; // one re-vote, then give up
+  private readonly random: SeededRandom;
 
   constructor(players: PlayerData[], config: GameSessionConfig, cardGenerator: CharacterCardGenerator) {
     super();
@@ -62,6 +64,7 @@ export class GameSession extends TypedEventEmitter<GameSessionEvents> {
     this.players = players;
     this.config = config;
     this.cardGenerator = cardGenerator;
+    this.random = new SeededRandom(config.randomSeed);
   }
 
   get currentTurnPlayerId(): string | null {
@@ -128,10 +131,22 @@ export class GameSession extends TypedEventEmitter<GameSessionEvents> {
     }
 
     this.currentVotes.clear();
-    this.turnOrder.rebuildForRound(this.currentRound, this.activePlayers());
+
+    // Only players who still have something left to reveal take part in
+    // this round's turn rotation. A player who has already revealed all 7
+    // traits in an earlier round is excluded up front; skipIneligiblePlayers
+    // (called below) additionally handles the case where someone still
+    // eligible at round start gets emptied out mid-round (e.g. via another
+    // player's ForceRevealAll) before their own turn arrives.
+    const revealEligiblePlayers = this.activePlayers().filter((p) => p.hasUnrevealedTraits());
+    this.turnOrder.rebuildForRound(this.currentRound, revealEligiblePlayers);
 
     this.setPhase(GamePhase.Reveal);
     this.emit("roundStarted", this.currentRound);
+
+    // Handles both "nobody has anything to reveal at all this round" and
+    // (defensively) any already-ineligible entry at the very start of the rotation.
+    this.skipIneligiblePlayers();
   }
 
   // --- Phase transitions ---------------------------------------------
@@ -182,12 +197,41 @@ export class GameSession extends TypedEventEmitter<GameSessionEvents> {
   }
 
   private advanceToNextTurn(): void {
-    const passContinues = this.turnOrder.advanceTurn();
+    this.turnOrder.advanceTurn();
+    this.skipIneligiblePlayers();
+  }
 
-    if (!passContinues) {
-      this.emit("revealPassCompleted");
-      // The caller (BunkerRoom) decides when to actually move to Discussion,
-      // via startDiscussionPhase() below.
+  // Skips forward past any player in the current turn rotation who no
+  // longer has anything left to reveal — most notably, a player whose last
+  // remaining trait was forcibly revealed by someone else's ForceRevealAll
+  // effect earlier in the same round, before their own turn arrived.
+  // Without this, the turn would stall on that player forever, since
+  // revealNextTrait() only advances the turn on a successful reveal, which
+  // that player can no longer perform.
+  //
+  // Bounded by the total player count so this always terminates, even if
+  // every remaining player in the rotation turns out to be ineligible.
+  private skipIneligiblePlayers(): void {
+    const maxChecks = this.players.length + 1;
+
+    for (let i = 0; i < maxChecks; i++) {
+      const currentId = this.turnOrder.currentPlayerId;
+      if (currentId === null) {
+        // Rotation is empty entirely — nobody has anything left to reveal
+        // this round. Still signal pass completion so the caller can move
+        // straight on to Discussion, same as after a normal full pass.
+        this.emit("revealPassCompleted");
+        return;
+      }
+
+      const player = this.getPlayer(currentId);
+      if (player && player.hasUnrevealedTraits()) return; // found someone eligible — stop here
+
+      const passContinues = this.turnOrder.advanceTurn();
+      if (!passContinues) {
+        this.emit("revealPassCompleted");
+        return;
+      }
     }
   }
 
@@ -377,6 +421,7 @@ export class GameSession extends TypedEventEmitter<GameSessionEvents> {
 
     switch (result.resultType) {
       case VotingOutcome.PlayerEliminated:
+      case VotingOutcome.TieResolvedRandomly: // treated the same as a normal elimination
         result.eliminatedPlayer!.isEliminated = true;
         this.emit("playerEliminated", result.eliminatedPlayer!);
         this.finishRound();
@@ -426,13 +471,24 @@ export class GameSession extends TypedEventEmitter<GameSessionEvents> {
       };
     }
 
-    // Tie: decide whether to allow a re-vote or give up.
+    // Tie: decide whether to allow a re-vote or force a resolution.
     const tiedPlayers = topIds.map((id) => this.getPlayer(id)!).filter(Boolean);
     const canRetry = this.tiebreakerAttempts < GameSession.MAX_TIEBREAKER_ATTEMPTS;
 
+    if (canRetry) {
+      return {
+        resultType: VotingOutcome.TieRequiresRevote,
+        eliminatedPlayer: null,
+        tiedCandidates: tiedPlayers,
+        voteCounts,
+      };
+    }
+
+    const randomlyEliminated = tiedPlayers[this.random.nextInt(tiedPlayers.length)];
+
     return {
-      resultType: canRetry ? VotingOutcome.TieRequiresRevote : VotingOutcome.TieUnresolvedNoElimination,
-      eliminatedPlayer: null,
+      resultType: VotingOutcome.TieResolvedRandomly,
+      eliminatedPlayer: randomlyEliminated,
       tiedCandidates: tiedPlayers,
       voteCounts,
     };

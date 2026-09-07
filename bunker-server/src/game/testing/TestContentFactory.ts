@@ -24,7 +24,12 @@ export function createDefaultTraitPools(): TraitPool[] {
     // shared between players, the rest default to unique-per-game.
     allowRepeatsWithinGame:
       category === CardCategory.Gender || category === CardCategory.Age || category === CardCategory.Health,
-    entries: Array.from({ length: 10 }, (_, i) => ({
+    // 15 entries per category — comfortably covers the stress test's
+    // max player count (12) even for non-repeatable categories, with
+    // headroom to spare (unlike the earlier 10, which fell short at 11+
+    // players and caused validateCanStart() to correctly, but
+    // inconveniently, reject the simulation).
+    entries: Array.from({ length: 15 }, (_, i) => ({
       id: `${CardCategory[category]}_${i}`,
       category,
       localizationKey: `trait_${CardCategory[category]}_${i}`,

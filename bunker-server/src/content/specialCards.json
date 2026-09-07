@@ -1,0 +1,8 @@
+{
+  "entries": [
+    { "id": "special_peek", "effectType": "RevealHiddenTrait", "localizationKey": "special_peek" },
+    { "id": "special_immunity", "effectType": "VoteImmunity", "localizationKey": "special_immunity" },
+    { "id": "special_swap", "effectType": "SwapTrait", "localizationKey": "special_swap" },
+    { "id": "special_expose", "effectType": "ForceRevealAll", "localizationKey": "special_expose" }
+  ]
+}

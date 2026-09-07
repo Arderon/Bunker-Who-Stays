@@ -1,0 +1,8 @@
+{
+  "category": 0,
+  "allowRepeatsWithinGame": true,
+  "entries": [
+    { "id": "gender_male", "localizationKey": "trait_gender_male", "weight": 1 },
+    { "id": "gender_female", "localizationKey": "trait_gender_female", "weight": 1 }
+  ]
+}
