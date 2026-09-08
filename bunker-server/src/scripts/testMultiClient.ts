@@ -26,24 +26,23 @@ async function main() {
     const displayName = `Player ${i}`;
     const client = new Client(SERVER_URL);
 
-    const room =
-      i === 0
-        ? await client.create("bunker_room", { code: ROOM_CODE, playerId, displayName })
-        : await client.joinById(
-            (await client.getAvailableRooms("bunker_room")).find((r) => r.metadata?.code === ROOM_CODE)!.roomId,
-            { playerId, displayName }
-          );
+  const room =
+    i === 0
+      ? await client.create("bunker_room", { code: ROOM_CODE, playerId, displayName })
+      : await client.join("bunker_room", { code: ROOM_CODE, playerId, displayName });
 
     room.onStateChange((state) => {
       console.log(`[${playerId}] state: phase=${state.phase} round=${state.currentRound} turn=${state.currentTurnPlayerId}`);
     });
 
-    room.onMessage("actionRejected", (msg) => console.log(`[${playerId}] REJECTED: ${msg.key}`));
+    room.onMessage("actionRejected", (msg: any) => console.log(`[${playerId}] REJECTED: ${msg.key}`));
+    room.onMessage("dealtHand", (msg: any) => console.log(`[${playerId}] DEALT HAND (own):`, JSON.stringify(msg.traits[0])));
+    room.onMessage("traitRevealed", (msg: any) => console.log(`[${playerId}] TRAIT REVEALED (broadcast):`, JSON.stringify(msg)));
     room.onMessage("revealPassCompleted", () => console.log(`[${playerId}] reveal pass completed`));
-    room.onMessage("discussionStarted", (msg) => console.log(`[${playerId}] discussion started: ${msg.durationSeconds}s`));
-    room.onMessage("votingResolved", (msg) => console.log(`[${playerId}] voting resolved:`, msg));
-    room.onMessage("gameOver", (msg) => console.log(`[${playerId}] GAME OVER:`, msg));
-    room.onMessage("privateTraitPeek", (msg) => console.log(`[${playerId}] PRIVATE PEEK:`, msg));
+    room.onMessage("discussionStarted", (msg: any) => console.log(`[${playerId}] discussion started: ${msg.durationSeconds}s`));
+    room.onMessage("votingResolved", (msg: any) => console.log(`[${playerId}] voting resolved:`, msg));
+    room.onMessage("gameOver", (msg: any) => console.log(`[${playerId}] GAME OVER:`, msg));
+    room.onMessage("privateTraitPeek", (msg: any) => console.log(`[${playerId}] PRIVATE PEEK:`, msg));
 
     clients.push({ playerId, displayName, room });
     console.log(`[${playerId}] joined room ${room.roomId}`);
@@ -53,6 +52,14 @@ async function main() {
 
   // --- Privacy check: before the game starts, no one should see any
   // trait content yet (traits array is empty until dealt). ---
+
+  console.log("\n=== SCHEMA CHECK (should only show category/revealed now) ===");
+  for (const c of clients) {
+    const state = c.room.state as any;
+    const ownPlayer = state.players.get(c.playerId);
+    console.log(`[${c.playerId}] own trait[0] in Schema:`, JSON.stringify(ownPlayer.traits[0]));
+  }
+  console.log("=== END SCHEMA CHECK ===\n");
 
   // Host starts the game.
   clients[0].room.send("startGame");

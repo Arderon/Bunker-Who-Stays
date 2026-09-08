@@ -58,7 +58,7 @@ export class CharacterCardGenerator {
         }
 
         usedIds.add(entry.id);
-        traits.push(createTrait(entry.id, entry.category, entry.localizationKey));
+        traits.push(createTrait(entry.id, pool.category, entry.localizationKey));
       }
 
       player.assignTraits(traits);

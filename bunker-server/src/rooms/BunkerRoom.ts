@@ -91,12 +91,13 @@ export class BunkerRoom extends Room<GameStateSchema> {
     console.log(`[BunkerRoom] ${client.sessionId} joined as playerId=${playerId}`);
   }
 
-onLeave(client: Client, consented?: boolean) {
-  console.log(`[BunkerRoom] ${client.sessionId} left (consented=${consented})`);
-  // Reconnection handling and host migration are explicitly out of scope
-  // for this stage — a disconnect here simply leaves the player's schema
-  // and GameSession state as-is.
-}
+  onLeave(client: Client, consented?: boolean) {
+    console.log(`[BunkerRoom] ${client.sessionId} left (consented=${consented})`);
+    // Reconnection handling and host migration are explicitly out of scope
+    // for this stage (deferred, same as the equivalent gap noted for the
+    // Netcode-based implementation) — a disconnect here simply leaves the
+    // player's schema and GameSession state as-is.
+  }
 
   onDispose() {
     this.discussionTimeoutHandle?.clear();
@@ -192,15 +193,16 @@ onLeave(client: Client, consented?: boolean) {
 
       schema.traits.clear();
       for (const category of ALL_CARD_CATEGORIES) {
-        const trait = playerData.getTrait(category);
         const slot = new TraitSchema();
         slot.category = category;
         slot.revealed = playerData.isCategoryRevealed(category);
-        slot.id = trait?.id ?? "";
-        slot.localizationKey = trait?.localizationKey ?? "";
         schema.traits.push(slot);
       }
 
+      // special still uses @view() successfully (verified against a live
+      // server) — direct field references on a Schema behave differently
+      // from Schema instances nested inside a collection, so this one
+      // stays as-is.
       if (playerData.special) {
         const specialSchema = new SpecialCardSchema();
         specialSchema.id = playerData.special.id;
@@ -210,11 +212,31 @@ onLeave(client: Client, consented?: boolean) {
       }
 
       this.grantOwnerVisibility(playerData.playerId, schema);
+      this.sendDealtHand(playerData);
     }
 
     // Public trait slots (category/revealed) and player entries themselves
     // need to be visible to everyone, same as at join time.
     this.grantPublicVisibilityToAllClients();
+  }
+
+  // Privately delivers a player's own full hand (all 7 traits' real
+  // content) via a direct message, sent once at deal time. Replaces the
+  // earlier attempt to expose this through @view()-gated TraitSchema
+  // fields, which — verified against a live server — never reliably
+  // reached even the owning client for Schema instances nested inside an
+  // ArraySchema.
+  private sendDealtHand(playerData: PlayerData): void {
+    const sessionId = this.playerIdToSessionId.get(playerData.playerId);
+    const client = sessionId ? this.clients.find((c) => c.sessionId === sessionId) : undefined;
+    if (!client) return;
+
+    const traits = ALL_CARD_CATEGORIES.map((category) => {
+      const trait = playerData.getTrait(category);
+      return { category, id: trait?.id ?? "", localizationKey: trait?.localizationKey ?? "" };
+    });
+
+    client.send("dealtHand", { traits });
   }
 
   // --- Reveal phase ----------------------------------------------------
@@ -308,25 +330,32 @@ onLeave(client: Client, consented?: boolean) {
     // Swap changes trait content without necessarily "revealing" it, so it
     // isn't covered by the traitRevealed event — resync both affected slots
     // directly from the now-updated GameSession player data.
-    this.syncTraitSlot(playerId, category as CardCategory);
-    this.syncTraitSlot(targetPlayerId, category as CardCategory);
+    // Swap changes the content of a still-hidden trait for both players
+    // without revealing it — since trait content is now delivered via
+    // private messages (not Schema), each affected player gets a private
+    // update for just this one category rather than a Schema resync.
+    this.sendTraitUpdated(playerId, category as CardCategory);
+    this.sendTraitUpdated(targetPlayerId, category as CardCategory);
 
     const casterSchema = this.state.players.get(playerId);
     if (casterSchema) casterSchema.hasUsedSpecialCard = true;
   }
 
-  private syncTraitSlot(playerId: string, category: CardCategory): void {
+  // Privately informs one player that a single category in their own hand
+  // changed content (used by SwapTrait, which alters hidden trait content
+  // without revealing it publicly).
+  private sendTraitUpdated(playerId: string, category: CardCategory): void {
     const playerData = this.session?.getPlayer(playerId);
-    const schema = this.state.players.get(playerId);
-    if (!playerData || !schema) return;
+    const sessionId = this.playerIdToSessionId.get(playerId);
+    const client = sessionId ? this.clients.find((c) => c.sessionId === sessionId) : undefined;
+    if (!playerData || !client) return;
 
     const trait = playerData.getTrait(category);
-    const slot = schema.traits.find((t) => t.category === category);
-    if (!slot || !trait) return;
-
-    slot.id = trait.id;
-    slot.localizationKey = trait.localizationKey;
-    // revealed flag is untouched here — a swap does not reveal the trait.
+    client.send("traitUpdated", {
+      category,
+      id: trait?.id ?? "",
+      localizationKey: trait?.localizationKey ?? "",
+    });
   }
 
   // --- GameSession event wiring ------------------------------------------
@@ -346,8 +375,17 @@ onLeave(client: Client, consented?: boolean) {
       const slot = schema?.traits.find((t) => t.category === trait.category);
       if (slot) {
         slot.revealed = true;
-        this.grantTraitVisibilityToAllClients(slot);
       }
+
+      // Real content delivered via broadcast message rather than Schema
+      // @view() (see TraitSchema.ts for why) — every client updates their
+      // local model of this player's revealed trait from this message.
+      this.broadcast("traitRevealed", {
+        playerId: player.playerId,
+        category: trait.category,
+        id: trait.id,
+        localizationKey: trait.localizationKey,
+      });
     });
 
     session.on("revealPassCompleted", () => {
@@ -403,48 +441,32 @@ onLeave(client: Client, consented?: boolean) {
     };
   }
 
-  // --- StateView management ---------------------------------------------
+  // --- StateView management (special card only — see TraitSchema.ts for
+  // why traits no longer use this mechanism) ---------------------------
 
   // Grants every connected client visibility into every player's public
-  // fields (displayName, isEliminated, hasUsedSpecialCard, and each trait
-  // slot's category/revealed flag). Must be re-run whenever a new player
-  // or a new client joins, since StateView visibility is opt-in per
-  // instance, not automatic just because a field isn't @view()-gated.
+  // Schema fields (displayName, isEliminated, hasUsedSpecialCard, and each
+  // trait slot's category/revealed flag — none of which are @view()-gated
+  // anymore). Must be re-run whenever a new player or client joins, since
+  // StateView visibility is opt-in per instance.
   private grantPublicVisibilityToAllClients(): void {
     for (const client of this.clients) {
       if (!client.view) continue;
       for (const playerSchema of this.state.players.values()) {
         client.view.add(playerSchema);
-        for (const trait of playerSchema.traits) {
-          client.view.add(trait);
-        }
       }
     }
   }
 
-  // Grants the owning client visibility into their own hidden trait content
-  // (id/localizationKey, regardless of revealed state) and their own special
-  // card — equivalent to the `isOwner` branch in the C# BuildPlayerSnapshot.
+  // Grants the owning client visibility into their own special card.
+  // Confirmed working against a live server — unlike TraitSchema's fields,
+  // `special` is a direct field reference (not nested inside a collection),
+  // and @view() behaves correctly for that case.
   private grantOwnerVisibility(playerId: string, schema: PlayerSchema): void {
     const sessionId = this.playerIdToSessionId.get(playerId);
     const client = sessionId ? this.clients.find((c) => c.sessionId === sessionId) : undefined;
-    if (!client?.view) return;
+    if (!client?.view || !schema.special) return;
 
-    for (const trait of schema.traits) {
-      client.view.add(trait);
-    }
-    if (schema.special) {
-      client.view.add(schema.special);
-    }
-  }
-
-  // Grants every connected client visibility into one specific trait's
-  // @view()-gated fields (id/localizationKey) once it's been revealed —
-  // equivalent to the public traitRevealed ClientRpc broadcast in the
-  // Netcode version.
-  private grantTraitVisibilityToAllClients(trait: TraitSchema): void {
-    for (const client of this.clients) {
-      client.view?.add(trait);
-    }
+    client.view.add(schema.special);
   }
 }

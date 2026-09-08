@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Bunker.Core;
 
@@ -12,10 +12,9 @@ namespace Bunker.UI
         public bool IsReady;
     }
 
-    // Abstraction over "however players get into a lobby". A local, single-device
-    // implementation backs this during UI development (see LocalLobbyService).
-    // In stage 4/5 this gets replaced by a UGS Lobby + Relay backed implementation
-    // with the exact same interface, so no UI script needs to change.
+    // Abstraction over "however players get into a lobby". Currently backed
+    // by ColyseusLobbyService (full switch to Colyseus's built-in
+    // matchmaking, per the stage-0 decision — no UGS Lobby involved).
     public interface ILobbyService
     {
         event Action<List<LobbyPlayerInfo>> OnPlayerListChanged;
@@ -33,8 +32,11 @@ namespace Bunker.UI
         void LeaveLobby();
         void StartGame();
 
-        // Exposes the underlying session once the game actually starts,
-        // so GameScreen can subscribe to it.
-        GameSession CurrentSession { get; }
+        // Exposes the underlying session once the game actually starts, so
+        // GameScreen can subscribe to it. Typed as the interface (not the
+        // concrete offline GameSession class) since network-backed
+        // implementations (Colyseus) never subclass GameSession — they
+        // implement IGameSessionView independently.
+        IGameSessionView CurrentSession { get; }
     }
 }

@@ -1,21 +1,17 @@
-import { Schema, type, view } from "@colyseus/schema";
+import { Schema, type } from "@colyseus/schema";
 
-// Replaces the manually-written TraitDto + the hand-rolled filtering logic
-// from BuildPlayerSnapshot in the C#/Netcode version. There, we manually
-// decided per-recipient whether to include a trait's id/localizationKey in
-// the outgoing DTO. Here, the same effect is achieved declaratively: fields
-// marked @view() are only sent to clients whose StateView explicitly
-// includes this specific TraitSchema instance (see BunkerRoom for where
-// that inclusion actually happens).
-//
-// category and revealed stay public — every client always knows a trait
-// slot exists and whether it's been revealed, same as the C# version
-// always sending a slot placeholder. Only the actual content (id,
-// localizationKey) is view-gated.
+// Public-only trait slot: every client always sees that a slot exists and
+// whether it's revealed. The actual content (id/localizationKey) is
+// deliberately NOT stored here — @view()-gating those fields on a Schema
+// instance living inside an ArraySchema was tested against a live server
+// and found unreliable in this exact @colyseus/schema version (the field
+// values never reached even the owning client, unlike an @view()-gated
+// field on a direct, non-collection reference such as PlayerSchema.special,
+// which worked correctly). Hidden/revealed trait content is instead
+// delivered via explicit messages — "dealtHand" (private, to the owner,
+// sent once at deal time) and "traitRevealed" (broadcast to everyone when
+// a trait is revealed) — see BunkerRoom for both.
 export class TraitSchema extends Schema {
   @type("uint8") category: number = 0;
   @type("boolean") revealed: boolean = false;
-
-  @view() @type("string") id: string = "";
-  @view() @type("string") localizationKey: string = "";
 }
