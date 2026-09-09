@@ -11,10 +11,10 @@ namespace Bunker.UI
         [SerializeField] private Button _specialCardButton;
         [SerializeField] private TMP_Text _specialCardButtonLabel;
 
-        private GameSession _session;
+        private IGameSessionView _session;
         private string _localPlayerId;
 
-        public void Bind(GameSession session, string localPlayerId)
+        public void Bind(IGameSessionView session, string localPlayerId)
         {
             _session = session;
             _localPlayerId = localPlayerId;

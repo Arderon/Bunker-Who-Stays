@@ -18,11 +18,11 @@ namespace Bunker.UI
         [SerializeField] private TMP_Text _waitingForOthersLabel;
         [SerializeField] private Button _resolveButton;
 
-        private GameSession _session;
+        private IGameSessionView _session;
         private string _localPlayerId;
         private readonly List<VoteTargetItem> _spawnedItems = new();
 
-        public void Bind(GameSession session, string localPlayerId)
+        public void Bind(IGameSessionView session, string localPlayerId)
         {
             _session = session;
             _localPlayerId = localPlayerId;

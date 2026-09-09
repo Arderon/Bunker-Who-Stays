@@ -20,8 +20,13 @@ namespace Bunker.UI
         public string LobbyCode { get; private set; }
         public bool IsLocalPlayerHost { get; private set; }
         public int SurvivorsTarget { get; set; } = 2;
-        public GameSession CurrentSession { get; private set; }
 
+        // ILobbyService types this as the interface, not the concrete class —
+        // _session keeps the GameSession-only surface (ValidateCanStart,
+        // StartGame) reachable internally.
+        public IGameSessionView CurrentSession => _session;
+
+        private GameSession _session;
         private readonly List<LobbyPlayerInfo> _players = new();
         private readonly List<TraitPoolSO> _traitPools;
         private readonly SpecialCardPoolSO _specialCardPool;
@@ -53,6 +58,19 @@ namespace Bunker.UI
             // No real network here — always "succeeds" for local testing.
             LobbyCode = code;
             IsLocalPlayerHost = false;
+
+            // The joining player still has to appear in the list: without this
+            // the lobby stayed empty and StartGame built a session with no
+            // players at all.
+            _players.Clear();
+            _players.Add(new LobbyPlayerInfo
+            {
+                PlayerId = "local_player",
+                DisplayName = displayName,
+                IsHost = false,
+                IsReady = true
+            });
+
             NotifyPlayersChanged();
         }
 
@@ -80,24 +98,42 @@ namespace Bunker.UI
         {
             _players.Clear();
             LobbyCode = null;
+            IsLocalPlayerHost = false;
+            _session = null; // otherwise CurrentSession kept serving the finished game
+            OnPlayerListChanged?.Invoke(new List<LobbyPlayerInfo>());
         }
 
         public void StartGame()
         {
+            if (_players.Count == 0)
+            {
+                // GameSession's constructor throws on an empty player list, so
+                // this cannot be left to ValidateCanStart.
+                Debug.LogWarning("[LocalLobbyService] Cannot start: no players in the lobby.");
+                OnStartValidationChanged?.Invoke(
+                    GameStartValidationResult.Fail("No players in the lobby."));
+                return;
+            }
+
             var playerDatas = _players.Select(p => new PlayerData(p.PlayerId, p.DisplayName)).ToList();
             var config = new GameSessionConfig(SurvivorsTarget);
             var generator = new CharacterCardGenerator(_traitPools, _specialCardPool);
 
-            CurrentSession = new GameSession(playerDatas, config, generator);
-            var validation = CurrentSession.ValidateCanStart();
+            var candidate = new GameSession(playerDatas, config, generator);
+            var validation = candidate.ValidateCanStart();
 
             if (!validation.CanStart)
             {
+                // Published only after validation passes — a rejected start
+                // used to leave CurrentSession pointing at a never-started
+                // session, which the UI would then bind to.
                 Debug.LogWarning($"[LocalLobbyService] Cannot start: {validation.FailReason}");
+                OnStartValidationChanged?.Invoke(validation);
                 return;
             }
 
-            CurrentSession.StartGame();
+            _session = candidate;
+            _session.StartGame();
             OnGameStarted?.Invoke();
         }
 

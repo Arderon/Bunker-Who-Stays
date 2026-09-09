@@ -18,17 +18,20 @@ namespace Bunker.UI
         [SerializeField] private RoundResultPanel _roundResultPanel;
         [SerializeField] private SpecialCardModal _specialCardModal;
 
-        private GameSession _session;
+        private IGameSessionView _session;
         public string LocalPlayerId { get; private set; }
 
         // Called by whoever transitions into this screen (LobbyScreen for
         // hot-seat/local testing now, network layer later).
-        public void Bind(GameSession session, string localPlayerId = null)
+        public void Bind(IGameSessionView session, string localPlayerId = null)
         {
             _session = session;
             // For local hot-seat testing without network identity yet,
             // default to the first player so the screen has something to drive.
-            LocalPlayerId = localPlayerId ?? session.Players[0].PlayerId;
+            // A network-backed session may legitimately be bound before its
+            // player list has decoded, hence the Count check.
+            LocalPlayerId = localPlayerId
+                ?? (session.Players.Count > 0 ? session.Players[0].PlayerId : null);
 
             _session.OnPhaseChanged += OnPhaseChanged;
             _session.OnRoundStarted += _ => _topBar.RefreshRound(_session.CurrentRound);

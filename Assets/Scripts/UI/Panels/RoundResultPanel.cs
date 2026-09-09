@@ -14,9 +14,9 @@ namespace Bunker.UI
         [SerializeField] private TMP_Text _votesBreakdownLabel;
         [SerializeField] private Button _continueButton;
 
-        private GameSession _session;
+        private IGameSessionView _session;
 
-        public void Bind(GameSession session)
+        public void Bind(IGameSessionView session)
         {
             _session = session;
             session.OnVotingResolved += OnVotingResolved;

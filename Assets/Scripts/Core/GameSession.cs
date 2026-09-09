@@ -10,7 +10,7 @@ namespace Bunker.Core
     // The authoritative brain of a single game session.
     // Pure C# (no MonoBehaviour) — UI and networking subscribe to its events
     // and call its public methods, never touch player data directly.
-    public class GameSession
+    public class GameSession : IGameSessionView
     {
         public List<PlayerData> Players { get; private set; }
         public int CurrentRound { get; private set; }
@@ -62,6 +62,16 @@ namespace Bunker.Core
         public event Action<GameOverResult> OnGameOverResolved;
 
         public string CurrentTurnPlayerId => _turnOrder.CurrentPlayerId;
+
+        // Required by IGameSessionView, but never raised here: local play
+        // reports every rejection synchronously through the bool /
+        // SpecialCardEffectResult return values. Only the networked
+        // implementation, which cannot answer synchronously, fires this.
+        event Action<string> IGameSessionView.OnActionRejected
+        {
+            add { }
+            remove { }
+        }
 
         public GameSession(
             List<PlayerData> players,

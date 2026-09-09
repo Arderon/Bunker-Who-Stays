@@ -23,12 +23,12 @@ namespace Bunker.UI
         [SerializeField] private Button _confirmButton;
         [SerializeField] private TMP_Text _errorLabel;
 
-        private GameSession _session;
+        private IGameSessionView _session;
         private string _localPlayerId;
         private string _selectedTargetId;
         private CardCategory? _selectedCategory;
 
-        public void Bind(GameSession session, string localPlayerId)
+        public void Bind(IGameSessionView session, string localPlayerId)
         {
             _session = session;
             _localPlayerId = localPlayerId;

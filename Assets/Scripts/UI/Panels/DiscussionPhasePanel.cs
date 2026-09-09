@@ -13,10 +13,10 @@ namespace Bunker.UI
         [SerializeField] private TMP_Text _timeLeftLabel;
         [SerializeField] private Button _skipButton;
 
-        private GameSession _session;
+        private IGameSessionView _session;
         private Coroutine _timerRoutine;
 
-        public void Bind(GameSession session)
+        public void Bind(IGameSessionView session)
         {
             _session = session;
             _skipButton.onClick.AddListener(() => _session.StartVotingPhase());

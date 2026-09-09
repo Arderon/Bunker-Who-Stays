@@ -12,9 +12,9 @@ namespace Bunker.UI
         [SerializeField] private Transform _playerStatusStripContainer;
         [SerializeField] private PlayerStatusIcon _playerStatusIconPrefab;
 
-        private GameSession _session;
+        private IGameSessionView _session;
 
-        public void Bind(GameSession session)
+        public void Bind(IGameSessionView session)
         {
             _session = session;
             _session.OnPlayerEliminated += _ => RefreshPlayerStrip();

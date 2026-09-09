@@ -31,7 +31,13 @@ namespace Bunker.UI
         public string LobbyCode { get; private set; }
         public bool IsLocalPlayerHost => _lobby != null && _lobby.HostId == AuthenticationService.Instance.PlayerId;
         public int SurvivorsTarget { get; set; } = 2;
-        public GameSession CurrentSession { get; private set; }
+
+        // ILobbyService types this as the interface, not the concrete class —
+        // _session keeps the GameSession-only surface (ValidateCanStart,
+        // StartGame) reachable internally.
+        public IGameSessionView CurrentSession => _session;
+
+        private GameSession _session;
 
         private const int MaxPlayers = 12;
         private const float HeartbeatIntervalSeconds = 15f;
@@ -143,6 +149,10 @@ namespace Bunker.UI
                 return;
             }
 
+            // A change can still arrive after a kick/leave cleared _lobby;
+            // ApplyToLobby would then throw inside the SDK's callback.
+            if (_lobby == null) return;
+
             changes.ApplyToLobby(_lobby);
             NotifyPlayersChanged();
 
@@ -225,9 +235,10 @@ namespace Bunker.UI
 
         private void CleanupLocalState()
         {
+            StopHeartbeat();
             _lobby = null;
             LobbyCode = null;
-            CurrentSession = null;
+            _session = null;
         }
 
         // --- Heartbeat (host only, keeps the lobby alive in UGS) --------------
@@ -241,6 +252,7 @@ namespace Bunker.UI
         private void StopHeartbeat()
         {
             _heartbeatCts?.Cancel();
+            _heartbeatCts?.Dispose();
             _heartbeatCts = null;
         }
 
@@ -305,8 +317,8 @@ namespace Bunker.UI
             // Non-host clients receive the GameStarted flag via OnLobbyChanged
             // but do not yet get this same GameSession instance — that
             // requires state sync over Netcode (next stage).
-            CurrentSession = session;
-            session.StartGame();
+            _session = session;
+            _session.StartGame();
             OnGameStarted?.Invoke();
         }
 
@@ -315,6 +327,22 @@ namespace Bunker.UI
             return _lobby.Players
                 .Select(p => new PlayerData(p.Id, GetPlayerDisplayName(p)))
                 .ToList();
+        }
+
+        // The host publishes SurvivorsTarget into lobby data at creation, but
+        // nothing ever read it back, so every joining client previewed the
+        // start rules against its own local default instead of the host's
+        // value. The host stays the owner of the setting and is skipped here.
+        private void SyncSurvivorsTargetFromLobby()
+        {
+            if (IsLocalPlayerHost || _lobby.Data == null) return;
+
+            if (_lobby.Data.TryGetValue(LobbyDataKeys.SurvivorsTarget, out var data)
+                && int.TryParse(data.Value, out var target)
+                && target > 0)
+            {
+                SurvivorsTarget = target;
+            }
         }
 
         private string GetPlayerDisplayName(Player player)
@@ -329,6 +357,8 @@ namespace Bunker.UI
         private void NotifyPlayersChanged()
         {
             if (_lobby == null) return;
+
+            SyncSurvivorsTargetFromLobby();
 
             var players = _lobby.Players.Select(p => new LobbyPlayerInfo
             {

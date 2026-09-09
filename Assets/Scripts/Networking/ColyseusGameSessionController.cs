@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Colyseus;
+using Colyseus.Schema;
 using Bunker.Core;
-using Bunker.Networking.Generated; // generated GameStateSchema, PlayerSchema, TraitSchema, SpecialCardSchema
 
 namespace Bunker.Networking
 {
@@ -16,9 +16,14 @@ namespace Bunker.Networking
     // types instead: "dealtHand" (private, once, owner's full hand),
     // "traitRevealed" (broadcast, whenever any trait is revealed), and
     // "traitUpdated" (private, when SwapTrait changes hidden content).
+    //
+    // State callbacks go through Colyseus.Schema.Callbacks (schema 3.x):
+    // Schema / ArraySchema / MapSchema instances no longer expose OnChange,
+    // OnAdd or OnRemove methods of their own.
     public class ColyseusGameSessionController : IGameSessionView
     {
-        private readonly ColyseusRoom<GameStateSchema> room;
+        private readonly Room<GameStateSchema> room;
+        private readonly StateCallbackStrategy<GameStateSchema> callbacks;
         private readonly Dictionary<string, PlayerData> localPlayers = new();
         private readonly string localPlayerId;
 
@@ -41,10 +46,11 @@ namespace Bunker.Networking
         // popup) subscribes to this directly.
         public event Action<CharacterTrait> OnPrivateTraitPeeked;
 
-        public ColyseusGameSessionController(ColyseusRoom<GameStateSchema> room, string localPlayerId)
+        public ColyseusGameSessionController(Room<GameStateSchema> room, string localPlayerId)
         {
             this.room = room;
             this.localPlayerId = localPlayerId;
+            callbacks = Callbacks.Get(room);
             WireStateCallbacks();
             WireMessageCallbacks();
         }
@@ -53,7 +59,7 @@ namespace Bunker.Networking
 
         private void WireStateCallbacks()
         {
-            room.State.OnChange(() =>
+            callbacks.OnChange(room.State, () =>
             {
                 var newPhase = (GamePhase)room.State.phase;
                 if (newPhase != Phase)
@@ -71,14 +77,13 @@ namespace Bunker.Networking
                 CurrentTurnPlayerId = room.State.currentTurnPlayerId;
             });
 
-            room.State.players.OnAdd((key, netPlayer) =>
+            callbacks.OnAdd(state => state.players, (string key, PlayerSchema netPlayer) =>
             {
-                var localPlayer = MapPlayer(netPlayer);
-                localPlayers[key] = localPlayer;
+                localPlayers[key] = MapPlayer(netPlayer);
                 WirePlayerCallbacks(key, netPlayer);
             });
 
-            room.State.players.OnRemove((key, _) =>
+            callbacks.OnRemove(state => state.players, (string key, PlayerSchema removed) =>
             {
                 localPlayers.Remove(key);
             });
@@ -86,9 +91,10 @@ namespace Bunker.Networking
 
         private void WirePlayerCallbacks(string playerId, PlayerSchema netPlayer)
         {
-            netPlayer.OnChange(() =>
+            callbacks.OnChange(netPlayer, () =>
             {
-                var localPlayer = localPlayers[playerId];
+                if (!localPlayers.TryGetValue(playerId, out var localPlayer)) return;
+
                 bool wasEliminated = localPlayer.IsEliminated;
                 bool hadUsedSpecial = localPlayer.HasUsedSpecialCard;
 
@@ -106,17 +112,17 @@ namespace Bunker.Networking
             // special is @view()-gated and DOES work correctly for direct
             // field references (confirmed against a live server) — unlike
             // trait content, this one behaves as originally designed.
-            netPlayer.OnChange(nameof(PlayerSchema.special), () =>
+            callbacks.Listen(netPlayer, p => p.special, (SpecialCardSchema current, SpecialCardSchema previous) =>
             {
-                if (netPlayer.special == null) return;
-                localPlayers[playerId].Special = MapSpecialCard(netPlayer.special);
+                if (current == null) return;
+                if (!localPlayers.TryGetValue(playerId, out var localPlayer)) return;
+                localPlayer.Special = MapSpecialCard(current);
             });
 
-            for (int i = 0; i < netPlayer.traits.Count; i++)
-            {
-                WireTraitCallback(playerId, netPlayer.traits[i]);
-            }
-            netPlayer.traits.OnAdd((trait, _) => WireTraitCallback(playerId, trait));
+            // immediate (the default) also replays traits already present on
+            // the array, so no separate initial loop is needed here.
+            callbacks.OnAdd(netPlayer, p => p.traits, (int index, TraitSchema trait) =>
+                WireTraitCallback(playerId, trait));
         }
 
         // TraitSchema only carries category/revealed — this callback keeps
@@ -127,10 +133,17 @@ namespace Bunker.Networking
         // the flag and the content together.
         private void WireTraitCallback(string playerId, TraitSchema netTrait)
         {
-            netTrait.OnChange(() =>
+            callbacks.OnChange(netTrait, () =>
             {
-                var localPlayer = localPlayers[playerId];
+                if (!localPlayers.TryGetValue(playerId, out var localPlayer)) return;
+
                 var category = (CardCategory)netTrait.category;
+
+                // The traits array can arrive after the player was mapped, so
+                // make sure a placeholder exists for this category before the
+                // content-carrying messages land.
+                if (localPlayer.GetTrait(category) == null)
+                    localPlayer.ReplaceOrAddTrait(category, new CharacterTrait(id: "", category, localizationKey: ""));
 
                 if (netTrait.revealed && !localPlayer.IsCategoryRevealed(category))
                 {
@@ -151,11 +164,18 @@ namespace Bunker.Networking
             // arrive later via dealtHand (own hand) or traitRevealed
             // (once any player's trait becomes public).
             var traits = new List<CharacterTrait>();
-            foreach (var netTrait in netPlayer.traits)
+            if (netPlayer.traits != null)
             {
-                var category = (CardCategory)netTrait.category;
-                traits.Add(new CharacterTrait(id: "", category, localizationKey: ""));
-                if (netTrait.revealed) player.RevealCategory(category);
+                // ArraySchema<T> is not enumerable — index into it explicitly.
+                for (int i = 0; i < netPlayer.traits.Count; i++)
+                {
+                    var netTrait = netPlayer.traits[i];
+                    if (netTrait == null) continue;
+
+                    var category = (CardCategory)netTrait.category;
+                    traits.Add(new CharacterTrait(id: "", category, localizationKey: ""));
+                    if (netTrait.revealed) player.RevealCategory(category);
+                }
             }
             player.AssignTraits(traits);
 
@@ -172,13 +192,14 @@ namespace Bunker.Networking
 
         private void WireMessageCallbacks()
         {
-            room.OnMessage<ActionRejectedMessage>("actionRejected", (msg) => OnActionRejected?.Invoke(msg.key));
+            room.OnMessage<ActionRejectedMessage>("actionRejected", (msg) => OnActionRejected?.Invoke(msg?.key));
 
             // Private: the local player's own full hand, sent once right
             // after dealing. Populates real content for all 7 categories
             // regardless of revealed state.
             room.OnMessage<DealtHandMessage>("dealtHand", (msg) =>
             {
+                if (msg?.traits == null) return;
                 if (!localPlayers.TryGetValue(localPlayerId, out var localPlayer)) return;
 
                 foreach (var traitMsg in msg.traits)
@@ -193,6 +214,7 @@ namespace Bunker.Networking
             // the moment OnTraitRevealed fires for the UI.
             room.OnMessage<TraitRevealedMessage>("traitRevealed", (msg) =>
             {
+                if (msg == null) return;
                 if (!localPlayers.TryGetValue(msg.playerId, out var player)) return;
 
                 var category = (CardCategory)msg.category;
@@ -208,6 +230,7 @@ namespace Bunker.Networking
             // no reveal, no OnTraitRevealed.
             room.OnMessage<TraitUpdatedMessage>("traitUpdated", (msg) =>
             {
+                if (msg == null) return;
                 if (!localPlayers.TryGetValue(localPlayerId, out var localPlayer)) return;
 
                 var category = (CardCategory)msg.category;
@@ -215,32 +238,44 @@ namespace Bunker.Networking
                 localPlayer.ReplaceOrAddTrait(category, trait);
             });
 
-            room.OnMessage<object>("revealPassCompleted", (_) => OnRevealPassCompleted?.Invoke());
+            room.OnMessage<object>("revealPassCompleted", (ignored) => OnRevealPassCompleted?.Invoke());
 
             room.OnMessage<VotingResolvedMessage>("votingResolved", (msg) =>
             {
+                if (msg == null) return;
+
                 var result = new VotingResult
                 {
                     ResultType = (VotingResult.Outcome)msg.resultType,
-                    EliminatedPlayer = msg.eliminatedPlayerId != null ? GetPlayer(msg.eliminatedPlayerId) : null,
-                    TiedCandidates = msg.tiedCandidateIds.Select(GetPlayer).Where(p => p != null).ToList(),
-                    VoteCounts = msg.voteCounts.ToDictionary(kv => kv.Key, kv => kv.Value)
+                    EliminatedPlayer = string.IsNullOrEmpty(msg.eliminatedPlayerId)
+                        ? null
+                        : GetPlayer(msg.eliminatedPlayerId),
+                    TiedCandidates = msg.tiedCandidateIds == null
+                        ? new List<PlayerData>()
+                        : msg.tiedCandidateIds.Select(GetPlayer).Where(p => p != null).ToList(),
+                    VoteCounts = msg.voteCounts ?? new Dictionary<string, int>()
                 };
                 OnVotingResolved?.Invoke(result);
             });
 
             room.OnMessage<GameOverMessage>("gameOver", (msg) =>
             {
+                if (msg == null) return;
+
                 OnGameOverResolved?.Invoke(new GameOverResult
                 {
                     EndReason = (GameOverResult.Reason)msg.endReason,
-                    Survivors = msg.survivorPlayerIds.Select(GetPlayer).Where(p => p != null).ToList()
+                    Survivors = msg.survivorPlayerIds == null
+                        ? new List<PlayerData>()
+                        : msg.survivorPlayerIds.Select(GetPlayer).Where(p => p != null).ToList()
                 });
             });
 
             // RevealHiddenTrait's private payload.
             room.OnMessage<PrivateTraitPeekMessage>("privateTraitPeek", (msg) =>
             {
+                if (msg == null) return;
+
                 var trait = new CharacterTrait(msg.id, (CardCategory)msg.category, msg.localizationKey);
                 OnPrivateTraitPeeked?.Invoke(trait);
             });
@@ -255,36 +290,41 @@ namespace Bunker.Networking
 
         public bool RevealNextTrait(string playerId, CardCategory category)
         {
-            room.Send("revealTrait", new { category = (int)category });
+            _ = room.Send("revealTrait", new { category = (int)category });
             return true;
         }
 
         public bool CastVote(string voterPlayerId, string targetPlayerId)
         {
-            room.Send("castVote", new { targetPlayerId });
+            _ = room.Send("castVote", new { targetPlayerId });
             return true;
         }
 
         public VotingResult ResolveVotes()
         {
-            room.Send("resolveVotes", new { });
+            _ = room.Send("resolveVotes", new { });
             return null; // actual result arrives asynchronously via OnVotingResolved
         }
 
-        public void StartDiscussionPhase(int durationSeconds) =>
-            room.Send("startDiscussionPhase", new { durationSeconds });
+        public void StartDiscussionPhase(int durationSeconds)
+        {
+            _ = room.Send("startDiscussionPhase", new { durationSeconds });
+        }
 
-        public void StartVotingPhase() => room.Send("skipDiscussion", new { });
+        public void StartVotingPhase()
+        {
+            _ = room.Send("skipDiscussion", new { });
+        }
 
         public SpecialCardEffectResult UseSpecialCard(string casterPlayerId, string targetPlayerId)
         {
-            room.Send("useSpecialCard", new { targetPlayerId });
+            _ = room.Send("useSpecialCard", new { targetPlayerId });
             return SpecialCardEffectResult.Ok();
         }
 
         public SpecialCardEffectResult UseSwapTraitSpecialCard(string casterPlayerId, string targetPlayerId, CardCategory category)
         {
-            room.Send("useSwapTraitSpecialCard", new { targetPlayerId, category = (int)category });
+            _ = room.Send("useSwapTraitSpecialCard", new { targetPlayerId, category = (int)category });
             return SpecialCardEffectResult.Ok();
         }
     }
