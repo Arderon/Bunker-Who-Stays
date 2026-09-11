@@ -107,7 +107,9 @@ export class BunkerRoom extends Room<GameStateSchema> {
   // --- Message handlers ---------------------------------------------------
 
   private registerMessageHandlers(): void {
-    this.onMessage("startGame", (client) => this.handleStartGame(client));
+    this.onMessage("startGame", (client, message: { survivorsTarget: number }) =>
+      this.handleStartGame(client, message?.survivorsTarget)
+    );
 
     this.onMessage("revealTrait", (client, message: { category: number }) =>
       this.handleRevealTrait(client, message.category)
@@ -150,8 +152,14 @@ export class BunkerRoom extends Room<GameStateSchema> {
 
   // --- Start game ----------------------------------------------------
 
-  private handleStartGame(client: Client): void {
+  private handleStartGame(client: Client, survivorsTarget: number): void {
     if (!this.isHost(client)) {
+      this.reject(client, "ui_common_error_generic");
+      return;
+    }
+
+    if (!Number.isInteger(survivorsTarget) || survivorsTarget < 1) {
+      console.warn(`[BunkerRoom] Rejected startGame: invalid survivorsTarget=${survivorsTarget}`);
       this.reject(client, "ui_common_error_generic");
       return;
     }
@@ -160,7 +168,7 @@ export class BunkerRoom extends Room<GameStateSchema> {
       (p) => new PlayerData(p.playerId, p.displayName)
     );
 
-    const config: GameSessionConfig = { survivorsTarget: 2, allowVoteTies: false };
+    const config: GameSessionConfig = { survivorsTarget, allowVoteTies: false };
     const { traitPools, specialCardPool } = getGameContent();
     const generator = new CharacterCardGenerator(traitPools, specialCardPool);
 

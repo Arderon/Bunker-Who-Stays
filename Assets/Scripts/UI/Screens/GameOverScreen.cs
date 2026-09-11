@@ -33,6 +33,12 @@ namespace Bunker.UI
             _survivorsBlock.SetActive(hasSurvivors);
             _allEliminatedBlock.SetActive(!hasSurvivors);
 
+            PlayerPrefsNames.IncrementGamesPlayed();
+            if (hasSurvivors && result.Survivors.Any(p => p.DisplayName == PlayerPrefsNames.GetLocalDisplayName()))
+            {
+                PlayerPrefsNames.IncrementGamesWon();
+            }
+
             if (hasSurvivors)
             {
                 var names = string.Join(", ", result.Survivors.Select(p => p.DisplayName));

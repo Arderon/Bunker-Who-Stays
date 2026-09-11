@@ -5,11 +5,13 @@
   "main": "build/index.js",
   "scripts": {
     "start": "tsx watch src/index.ts",
-    "build": "tsc",
+    "build": "tsc && npm run copy-content",
     "start:prod": "node build/index.js",
     "test": "jest",
     "simulate": "tsx src/scripts/runSimulation.ts",
-    "test:network": "tsx src/scripts/testMultiClient.ts"
+    "test:network": "tsx src/scripts/testMultiClient.ts",
+    "copy-content": "node -e \"require('fs').cpSync('content', 'build/../content', {recursive: true})\""
+
   },
   "dependencies": {
     "@colyseus/core": "0.16.24",

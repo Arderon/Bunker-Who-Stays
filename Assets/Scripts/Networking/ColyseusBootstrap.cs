@@ -6,7 +6,7 @@ using Bunker.UI;
 
 public class ColyseusBootstrap : MonoBehaviour
 {
-    [SerializeField] private string serverUrl = "ws://localhost:2567";
+    [SerializeField] private string serverUrl = "ws://130.61.95.172:2567";
 
     private async void Awake()
     {

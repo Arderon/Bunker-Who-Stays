@@ -256,9 +256,7 @@ namespace Bunker.UI
                 return;
             }
 
-            // BunkerRoom's "startGame" handler takes no payload — survivorsTarget
-            // is fixed server-side in GameSessionConfig and cannot be set from here.
-            _ = room?.Send("startGame");
+            _ = room?.Send("startGame", new Dictionary<string, object> { { "survivorsTarget", SurvivorsTarget } });
         }
     }
 }
