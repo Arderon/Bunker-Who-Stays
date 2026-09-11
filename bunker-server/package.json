@@ -10,8 +10,11 @@
     "test": "jest",
     "simulate": "tsx src/scripts/runSimulation.ts",
     "test:network": "tsx src/scripts/testMultiClient.ts",
-    "copy-content": "node -e \"require('fs').cpSync('content', 'build/../content', {recursive: true})\""
-
+    "copy-content": "node -e \"require('fs').cpSync('content', 'build/../content', {recursive: true})\"",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:restart": "pm2 restart bunker-server",
+    "pm2:stop": "pm2 stop bunker-server",
+    "pm2:logs": "pm2 logs bunker-server"
   },
   "dependencies": {
     "@colyseus/core": "0.16.24",

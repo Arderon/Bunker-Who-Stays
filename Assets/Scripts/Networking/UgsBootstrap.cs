@@ -11,7 +11,8 @@ public class UgsBootstrap : MonoBehaviour
     [SerializeField] private List<TraitPoolSO> _traitPools;
     [SerializeField] private SpecialCardPoolSO _specialCardPool;
 
-    private async void Awake()
+    // See ColyseusBootstrap for why this runs from Start() rather than Awake().
+    private async void Start()
     {
         LocalizedTextService.Initialize();
 
