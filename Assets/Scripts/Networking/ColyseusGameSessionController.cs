@@ -22,7 +22,7 @@ namespace Bunker.Networking
     // OnAdd or OnRemove methods of their own.
     public class ColyseusGameSessionController : IGameSessionView
     {
-        private readonly Room<GameStateSchema> room;
+        private readonly ColyseusRoom<GameStateSchema> room;
         private readonly StateCallbackStrategy<GameStateSchema> callbacks;
         private readonly Dictionary<string, PlayerData> localPlayers = new();
         private readonly string localPlayerId;
@@ -46,7 +46,7 @@ namespace Bunker.Networking
         // popup) subscribes to this directly.
         public event Action<CharacterTrait> OnPrivateTraitPeeked;
 
-        public ColyseusGameSessionController(Room<GameStateSchema> room, string localPlayerId)
+        public ColyseusGameSessionController(ColyseusRoom<GameStateSchema> room, string localPlayerId)
         {
             this.room = room;
             this.localPlayerId = localPlayerId;

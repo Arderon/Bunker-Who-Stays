@@ -62,7 +62,7 @@ async function main() {
   console.log("=== END SCHEMA CHECK ===\n");
 
   // Host starts the game.
-  clients[0].room.send("startGame");
+  clients[0].room.send("startGame", { survivorsTarget: 2 });
   await sleep(1000);
 
   // --- Privacy check: each client's OWN traits should be populated with

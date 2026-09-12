@@ -24,6 +24,18 @@ public class ColyseusBootstrap : MonoBehaviour
             // decision) — Lobby and Relay are no longer used at all.
             await UnityServices.InitializeAsync();
 
+            // Anonymous auth caches its PlayerId under a per-machine PlayerPrefs
+            // key shared by every launch of the same build, so running several
+            // copies of the .exe side by side to test multiplayer would
+            // otherwise sign them all in as the same player. Passing
+            // "-authProfile <name>" isolates each launch into its own cached
+            // identity — see https://docs.unity.com/ugs/manual/authentication/manual/player-profiles.
+            string authProfile = GetCommandLineArg("-authProfile");
+            if (!string.IsNullOrEmpty(authProfile) && !AuthenticationService.Instance.IsSignedIn)
+            {
+                AuthenticationService.Instance.SwitchProfile(authProfile);
+            }
+
             if (!AuthenticationService.Instance.IsSignedIn)
             {
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
@@ -40,5 +52,15 @@ public class ColyseusBootstrap : MonoBehaviour
         {
             UIManager.Instance.Overlay.ShowLoading(false);
         }
+    }
+
+    private static string GetCommandLineArg(string name)
+    {
+        string[] args = System.Environment.GetCommandLineArgs();
+        for (int i = 0; i < args.Length - 1; i++)
+        {
+            if (args[i] == name) return args[i + 1];
+        }
+        return null;
     }
 }

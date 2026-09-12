@@ -27,8 +27,8 @@ namespace Bunker.UI
         public IGameSessionView CurrentSession { get; private set; }
 
         private readonly string serverUrl;
-        private Client client;
-        private Room<GameStateSchema> room;
+        private ColyseusClient client;
+        private ColyseusRoom<GameStateSchema> room;
         private StateCallbackStrategy<GameStateSchema> callbacks;
 
         // Built as soon as the room state is available — NOT when the game
@@ -65,7 +65,7 @@ namespace Bunker.UI
         {
             try
             {
-                client ??= new Client(serverUrl);
+                client ??= new ColyseusClient(serverUrl);
 
                 var code = GenerateLobbyCode();
                 var options = new Dictionary<string, object>
@@ -94,7 +94,7 @@ namespace Bunker.UI
         {
             try
             {
-                client ??= new Client(serverUrl);
+                client ??= new ColyseusClient(serverUrl);
 
                 var options = new Dictionary<string, object>
                 {
@@ -118,6 +118,24 @@ namespace Bunker.UI
             }
         }
 
+        // SDK 0.16.x doesn't expose a WaitForFirstState() helper on
+        // ColyseusRoom<T> — replicate it by waiting for the first
+        // OnStateChange invocation (isFirstState == true).
+        private static System.Threading.Tasks.Task WaitForFirstState(ColyseusRoom<GameStateSchema> room)
+        {
+            var tcs = new System.Threading.Tasks.TaskCompletionSource<bool>();
+
+            void OnStateChange(GameStateSchema state, bool isFirstState)
+            {
+                if (!isFirstState) return;
+                room.OnStateChange -= OnStateChange;
+                tcs.TrySetResult(true);
+            }
+
+            room.OnStateChange += OnStateChange;
+            return tcs.Task;
+        }
+
         private string GenerateLobbyCode()
         {
             const string chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -131,8 +149,10 @@ namespace Bunker.UI
         {
             // A resolved join does not mean the state has decoded yet:
             // room.State.players is still null until the first full sync,
-            // so mounting callbacks any earlier throws.
-            await room.WaitForFirstState();
+            // so mounting callbacks any earlier throws. SDK 0.16.x has no
+            // WaitForFirstState() helper (unlike newer SDK lines), so this
+            // waits for OnStateChange's isFirstState flag instead.
+            await WaitForFirstState(room);
 
             // Schema 3.x: Schema/MapSchema instances no longer carry their own
             // OnAdd/OnRemove/OnChange methods — callbacks go through this
@@ -148,6 +168,20 @@ namespace Bunker.UI
             // phase actually leaves Lobby.
             session = new ColyseusGameSessionController(room, LocalPlayerId);
 
+            // SDK 0.16.x's OnMessageHandlers is a plain Dictionary.Add() — a
+            // second room.OnMessage<T> registration for the same message
+            // type ("actionRejected", already registered inside the
+            // ColyseusGameSessionController constructor above) throws
+            // ArgumentException instead of coexisting. Subscribe to the
+            // session's own event instead of registering a second handler.
+            session.OnActionRejected += (key) =>
+            {
+                // Once the game is running, actionRejected refers to in-game
+                // actions and is handled by the session, not the lobby UI.
+                if (CurrentSession != null) return;
+                OnStartValidationChanged?.Invoke(GameStartValidationResult.Fail(key ?? "ui_common_error_generic"));
+            };
+
             callbacks.OnChange(room.State, () =>
             {
                 NotifyPlayersChanged();
@@ -161,14 +195,6 @@ namespace Bunker.UI
                     CurrentSession = session;
                     OnGameStarted?.Invoke();
                 }
-            });
-
-            room.OnMessage<ActionRejectedMessage>("actionRejected", (msg) =>
-            {
-                // Once the game is running, actionRejected refers to in-game
-                // actions and is handled by the session, not the lobby UI.
-                if (CurrentSession != null) return;
-                OnStartValidationChanged?.Invoke(GameStartValidationResult.Fail(msg?.key ?? "ui_common_error_generic"));
             });
 
             NotifyPlayersChanged();
