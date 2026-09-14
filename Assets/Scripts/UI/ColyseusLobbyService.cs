@@ -200,14 +200,16 @@ namespace Bunker.UI
             NotifyPlayersChanged();
         }
 
-        private void NotifyPlayersChanged()
+        public List<LobbyPlayerInfo> CurrentPlayers => BuildPlayerList();
+
+        private List<LobbyPlayerInfo> BuildPlayerList()
         {
-            if (room?.State?.players == null) return;
+            if (room?.State?.players == null) return new List<LobbyPlayerInfo>();
 
             var hostPlayerId = HostPlayerId;
 
             // MapSchema.Values is a non-generic ICollection — cast before LINQ.
-            var players = room.State.players.Values
+            return room.State.players.Values
                 .Cast<PlayerSchema>()
                 .Select(p => new LobbyPlayerInfo
                 {
@@ -223,6 +225,13 @@ namespace Bunker.UI
                     IsReady = true
                 })
                 .ToList();
+        }
+
+        private void NotifyPlayersChanged()
+        {
+            if (room?.State?.players == null) return;
+
+            var players = BuildPlayerList();
 
             OnPlayerListChanged?.Invoke(players);
 

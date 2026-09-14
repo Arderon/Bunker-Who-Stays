@@ -45,13 +45,15 @@ namespace Bunker.UI
             _lobby.OnGameStarted += OnGameStarted;
 
             _lobbyCodeValueLabel.text = _lobby.LobbyCode;
-
-            bool isHost = _lobby.IsLocalPlayerHost;
-            _survivorsTargetSelector.SetActive(isHost);
-            _startGameButton.gameObject.SetActive(isHost);
-            _waitingForHostLabel.gameObject.SetActive(!isHost);
-
             _survivorsTargetValueLabel.text = _lobby.SurvivorsTarget.ToString();
+
+            // Subscribing above only catches list changes from this point on —
+            // if the roster last changed before this screen subscribed (e.g. a
+            // joining client's OnPlayerListChanged fires and navigates here
+            // synchronously, before this handler is attached), the event is
+            // missed entirely and the list would stay empty. Render the
+            // current snapshot immediately as well.
+            OnPlayerListChanged(_lobby.CurrentPlayers);
         }
 
         protected override void OnHidden()
@@ -70,6 +72,22 @@ namespace Bunker.UI
 
         private void OnPlayerListChanged(List<LobbyPlayerInfo> players)
         {
+            // CreateLobby/JoinLobby are fire-and-forget on the caller's side
+            // (MainMenuScreen/JoinLobbyScreen navigate here immediately,
+            // without awaiting them) — for the Colyseus-backed service,
+            // LobbyCode/IsLocalPlayerHost are still unresolved at OnShown()
+            // time (room/room.State.players don't exist yet), since they're
+            // only meaningful once the async network round-trip resolves.
+            // OnPlayerListChanged always fires after that (end of
+            // WireRoomCallbacks), so refresh both here too rather than
+            // relying solely on OnShown()'s one-time read.
+            _lobbyCodeValueLabel.text = _lobby.LobbyCode;
+
+            bool isHost = _lobby.IsLocalPlayerHost;
+            _survivorsTargetSelector.SetActive(isHost);
+            _startGameButton.gameObject.SetActive(isHost);
+            _waitingForHostLabel.gameObject.SetActive(!isHost);
+
             StartCoroutine(Bunker.Localization.LocalizedTextService.GetTextCoroutine(
                 Bunker.Localization.LocalizationTableNames.UI,
                 "ui_lobby_players_count",

@@ -5,6 +5,6 @@ namespace Bunker.Localization
     public static class LocalizationTableNames
     {
         public const string CardContent = "CardContent"; // traits, special cards
-        public const string UI = "UI";                    // menus, screens, messages
+        public const string UI = "UI-Table";              // menus, screens, messages
     }
 }

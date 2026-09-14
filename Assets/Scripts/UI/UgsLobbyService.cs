@@ -354,13 +354,13 @@ namespace Bunker.UI
 
         // --- Player list projection -------------------------------------------
 
-        private void NotifyPlayersChanged()
+        public List<LobbyPlayerInfo> CurrentPlayers => BuildPlayerList();
+
+        private List<LobbyPlayerInfo> BuildPlayerList()
         {
-            if (_lobby == null) return;
+            if (_lobby == null) return new List<LobbyPlayerInfo>();
 
-            SyncSurvivorsTargetFromLobby();
-
-            var players = _lobby.Players.Select(p => new LobbyPlayerInfo
+            return _lobby.Players.Select(p => new LobbyPlayerInfo
             {
                 PlayerId = p.Id,
                 DisplayName = GetPlayerDisplayName(p),
@@ -369,6 +369,15 @@ namespace Bunker.UI
                           && p.Data.TryGetValue(PlayerDataKeys.IsReady, out var ready)
                           && ready.Value == "true"
             }).ToList();
+        }
+
+        private void NotifyPlayersChanged()
+        {
+            if (_lobby == null) return;
+
+            SyncSurvivorsTargetFromLobby();
+
+            var players = BuildPlayerList();
 
             OnPlayerListChanged?.Invoke(players);
 

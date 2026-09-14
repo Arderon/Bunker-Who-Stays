@@ -25,6 +25,7 @@ namespace Bunker.UI
         // _session keeps the GameSession-only surface (ValidateCanStart,
         // StartGame) reachable internally.
         public IGameSessionView CurrentSession => _session;
+        public List<LobbyPlayerInfo> CurrentPlayers => new(_players);
 
         private GameSession _session;
         private readonly List<LobbyPlayerInfo> _players = new();

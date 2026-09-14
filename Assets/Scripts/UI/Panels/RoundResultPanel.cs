@@ -29,7 +29,17 @@ namespace Bunker.UI
                 // If GameSession has already moved on, this simply becomes a no-op
                 // visual dismissal handled by GameScreen's phase switch.
             });
+        }
 
+        private void OnEnable()
+        {
+            if (_session == null) return;
+
+            // Bind() runs once at game start while every phase panel is bound
+            // up front (GameScreen.Bind) — this panel is still inactive at
+            // that point (the game starts in Reveal), and Unity can't start a
+            // coroutine on an inactive GameObject. Deferred here instead,
+            // matching the convention in VotingPhasePanel/DiscussionPhasePanel.
             StartCoroutine(LocalizedTextService.GetTextCoroutine(
                 LocalizationTableNames.UI, "ui_round_result_title", text => _titleLabel.text = text));
         }

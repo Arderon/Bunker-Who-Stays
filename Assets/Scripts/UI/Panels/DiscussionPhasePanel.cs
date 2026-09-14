@@ -20,14 +20,20 @@ namespace Bunker.UI
         {
             _session = session;
             _skipButton.onClick.AddListener(() => _session.StartVotingPhase());
-
-            StartCoroutine(LocalizedTextService.GetTextCoroutine(
-                LocalizationTableNames.UI, "ui_discussion_title", text => _titleLabel.text = text));
         }
 
         private void OnEnable()
         {
             if (_session == null) return;
+
+            // Bind() runs once at game start while every phase panel is bound
+            // up front (GameScreen.Bind) — this panel is still inactive at
+            // that point (the game starts in Reveal), and Unity can't start a
+            // coroutine on an inactive GameObject. Deferred here instead,
+            // same as the timer below.
+            StartCoroutine(LocalizedTextService.GetTextCoroutine(
+                LocalizationTableNames.UI, "ui_discussion_title", text => _titleLabel.text = text));
+
             if (_timerRoutine != null) StopCoroutine(_timerRoutine);
             _timerRoutine = StartCoroutine(CountdownRoutine(120)); // duration should match StartDiscussionPhase's value
         }

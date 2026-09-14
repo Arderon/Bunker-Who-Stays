@@ -26,6 +26,13 @@ namespace Bunker.UI
         bool IsLocalPlayerHost { get; }
         int SurvivorsTarget { get; set; }
 
+        // Synchronous snapshot of the current roster, for UI that subscribes
+        // to OnPlayerListChanged only once it's already shown (e.g. LobbyScreen
+        // on OnShown()) — the subscription can start after the list last
+        // changed, so relying on the event alone would leave it empty until
+        // the next change.
+        List<LobbyPlayerInfo> CurrentPlayers { get; }
+
         void CreateLobby(string hostDisplayName);
         void JoinLobby(string code, string displayName);
         void SetLocalPlayerReady(bool ready);
