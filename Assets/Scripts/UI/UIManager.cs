@@ -67,6 +67,14 @@ namespace Bunker.UI
             return (T)screen;
         }
 
+        // Screens built at runtime rather than wired in the inspector register
+        // themselves here so ShowScreen<T> can reach them.
+        public void RegisterScreen(UIScreen screen)
+        {
+            if (screen == null) return;
+            _screensByType[screen.GetType()] = screen;
+        }
+
         public GlobalOverlay Overlay => _globalOverlay;
     }
 }

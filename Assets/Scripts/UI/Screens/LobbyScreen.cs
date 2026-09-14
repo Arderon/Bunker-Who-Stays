@@ -121,6 +121,10 @@ namespace Bunker.UI
 
         private void OnGameStarted()
         {
+            // Returns false unless a GameScreenV2Host is present in the scene,
+            // so without it this path is exactly what it was before.
+            if (GameV2.GameScreenV2Host.TryShowGame(_lobby.CurrentSession)) return;
+
             var gameScreen = UIManager.Instance.ShowScreen<GameScreen>();
             gameScreen.Bind(_lobby.CurrentSession);
         }

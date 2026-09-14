@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; background:#08090A; }
+  a { color:#FFB02E; text-decoration:none; border-bottom:1px solid #6b4a12; }
+  a:hover { color:#FFD08A; }
+  @keyframes pulseAmber { 0%,100% { opacity:1 } 50% { opacity:.55 } }
+  @keyframes pulseRed { 0%,100% { opacity:1 } 50% { opacity:.35 } }
+</style>
+</helmet>
+
+<div style="font-family:Barlow,sans-serif;background:#08090A;color:#E8E4DC;padding:80px;display:flex;flex-direction:column;gap:120px;width:max-content">
+
+  <div style="display:flex;flex-direction:column;gap:40px;max-width:1500px">
+    <div style="height:14px;background:repeating-linear-gradient(45deg,#FFB02E 0 22px,#0B0C0B 22px 44px)"></div>
+    <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:96px;line-height:.95;letter-spacing:.02em;text-transform:uppercase">Bunker: Who Stays</div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.18em;text-transform:uppercase;color:#FFB02E">UI Spec / Unity uGUI + TextMeshPro / Portrait 1080×1920 @1x</div>
+    <div style="display:flex;flex-direction:column;gap:14px;font-size:30px;line-height:1.5;color:#C8C4BC;max-width:1400px;text-wrap:pretty">
+      <div>The screen is a sealed room. Everything sits on unlit concrete; only the thing demanding a decision is lit.</div>
+      <div>One warm light source — amber — marks agency: whose turn it is, what you can still press. Deep red marks loss and expiry, and is never used for anything you can do.</div>
+      <div>Surfaces are flat plates with 1px machined borders and 2–8px radii. No gloss, no gradients except the hazard stripe and the vignette. Depth comes from a darker scrim and a hard offset shadow, not from blur stacks.</div>
+      <div>Type is stencilled and condensed for labels, humanist for values, monospaced for anything numeric or system-spoken. Labels are uppercase and letterspaced so Ukrainian strings stay legible when they run 2× long.</div>
+      <div>State is never colour alone: every state carries a glyph, a shape change, or a word. Eliminated players are stamped, not dimmed away.</div>
+      <div>Readability beats atmosphere at every conflict. Body text holds ≥4.5:1; the grain and vignette layers are non-interactive and clamp at 8% opacity.</div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:40px">
+    <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:52px;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid #34383B;padding-bottom:16px">00 · Tokens</div>
+
+    <div style="display:flex;gap:64px;flex-wrap:wrap;align-items:flex-start">
+
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#9A9892;text-transform:uppercase">Colour</div>
+        <div style="display:grid;grid-template-columns:120px 300px 180px 420px;gap:2px;background:#22262A;border:1px solid #34383B;font-size:24px">
+          <div style="background:#0B0C0B;height:64px"></div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace">bg</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace;color:#9A9892">#0B0C0B</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;color:#C8C4BC">Screen ground, behind all panels</div>
+          <div style="background:#17191A;height:64px"></div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace">surface</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace;color:#9A9892">#17191A</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;color:#C8C4BC">Panels, cards, list rows</div>
+          <div style="background:#212426;height:64px"></div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace">surfaceRaised</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace;color:#9A9892">#212426</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;color:#C8C4BC">Trait slots, buttons, pip wells</div>
+          <div style="background:#34383B;height:64px"></div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace">border</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace;color:#9A9892">#34383B</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;color:#C8C4BC">1px hairline, all plate edges</div>
+          <div style="background:#E8E4DC;height:64px"></div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace">textPrimary</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace;color:#9A9892">#E8E4DC</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;color:#C8C4BC">Values, names — 13.9:1 on surface</div>
+          <div style="background:#9A9892;height:64px"></div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace">textSecondary</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace;color:#9A9892">#9A9892</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;color:#C8C4BC">Category labels — 6.1:1 on surface</div>
+          <div style="background:#5E605E;height:64px"></div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace">textDisabled</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace;color:#9A9892">#5E605E</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;color:#C8C4BC">Inert only, never sole carrier of meaning</div>
+          <div style="background:#FFB02E;height:64px"></div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace">accent</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace;color:#9A9892">#FFB02E</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;color:#C8C4BC">Agency: your turn, active player, pressable</div>
+          <div style="background:#E56B1F;height:64px"></div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace">warning</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace;color:#9A9892">#E56B1F</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;color:#C8C4BC">Timer 10–6s, contested vote</div>
+          <div style="background:#C8271F;height:64px"></div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace">danger</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace;color:#9A9892">#C8271F</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;color:#C8C4BC">Timer ≤5s, eliminated stamp</div>
+          <div style="background:#4E8C55;height:64px"></div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace">success</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace;color:#9A9892">#4E8C55</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;color:#C8C4BC">Reveal logged, pass complete</div>
+          <div style="background:rgba(0,0,0,.72);height:64px"></div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace">scrim</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace;color:#9A9892">#000 72%</div><div style="background:#17191A;padding:0 20px;display:flex;align-items:center;color:#C8C4BC">One scrim per overlay level</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:48px">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#9A9892;text-transform:uppercase">Type scale — 5 sizes</div>
+          <div style="display:flex;flex-direction:column;gap:2px;border:1px solid #34383B;background:#22262A">
+            <div style="background:#17191A;padding:20px 24px;display:flex;align-items:baseline;gap:32px"><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#FFB02E;width:200px">XL / 96 / 700</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:96px;line-height:1">15</div><div style="font-size:24px;color:#9A9892">Mono. Timer numerals only</div></div>
+            <div style="background:#17191A;padding:20px 24px;display:flex;align-items:baseline;gap:32px"><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#FFB02E;width:200px">L / 48 / 700</div><div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:48px;text-transform:uppercase;letter-spacing:.04em">Your Turn</div><div style="font-size:24px;color:#9A9892">Stencil. Card name, turn call</div></div>
+            <div style="background:#17191A;padding:20px 24px;display:flex;align-items:baseline;gap:32px"><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#FFB02E;width:200px">M / 34 / 600</div><div style="font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:34px;text-transform:uppercase;letter-spacing:.04em">Profession</div><div style="font-size:24px;color:#9A9892">Stencil. Buttons, player names</div></div>
+            <div style="background:#17191A;padding:20px 24px;display:flex;align-items:baseline;gap:32px"><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#FFB02E;width:200px">S / 30 / 400</div><div style="font-size:30px">Field medic, two tours</div><div style="font-size:24px;color:#9A9892">Barlow. All trait values, body</div></div>
+            <div style="background:#17191A;padding:20px 24px;display:flex;align-items:baseline;gap:32px"><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#FFB02E;width:200px">XS / 22 / 400</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;text-transform:uppercase">Slot 04 · Locked</div><div style="font-size:24px;color:#9A9892">Mono. Meta, counts, stamps</div></div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:48px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#9A9892;text-transform:uppercase">Spacing — 8px base</div>
+            <div style="display:flex;align-items:flex-end;gap:16px">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:10px"><div style="width:8px;height:8px;background:#FFB02E"></div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#9A9892">8</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:10px"><div style="width:16px;height:16px;background:#FFB02E"></div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#9A9892">16</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:10px"><div style="width:24px;height:24px;background:#FFB02E"></div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#9A9892">24</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:10px"><div style="width:32px;height:32px;background:#FFB02E"></div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#9A9892">32</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:10px"><div style="width:48px;height:48px;background:#FFB02E"></div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#9A9892">48</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:10px"><div style="width:64px;height:64px;background:#FFB02E"></div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#9A9892">64</div></div>
+            </div>
+            <div style="font-size:24px;color:#9A9892;max-width:520px">Screen gutter 32. Panel padding 32. Slot gap 16. Section gap 48. Min touch target 88×88 including transparent padding.</div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#9A9892;text-transform:uppercase">Radius &amp; elevation</div>
+            <div style="display:flex;gap:16px">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:10px"><div style="width:110px;height:80px;background:#212426;border:1px solid #34383B;border-radius:2px"></div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#9A9892">r2 chip</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:10px"><div style="width:110px;height:80px;background:#212426;border:1px solid #34383B;border-radius:4px"></div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#9A9892">r4 slot</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:10px"><div style="width:110px;height:80px;background:#212426;border:1px solid #34383B;border-radius:8px"></div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#9A9892">r8 panel</div></div>
+            </div>
+            <div style="display:flex;gap:16px;margin-top:8px">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:10px"><div style="width:110px;height:80px;background:#17191A;border:1px solid #34383B;border-radius:8px"></div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#9A9892">e0 flat</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:10px"><div style="width:110px;height:80px;background:#17191A;border:1px solid #34383B;border-radius:8px;box-shadow:0 4px 0 #000"></div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#9A9892">e1 y+4</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:10px"><div style="width:110px;height:80px;background:#17191A;border:1px solid #34383B;border-radius:8px;box-shadow:0 12px 0 rgba(0,0,0,.9),0 0 0 1px #34383B"></div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#9A9892">e2 y+12</div></div>
+            </div>
+            <div style="font-size:24px;color:#9A9892;max-width:520px">Hard offset shadows only — no blur. Overlays use e2 plus their own scrim.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:40px">
+    <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:52px;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid #34383B;padding-bottom:16px">01 · Screen anatomy — 1080×1920, safe area 1080×1700</div>
+
+    <div style="display:flex;gap:64px;align-items:flex-start">
+
+      <div style="position:relative;width:1080px;height:1920px;background:#0B0C0B;border:1px solid #34383B;overflow:hidden;flex:none">
+        <div style="position:absolute;inset:0;background:radial-gradient(120% 80% at 50% 30%,transparent 40%,rgba(0,0,0,.75) 100%);pointer-events:none"></div>
+        <sc-if value="{{ showGrain }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,transparent 1px 4px);pointer-events:none"></div></sc-if>
+
+        <div style="position:absolute;left:0;top:0;width:1080px;height:110px;background:rgba(255,176,46,.05);border-bottom:1px dashed rgba(255,176,46,.35)"></div>
+        <div style="position:absolute;left:32px;top:38px;font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:rgba(255,176,46,.6)">OS STATUS BAR — 0→110</div>
+
+        <div style="position:absolute;left:32px;top:142px;width:1016px;height:112px;background:#17191A;border:1px solid #34383B;border-radius:8px;box-shadow:0 4px 0 #000;display:flex;align-items:center;padding:0 24px;gap:24px">
+          <div style="display:flex;align-items:center;gap:14px">
+            <div style="width:12px;height:36px;background:#FFB02E"></div>
+            <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:34px;letter-spacing:.06em;text-transform:uppercase">7<span style="color:#5E605E">/10</span></div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#9A9892">ALIVE</div>
+          </div>
+          <div style="width:1px;height:48px;background:#34383B"></div>
+          <div style="display:flex;align-items:center;gap:10px;flex:1">
+            <div style="width:30px;height:30px;border:2px solid #6E7276;background:#212426"></div>
+            <div style="width:30px;height:30px;border:2px solid #E8E4DC;background:#212426;position:relative"><div style="position:absolute;left:50%;bottom:-12px;transform:translateX(-50%);width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:8px solid #E8E4DC"></div></div>
+            <div style="width:44px;height:44px;background:#FFB02E;transform:rotate(45deg);box-shadow:0 0 0 4px rgba(255,176,46,.2);animation:pulseAmber 1.6s ease-in-out infinite"></div>
+            <div style="width:30px;height:30px;border:2px solid #4A4C4A;background:#151717;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:22px;color:#C8271F;line-height:1">✕</div>
+            <div style="width:30px;height:30px;border:2px solid #6E7276;background:#212426"></div>
+            <div style="width:30px;height:30px;border:2px solid #4A4C4A;background:#151717;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:22px;color:#C8271F;line-height:1">✕</div>
+            <div style="width:30px;height:30px;border:2px solid #6E7276;background:#212426"></div>
+            <div style="width:30px;height:30px;border:2px solid #6E7276;background:#212426"></div>
+            <div style="width:30px;height:30px;border:2px solid #6E7276;background:#212426"></div>
+            <div style="width:30px;height:30px;border:2px solid #4A4C4A;background:#151717;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:22px;color:#C8271F;line-height:1">✕</div>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:28px;color:#9A9892">▼</div>
+        </div>
+
+        <div style="position:absolute;left:32px;top:302px;width:1016px;background:#17191A;border:1px solid #34383B;border-top:4px solid #FFB02E;border-radius:8px;box-shadow:0 4px 0 #000;padding:32px;display:flex;flex-direction:column;gap:24px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:24px">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#FFB02E">◆ CURRENT TURN</div>
+              <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:48px;letter-spacing:.04em;text-transform:uppercase;line-height:1">Marta K.</div>
+            </div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#9A9892;text-align:right;line-height:1.5">FILE 04/10<br>REVEALED 3/7</div>
+          </div>
+          <div style="height:1px;background:#34383B"></div>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;gap:24px;align-items:flex-start;background:#212426;border:1px solid #34383B;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#9A9892;padding-top:4px">Gender</div><div style="flex:1;font-size:30px;line-height:1.35">Female, 34</div></div>
+            <div style="display:flex;gap:24px;align-items:flex-start;background:#212426;border:1px solid #34383B;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#9A9892;padding-top:4px">Health</div><div style="flex:1;font-size:30px;line-height:1.35">Asthma, needs inhaler weekly</div></div>
+            <div style="display:flex;gap:24px;align-items:flex-start;background:#212426;border:1px solid #34383B;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#9A9892;padding-top:4px">Profession</div><div style="flex:1;font-size:30px;line-height:1.35">Water treatment engineer, 11 years</div></div>
+            <div style="display:flex;gap:24px;align-items:center;background:#1B1D1E;border:1px solid #2C2F31;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#6E7276;padding-top:4px">Baggage</div><div style="flex:1;height:40px;background:repeating-linear-gradient(135deg,#2A2D2F 0 10px,#212426 10px 20px);border:1px solid #34383B;display:flex;align-items:center;padding:0 16px;gap:16px"><span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:22px;color:#9A9892">?</span><span style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#6E7276">CLASSIFIED</span></div></div>
+            <div style="display:flex;gap:24px;align-items:center;background:#1B1D1E;border:1px solid #2C2F31;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#6E7276;padding-top:4px">Hobby</div><div style="flex:1;height:40px;background:repeating-linear-gradient(135deg,#2A2D2F 0 10px,#212426 10px 20px);border:1px solid #34383B;display:flex;align-items:center;padding:0 16px;gap:16px"><span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:22px;color:#9A9892">?</span><span style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#6E7276">CLASSIFIED</span></div></div>
+            <div style="display:flex;gap:24px;align-items:center;background:#1B1D1E;border:1px solid #2C2F31;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#6E7276;padding-top:4px">Fact</div><div style="flex:1;height:40px;background:repeating-linear-gradient(135deg,#2A2D2F 0 10px,#212426 10px 20px);border:1px solid #34383B;display:flex;align-items:center;padding:0 16px;gap:16px"><span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:22px;color:#9A9892">?</span><span style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#6E7276">CLASSIFIED</span></div></div>
+          </div>
+        </div>
+
+        <div style="position:absolute;left:0;bottom:0;width:1080px;background:#141617;border-top:1px solid #34383B;box-shadow:0 -12px 0 rgba(0,0,0,.55);padding:32px 32px 56px;display:flex;flex-direction:column;gap:24px">
+          <div style="display:flex;align-items:center;gap:32px">
+            <div style="position:relative;width:176px;height:176px;flex:none;border-radius:50%;background:conic-gradient(#FFB02E 0 66%,#2A2D2F 66% 100%);display:flex;align-items:center;justify-content:center">
+              <div style="position:absolute;inset:14px;border-radius:50%;background:#141617;border:1px solid #34383B"></div>
+              <div style="position:relative;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:96px;line-height:1;color:#FFB02E">10</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;flex:1">
+              <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:48px;letter-spacing:.04em;text-transform:uppercase;color:#FFB02E">Your turn</div>
+              <div style="font-size:30px;color:#C8C4BC">Reveal one trait before the timer expires.</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+            <div style="height:112px;background:#212426;border:1px solid #4A4C4A;border-radius:4px;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 12px;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#5E605E;text-decoration:line-through">Gender</div>
+            <div style="height:112px;background:#212426;border:1px solid #4A4C4A;border-radius:4px;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 12px;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#5E605E;text-decoration:line-through">Age</div>
+            <div style="height:112px;background:#212426;border:1px solid #4A4C4A;border-radius:4px;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 12px;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#5E605E;text-decoration:line-through">Health</div>
+            <div style="height:112px;background:#212426;border:1px solid #4A4C4A;border-radius:4px;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 12px;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#5E605E;text-decoration:line-through">Job</div>
+            <div style="height:112px;background:#2B2318;border:2px solid #FFB02E;border-radius:4px;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 12px;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#FFB02E">Baggage</div>
+            <div style="height:112px;background:#2B2318;border:2px solid #FFB02E;border-radius:4px;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 12px;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#FFB02E">Hobby</div>
+            <div style="height:112px;background:#2B2318;border:2px solid #FFB02E;border-radius:4px;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 12px;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#FFB02E">Fact</div>
+            <div style="height:112px;border:1px dashed #2C2F31;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:22px;color:#3E4142">RESERVED</div>
+          </div>
+        </div>
+
+        <div style="position:absolute;left:0;bottom:0;width:1080px;height:56px;background:rgba(255,176,46,.05);border-top:1px dashed rgba(255,176,46,.35)"></div>
+      </div>
+
+      <sc-if value="{{ showAnnotations }}" hint-placeholder-val="{{ true }}">
+      <div style="width:640px;display:flex;flex-direction:column;gap:28px;font-size:26px;line-height:1.5;color:#C8C4BC">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#FFB02E;text-transform:uppercase">Anchoring</div>
+        <div><b style="color:#E8E4DC">Player bar</b> — anchor top-stretch. Left/right inset 32, top inset 142 (110 status + 32). Height 112. Never scrolls.</div>
+        <div><b style="color:#E8E4DC">Turn card</b> — anchor top-stretch, inset 32, top 302. Height fits content; if content exceeds the gap to the reveal panel the card's slot list scrolls internally, the header stays pinned.</div>
+        <div><b style="color:#E8E4DC">Reveal panel</b> — anchor bottom-stretch, inset 0, bottom 0. Padding 32/32/56 (56 absorbs the home indicator). Height is driven by content; the button grid is a fixed 2×4 so the panel height is stable across states.</div>
+        <div><b style="color:#E8E4DC">Vertical budget</b> — 110 status + 32 + 112 bar + 48 gap + card + 24 gap + 560 panel + 56 inset. Card gets 878px at minimum; it is the only element allowed to flex.</div>
+        <div style="height:1px;background:#34383B"></div>
+        <div><b style="color:#E8E4DC">Grain &amp; vignette</b> — two full-screen non-interactive Image layers at the very back of the canvas sort order, 5% and 8%. They tint, never carry meaning.</div>
+        <div><b style="color:#E8E4DC">Reserved cell</b> — the 8th grid cell stays empty and dashed at all times; the "Start discussion" button occupies it when the pass completes, so nothing reflows.</div>
+      </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:40px">
+    <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:52px;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid #34383B;padding-bottom:16px">02 · Player list — collapsible dropdown</div>
+
+    <div style="display:flex;gap:64px;align-items:flex-start;flex-wrap:wrap">
+
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#FFB02E;text-transform:uppercase">2.1 Collapsed bar — 1016×112, r8</div>
+
+        <div style="width:1016px;background:#17191A;border:1px solid #34383B;border-radius:8px;box-shadow:0 4px 0 #000;display:flex;align-items:center;padding:0 24px;gap:24px;height:112px">
+          <div style="display:flex;align-items:center;gap:14px;flex:none">
+            <div style="width:12px;height:36px;background:#FFB02E"></div>
+            <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:34px;letter-spacing:.06em">7<span style="color:#5E605E">/10</span></div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#9A9892">ALIVE</div>
+          </div>
+          <div style="width:1px;height:48px;background:#34383B;flex:none"></div>
+          <div style="display:flex;align-items:center;gap:10px;flex:1">
+            <div style="width:30px;height:30px;border:2px solid #6E7276;background:#212426"></div>
+            <div style="width:30px;height:30px;border:2px solid #E8E4DC;background:#212426;position:relative"><div style="position:absolute;left:50%;bottom:-12px;transform:translateX(-50%);width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:8px solid #E8E4DC"></div></div>
+            <div style="width:44px;height:44px;background:#FFB02E;transform:rotate(45deg);box-shadow:0 0 0 4px rgba(255,176,46,.2)"></div>
+            <div style="width:30px;height:30px;border:2px solid #4A4C4A;background:#151717;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:22px;color:#C8271F;line-height:1">✕</div>
+            <div style="width:30px;height:30px;border:2px solid #6E7276;background:#212426"></div>
+            <div style="width:30px;height:30px;border:2px solid #4A4C4A;background:#151717;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:22px;color:#C8271F;line-height:1">✕</div>
+            <div style="width:30px;height:30px;border:2px solid #6E7276;background:#212426"></div>
+            <div style="width:30px;height:30px;border:2px solid #6E7276;background:#212426"></div>
+            <div style="width:30px;height:30px;border:2px solid #6E7276;background:#212426"></div>
+            <div style="width:30px;height:30px;border:2px solid #4A4C4A;background:#151717;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:22px;color:#C8271F;line-height:1">✕</div>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:28px;color:#9A9892;flex:none">▼</div>
+        </div>
+
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#9A9892;text-transform:uppercase">↑ default · ↓ pressed (bar fills #212426, shadow collapses to 0) · ↓ expanded (chevron ▲, top border 2px accent)</div>
+
+        <div style="width:1016px;background:#212426;border:1px solid #34383B;border-radius:8px;display:flex;align-items:center;padding:0 24px;gap:24px;height:112px;transform:translateY(4px)">
+          <div style="display:flex;align-items:center;gap:14px;flex:none">
+            <div style="width:12px;height:36px;background:#FFB02E"></div>
+            <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:34px;letter-spacing:.06em">7<span style="color:#5E605E">/10</span></div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#9A9892">ALIVE</div>
+          </div>
+          <div style="width:1px;height:48px;background:#34383B;flex:none"></div>
+          <div style="flex:1;font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#6E7276">PRESSED</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:28px;color:#9A9892;flex:none">▼</div>
+        </div>
+
+        <div style="width:1016px;background:#17191A;border:1px solid #34383B;border-top:2px solid #FFB02E;border-radius:8px 8px 0 0;display:flex;align-items:center;padding:0 24px;gap:24px;height:112px">
+          <div style="display:flex;align-items:center;gap:14px;flex:none">
+            <div style="width:12px;height:36px;background:#FFB02E"></div>
+            <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:34px;letter-spacing:.06em">7<span style="color:#5E605E">/10</span></div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#9A9892">ALIVE</div>
+          </div>
+          <div style="width:1px;height:48px;background:#34383B;flex:none"></div>
+          <div style="flex:1;font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#FFB02E">EXPANDED — LIST OPEN</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:28px;color:#FFB02E;flex:none">▲</div>
+        </div>
+
+        <div style="width:1016px;background:#17191A;border:1px solid #34383B;border-radius:8px;display:flex;align-items:center;padding:0 24px;gap:24px;height:112px">
+          <div style="display:flex;align-items:center;gap:14px;flex:none">
+            <div style="width:12px;height:36px;background:#3E4142"></div>
+            <div style="width:96px;height:36px;background:#212426"></div>
+          </div>
+          <div style="width:1px;height:48px;background:#34383B;flex:none"></div>
+          <div style="display:flex;align-items:center;gap:10px;flex:1">
+            <div style="width:30px;height:30px;background:#212426"></div><div style="width:30px;height:30px;background:#212426"></div><div style="width:30px;height:30px;background:#212426"></div><div style="width:30px;height:30px;background:#212426"></div><div style="width:30px;height:30px;background:#212426"></div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#5E605E;margin-left:16px">SYNCING…</div>
+          </div>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#9A9892;text-transform:uppercase">↑ loading — pips render as empty wells, count hidden, bar inert</div>
+      </div>
+
+      <sc-if value="{{ showAnnotations }}" hint-placeholder-val="{{ true }}">
+      <div style="width:620px;display:flex;flex-direction:column;gap:28px;font-size:26px;line-height:1.5;color:#C8C4BC">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#FFB02E;text-transform:uppercase">Pip legend — shape first, colour second</div>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div style="display:flex;align-items:center;gap:24px"><div style="width:56px;display:flex;justify-content:center"><div style="width:30px;height:30px;border:2px solid #6E7276;background:#212426"></div></div><div><b style="color:#E8E4DC">Alive</b> — 30×30 hollow square, 2px #6E7276</div></div>
+          <div style="display:flex;align-items:center;gap:24px"><div style="width:56px;display:flex;justify-content:center"><div style="width:30px;height:30px;border:2px solid #4A4C4A;background:#151717;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:22px;color:#C8271F;line-height:1">✕</div></div><div><b style="color:#E8E4DC">Eliminated</b> — same square, sunken fill, red ✕ glyph</div></div>
+          <div style="display:flex;align-items:center;gap:24px"><div style="width:56px;display:flex;justify-content:center"><div style="width:44px;height:44px;background:#FFB02E;transform:rotate(45deg);box-shadow:0 0 0 4px rgba(255,176,46,.2)"></div></div><div><b style="color:#E8E4DC">Taking their turn</b> — 44×44 solid amber diamond + 4px halo, breathing 1.6s. Largest and only filled pip: dominant by size, shape, fill and motion</div></div>
+          <div style="display:flex;align-items:center;gap:24px"><div style="width:56px;display:flex;justify-content:center"><div style="width:30px;height:30px;border:2px solid #E8E4DC;background:#212426;position:relative"><div style="position:absolute;left:50%;bottom:-12px;transform:translateX(-50%);width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:8px solid #E8E4DC"></div></div></div><div><b style="color:#E8E4DC">You</b> — white stroke + caret beneath. Composes with the other three (you-and-your-turn = amber diamond with caret)</div></div>
+        </div>
+        <div style="height:1px;background:#34383B"></div>
+        <div><b style="color:#E8E4DC">Layout</b> — pip row is a Horizontal Layout Group, spacing 10, child force-expand off. At 12 players spacing drops to 6; at 16+ the row switches to "◆ 7/16 ALIVE" text only and the pips are dropped.</div>
+        <div><b style="color:#E8E4DC">Touch</b> — the whole 1016×112 bar is the button. Pips are non-interactive Images inside it.</div>
+        <div><b style="color:#E8E4DC">Count</b> — alive/total as L stencil; the "/10" total uses textDisabled so the alive number reads first.</div>
+      </div>
+      </sc-if>
+    </div>
+
+    <div style="display:flex;gap:64px;align-items:flex-start;flex-wrap:wrap;margin-top:40px">
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#FFB02E;text-transform:uppercase">2.2 Expanded overlay — scrim + unfold, does not push layout</div>
+        <div style="position:relative;width:1080px;height:1400px;background:#0B0C0B;border:1px solid #34383B;overflow:hidden">
+          <div style="position:absolute;left:32px;top:600px;width:1016px;height:400px;background:#17191A;border:1px solid #34383B;border-radius:8px;padding:32px;font-family:'JetBrains Mono',monospace;font-size:22px;color:#3E4142;letter-spacing:.14em">GAME CONTENT (BASE LAYER) — UNCHANGED, NOT REFLOWED</div>
+          <div style="position:absolute;inset:0;background:rgba(0,0,0,.72)"></div>
+
+          <div style="position:absolute;left:32px;top:142px;width:1016px;background:#17191A;border:1px solid #34383B;border-top:2px solid #FFB02E;border-radius:8px;box-shadow:0 12px 0 rgba(0,0,0,.9)">
+            <div style="display:flex;align-items:center;padding:0 24px;gap:24px;height:112px;border-bottom:1px solid #34383B">
+              <div style="display:flex;align-items:center;gap:14px;flex:none">
+                <div style="width:12px;height:36px;background:#FFB02E"></div>
+                <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:34px;letter-spacing:.06em">7<span style="color:#5E605E">/10</span></div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#9A9892">ALIVE</div>
+              </div>
+              <div style="flex:1"></div>
+              <div style="width:88px;height:88px;border:1px solid #34383B;border-radius:4px;background:#212426;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:34px;color:#E8E4DC;flex:none">✕</div>
+            </div>
+
+            <div style="padding:24px;display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;align-items:center;gap:20px;height:120px;background:#2B2318;border:2px solid #FFB02E;border-radius:4px;padding:0 24px">
+                <div style="width:44px;height:44px;background:#FFB02E;transform:rotate(45deg);flex:none"></div>
+                <div style="flex:1;display:flex;flex-direction:column;gap:6px">
+                  <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:38px;letter-spacing:.04em;text-transform:uppercase;color:#FFB02E">Marta K.</div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#FFB02E">◆ REVEALING NOW · 3/7</div>
+                </div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:34px;color:#FFB02E;flex:none">›</div>
+              </div>
+
+              <div style="display:flex;align-items:center;gap:20px;height:120px;background:#212426;border:1px solid #34383B;border-radius:4px;padding:0 24px">
+                <div style="width:30px;height:30px;border:2px solid #E8E4DC;background:#17191A;flex:none"></div>
+                <div style="flex:1;display:flex;flex-direction:column;gap:6px">
+                  <div style="font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:38px;letter-spacing:.04em;text-transform:uppercase">Andrii V.</div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#9A9892">REVEALED 2/7</div>
+                </div>
+                <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:24px;letter-spacing:.12em;text-transform:uppercase;color:#0B0C0B;background:#E8E4DC;padding:6px 14px;border-radius:2px;flex:none">You</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:34px;color:#9A9892;flex:none">›</div>
+              </div>
+
+              <div style="display:flex;align-items:center;gap:20px;height:120px;background:#212426;border:1px solid #34383B;border-radius:4px;padding:0 24px">
+                <div style="width:30px;height:30px;border:2px solid #6E7276;background:#17191A;flex:none"></div>
+                <div style="flex:1;display:flex;flex-direction:column;gap:6px">
+                  <div style="font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:38px;letter-spacing:.04em;text-transform:uppercase">Oleksandra Ponomarenko</div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#9A9892">REVEALED 3/7 · NEXT UP</div>
+                </div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:34px;color:#9A9892;flex:none">›</div>
+              </div>
+
+              <div style="display:flex;align-items:center;gap:20px;height:120px;background:#1B1D1E;border:1px solid #2C2F31;border-radius:4px;padding:0 24px;position:relative;overflow:hidden">
+                <div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(200,39,31,.06) 0 12px,transparent 12px 24px)"></div>
+                <div style="width:30px;height:30px;border:2px solid #4A4C4A;background:#151717;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:22px;color:#C8271F;line-height:1;flex:none">✕</div>
+                <div style="flex:1;display:flex;flex-direction:column;gap:6px;position:relative">
+                  <div style="font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:38px;letter-spacing:.04em;text-transform:uppercase;color:#6E7276;text-decoration:line-through;text-decoration-color:#C8271F;text-decoration-thickness:3px">Yurii B.</div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#6E7276">FILE CLOSED · ROUND 2</div>
+                </div>
+                <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:24px;letter-spacing:.16em;color:#C8271F;border:2px solid #C8271F;padding:6px 14px;transform:rotate(-4deg);flex:none;position:relative">EXPELLED</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:34px;color:#6E7276;flex:none;position:relative">›</div>
+              </div>
+
+              <div style="display:flex;align-items:center;gap:20px;height:120px;background:#2A2D2F;border:1px solid #4A4C4A;border-radius:4px;padding:0 24px">
+                <div style="width:30px;height:30px;border:2px solid #6E7276;background:#17191A;flex:none"></div>
+                <div style="flex:1;display:flex;flex-direction:column;gap:6px">
+                  <div style="font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:38px;letter-spacing:.04em;text-transform:uppercase">Kateryna S.</div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#9A9892">PRESSED — OPENING FILE</div>
+                </div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:34px;color:#E8E4DC;flex:none">›</div>
+              </div>
+
+              <div style="display:flex;align-items:center;gap:20px;height:120px;background:#1E2021;border:1px solid #2C2F31;border-radius:4px;padding:0 24px">
+                <div style="width:30px;height:30px;background:#2A2D2F;flex:none"></div>
+                <div style="flex:1;display:flex;flex-direction:column;gap:10px">
+                  <div style="width:340px;height:30px;background:#2A2D2F"></div>
+                  <div style="width:200px;height:18px;background:#26292A"></div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:0 24px 24px"><div style="height:64px;border-top:1px solid #34383B;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#6E7276">TAP ANYWHERE OUTSIDE TO CLOSE</div></div>
+          </div>
+        </div>
+      </div>
+
+      <sc-if value="{{ showAnnotations }}" hint-placeholder-val="{{ true }}">
+      <div style="width:620px;display:flex;flex-direction:column;gap:28px;font-size:26px;line-height:1.5;color:#C8C4BC">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#FFB02E;text-transform:uppercase">Expanded panel</div>
+        <div><b style="color:#E8E4DC">Geometry</b> — same x/width/top as the collapsed bar (32, 1016, 142). The bar becomes the panel's header; nothing jumps. Panel max height 1200; the row list is a scroll rect, header and footer pinned.</div>
+        <div><b style="color:#E8E4DC">Rows</b> — 120 tall (≥88 target), gap 12, padding 24. Two-line row: name at M/38 stencil, status line at XS/22 mono. Name is truncate-at-2-lines, not fixed width — Ukrainian names grow the row to 168 and the list keeps scrolling.</div>
+        <div><b style="color:#E8E4DC">Tappable affordance</b> — every row carries a ›  chevron at the right edge plus a 1px border; pressed state fills #2A2D2F and brightens the chevron. Eliminated rows stay tappable (you can still read a dead player's file) but their chevron is textDisabled.</div>
+        <div><b style="color:#E8E4DC">Row states</b> — current turn (amber plate + diamond + "REVEALING NOW"), you (white pip + YOU tag), alive, eliminated (hatched plate, strike-through in danger, EXPELLED stamp rotated −4°, round number), pressed, loading skeleton.</div>
+        <div><b style="color:#E8E4DC">Close</b> — 88×88 ✕ in the header, tap-outside on the scrim, and Android back. Scrim is a full-screen button, so tapping the game content behind never leaks through.</div>
+        <div style="height:1px;background:#34383B"></div>
+        <div><b style="color:#E8E4DC">Empty</b> — no such state in play: the list always holds the local player. A lobby with 1 player shows only your row plus "WAITING FOR SURVIVORS…" in the footer slot.</div>
+      </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:40px">
+    <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:52px;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid #34383B;padding-bottom:16px">03 · Player trait card — personnel dossier</div>
+
+    <div style="display:flex;gap:48px;align-items:flex-start;flex-wrap:wrap">
+
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#FFB02E;text-transform:uppercase">3.1 Own card — white frame, mixed states, special slot</div>
+        <div style="width:1016px;background:#17191A;border:2px solid #E8E4DC;border-radius:8px;box-shadow:0 4px 0 #000;overflow:hidden">
+          <div style="background:#1E2021;border-bottom:1px solid #34383B;padding:24px 32px;display:flex;align-items:flex-start;justify-content:space-between;gap:24px">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:24px;letter-spacing:.14em;text-transform:uppercase;color:#0B0C0B;background:#E8E4DC;padding:6px 14px;border-radius:2px">Your file</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#9A9892">ID 07 · ALIVE</div>
+              </div>
+              <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:48px;letter-spacing:.04em;text-transform:uppercase;line-height:1">Andrii V.</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#9A9892">REVEALED 2/7</div>
+              <div style="display:flex;gap:6px">
+                <div style="width:24px;height:10px;background:#4E8C55"></div><div style="width:24px;height:10px;background:#4E8C55"></div><div style="width:24px;height:10px;background:#34383B"></div><div style="width:24px;height:10px;background:#34383B"></div><div style="width:24px;height:10px;background:#34383B"></div><div style="width:24px;height:10px;background:#34383B"></div><div style="width:24px;height:10px;background:#34383B"></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding:24px 32px 32px;display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;gap:24px;align-items:flex-start;background:#212426;border:1px solid #34383B;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#9A9892;padding-top:4px">Gender</div><div style="flex:1;font-size:30px;line-height:1.35">Male</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#4E8C55;flex:none;padding-top:6px">✓</div></div>
+            <div style="display:flex;gap:24px;align-items:flex-start;background:#2B2318;border:2px solid #FFB02E;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#FFB02E;padding-top:4px">Age</div><div style="flex:1;display:flex;flex-direction:column;gap:6px"><div style="font-size:30px;line-height:1.35;color:#FFF3DF">41</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#FFB02E">◆ REVEALED THIS TURN</div></div></div>
+            <div style="display:flex;gap:24px;align-items:center;background:#1B1D1E;border:1px solid #2C2F31;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#6E7276">Health</div><div style="flex:1;height:40px;background:repeating-linear-gradient(135deg,#2A2D2F 0 10px,#212426 10px 20px);border:1px solid #34383B;display:flex;align-items:center;padding:0 16px;gap:16px"><span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:22px;color:#9A9892">?</span><span style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#6E7276">CLASSIFIED</span></div></div>
+            <div style="display:flex;gap:24px;align-items:center;background:#1B1D1E;border:1px solid #2C2F31;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#6E7276">Profession</div><div style="flex:1;height:40px;background:repeating-linear-gradient(135deg,#2A2D2F 0 10px,#212426 10px 20px);border:1px solid #34383B;display:flex;align-items:center;padding:0 16px;gap:16px"><span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:22px;color:#9A9892">?</span><span style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#6E7276">CLASSIFIED</span></div></div>
+            <div style="display:flex;gap:24px;align-items:center;background:#1B1D1E;border:1px solid #2C2F31;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#6E7276">Baggage</div><div style="flex:1;height:40px;background:repeating-linear-gradient(135deg,#2A2D2F 0 10px,#212426 10px 20px);border:1px solid #34383B;display:flex;align-items:center;padding:0 16px;gap:16px"><span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:22px;color:#9A9892">?</span><span style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#6E7276">CLASSIFIED</span></div></div>
+            <div style="display:flex;gap:24px;align-items:center;background:#1B1D1E;border:1px solid #2C2F31;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#6E7276">Hobby</div><div style="flex:1;height:40px;background:repeating-linear-gradient(135deg,#2A2D2F 0 10px,#212426 10px 20px);border:1px solid #34383B;display:flex;align-items:center;padding:0 16px;gap:16px"><span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:22px;color:#9A9892">?</span><span style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#6E7276">CLASSIFIED</span></div></div>
+            <div style="display:flex;gap:24px;align-items:center;background:#1B1D1E;border:1px solid #2C2F31;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#6E7276">Fact</div><div style="flex:1;height:40px;background:repeating-linear-gradient(135deg,#2A2D2F 0 10px,#212426 10px 20px);border:1px solid #34383B;display:flex;align-items:center;padding:0 16px;gap:16px"><span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:22px;color:#9A9892">?</span><span style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#6E7276">CLASSIFIED</span></div></div>
+
+            <div style="height:14px;background:repeating-linear-gradient(45deg,#FFB02E 0 16px,#0B0C0B 16px 32px);opacity:.5;margin-top:8px"></div>
+            <div style="display:flex;align-items:center;gap:24px;background:#212426;border:2px solid #FFB02E;border-radius:4px;padding:20px 24px;min-height:120px">
+              <div style="width:64px;height:64px;border:2px solid #FFB02E;transform:rotate(45deg);flex:none;display:flex;align-items:center;justify-content:center"><div style="transform:rotate(-45deg);font-family:'JetBrains Mono',monospace;font-weight:700;font-size:30px;color:#FFB02E">!</div></div>
+              <div style="flex:1;display:flex;flex-direction:column;gap:6px">
+                <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:34px;letter-spacing:.06em;text-transform:uppercase;color:#FFB02E">Special card</div>
+                <div style="font-size:26px;color:#C8C4BC">One use per game · swap a revealed trait</div>
+              </div>
+              <div style="min-width:200px;height:88px;background:#FFB02E;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0 24px;font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:30px;letter-spacing:.08em;text-transform:uppercase;color:#0B0C0B;flex:none">Use</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#9A9892;text-transform:uppercase">↓ special slot — already used</div>
+        <div style="width:1016px;display:flex;align-items:center;gap:24px;background:#1B1D1E;border:1px solid #2C2F31;border-radius:4px;padding:20px 24px;min-height:120px;position:relative;overflow:hidden">
+          <div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.02) 0 12px,transparent 12px 24px)"></div>
+          <div style="width:64px;height:64px;border:2px solid #4A4C4A;transform:rotate(45deg);flex:none;display:flex;align-items:center;justify-content:center;position:relative"><div style="transform:rotate(-45deg);font-family:'JetBrains Mono',monospace;font-weight:700;font-size:30px;color:#5E605E">!</div></div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:6px;position:relative">
+            <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:34px;letter-spacing:.06em;text-transform:uppercase;color:#6E7276;text-decoration:line-through">Special card</div>
+            <div style="font-size:26px;color:#6E7276">Spent in round 2 — Profession swapped</div>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:24px;letter-spacing:.16em;color:#6E7276;border:2px solid #4A4C4A;padding:8px 16px;transform:rotate(-4deg);flex:none;position:relative">USED</div>
+        </div>
+      </div>
+
+      <sc-if value="{{ showAnnotations }}" hint-placeholder-val="{{ true }}">
+      <div style="width:620px;display:flex;flex-direction:column;gap:28px;font-size:26px;line-height:1.5;color:#C8C4BC">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#FFB02E;text-transform:uppercase">Three framings — never ambiguous</div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="border-left:6px solid #E8E4DC;padding-left:20px"><b style="color:#E8E4DC">Own card</b> — 2px solid #E8E4DC frame, solid white "YOUR FILE" badge, special slot present. Only card that ever shows the special slot.</div>
+          <div style="border-left:6px solid #FFB02E;padding-left:20px"><b style="color:#E8E4DC">Current turn (base)</b> — no side frame, 4px accent top edge, amber "◆ CURRENT TURN" badge. Sits at the base of the z-stack, never has a back bar.</div>
+          <div style="border-left:6px solid #6E7276;padding-left:20px"><b style="color:#E8E4DC">Browsed (overlay)</b> — 2px dashed #6E7276 frame, grey "BROWSING" badge, mandatory ‹ BACK bar and scrim. Dashed frame = temporary, dismissible.</div>
+        </div>
+        <div style="height:1px;background:#34383B"></div>
+        <div><b style="color:#E8E4DC">Slot geometry</b> — full width, min-height 96, padding 18/24, gap 16. Label column fixed 220 with the label wrapping to 2 lines (Ukrainian "Професія" fits; "Особливий факт" wraps) — the label column is fixed, the value column is flexible and drives row height, 1 to 3 lines.</div>
+        <div><b style="color:#E8E4DC">Hidden</b> — sunken plate (#1B1D1E, border #2C2F31), label at textDisabled, and a 40px hatched censor bar carrying "?" + CLASSIFIED. Reads as withheld, not as empty: the bar is filled, not an outline.</div>
+        <div><b style="color:#E8E4DC">Just revealed</b> — amber plate, 2px accent border, value in #FFF3DF, plus the line "◆ REVEALED THIS TURN". Decays to the plain revealed slot after 2.5s.</div>
+        <div><b style="color:#E8E4DC">Revealed earlier</b> — plain raised slot, value in textPrimary, small success ✓ at the right edge.</div>
+        <div><b style="color:#E8E4DC">Progress ticks</b> — 7 × 24×10 bars in the header: filled success = revealed, border = pending. Redundant with the "2/7" numeral.</div>
+      </div>
+      </sc-if>
+    </div>
+
+    <div style="display:flex;gap:48px;align-items:flex-start;flex-wrap:wrap;margin-top:40px">
+
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#FFB02E;text-transform:uppercase">3.2 Browsed card — overlay on the turn card</div>
+        <div style="position:relative;width:1080px;height:1240px;background:#0B0C0B;border:1px solid #34383B;overflow:hidden">
+          <div style="position:absolute;left:32px;top:32px;width:1016px;height:300px;background:#17191A;border:1px solid #34383B;border-top:4px solid #FFB02E;border-radius:8px;padding:32px;font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#3E4142">CURRENT TURN CARD (BASE)</div>
+          <div style="position:absolute;inset:0;background:rgba(0,0,0,.72)"></div>
+
+          <div style="position:absolute;left:32px;top:120px;width:1016px;background:#17191A;border:2px dashed #6E7276;border-radius:8px;box-shadow:0 12px 0 rgba(0,0,0,.9);overflow:hidden">
+            <div style="height:88px;background:#212426;border-bottom:1px solid #34383B;display:flex;align-items:center;gap:16px;padding:0 24px">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:34px;color:#E8E4DC">‹</div>
+              <div style="font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.08em;text-transform:uppercase;color:#E8E4DC">Back to Marta's turn</div>
+            </div>
+            <div style="background:#1E2021;border-bottom:1px solid #34383B;padding:24px 32px;display:flex;align-items:flex-start;justify-content:space-between;gap:24px">
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div style="display:flex;align-items:center;gap:12px">
+                  <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:24px;letter-spacing:.14em;text-transform:uppercase;color:#C8C4BC;border:1px solid #6E7276;padding:5px 13px;border-radius:2px">Browsing</div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#9A9892">ID 03 · ALIVE</div>
+                </div>
+                <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:48px;letter-spacing:.04em;text-transform:uppercase;line-height:1">Oleksandra P.</div>
+              </div>
+              <div style="width:88px;height:88px;border:1px solid #34383B;border-radius:4px;background:#212426;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:34px;color:#E8E4DC;flex:none">✕</div>
+            </div>
+            <div style="padding:24px 32px 32px;display:flex;flex-direction:column;gap:16px">
+              <div style="display:flex;gap:24px;align-items:flex-start;background:#212426;border:1px solid #34383B;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#9A9892;padding-top:4px">Gender</div><div style="flex:1;font-size:30px;line-height:1.35">Female</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#4E8C55;flex:none;padding-top:6px">✓</div></div>
+              <div style="display:flex;gap:24px;align-items:flex-start;background:#212426;border:1px solid #34383B;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#9A9892;padding-top:4px">Age</div><div style="flex:1;font-size:30px;line-height:1.35">58</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#4E8C55;flex:none;padding-top:6px">✓</div></div>
+              <div style="display:flex;gap:24px;align-items:flex-start;background:#212426;border:1px solid #34383B;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#9A9892;padding-top:4px">Profession</div><div style="flex:1;font-size:30px;line-height:1.35">Retired structural engineer — designed two of the city's shelters, including this one, but has not worked since her stroke</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#4E8C55;flex:none;padding-top:6px">✓</div></div>
+              <div style="display:flex;gap:24px;align-items:center;background:#1B1D1E;border:1px solid #2C2F31;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#6E7276">Health</div><div style="flex:1;height:40px;background:repeating-linear-gradient(135deg,#2A2D2F 0 10px,#212426 10px 20px);border:1px solid #34383B;display:flex;align-items:center;padding:0 16px;gap:16px"><span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:22px;color:#9A9892">?</span><span style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#6E7276">CLASSIFIED</span></div></div>
+              <div style="display:flex;gap:24px;align-items:center;background:#1B1D1E;border:1px solid #2C2F31;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#6E7276">Baggage</div><div style="flex:1;height:40px;background:repeating-linear-gradient(135deg,#2A2D2F 0 10px,#212426 10px 20px);border:1px solid #34383B;display:flex;align-items:center;padding:0 16px;gap:16px"><span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:22px;color:#9A9892">?</span><span style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#6E7276">CLASSIFIED</span></div></div>
+              <div style="display:flex;gap:24px;align-items:center;background:#1B1D1E;border:1px solid #2C2F31;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#6E7276">Hobby</div><div style="flex:1;height:40px;background:repeating-linear-gradient(135deg,#2A2D2F 0 10px,#212426 10px 20px);border:1px solid #34383B;display:flex;align-items:center;padding:0 16px;gap:16px"><span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:22px;color:#9A9892">?</span><span style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#6E7276">CLASSIFIED</span></div></div>
+              <div style="display:flex;gap:24px;align-items:center;background:#1B1D1E;border:1px solid #2C2F31;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#6E7276">Fact</div><div style="flex:1;height:40px;background:repeating-linear-gradient(135deg,#2A2D2F 0 10px,#212426 10px 20px);border:1px solid #34383B;display:flex;align-items:center;padding:0 16px;gap:16px"><span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:22px;color:#9A9892">?</span><span style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#6E7276">CLASSIFIED</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#FFB02E;text-transform:uppercase">3.3 Eliminated player's card — all slots forced open</div>
+        <div style="width:1016px;background:#141516;border:2px dashed #4A4C4A;border-radius:8px;overflow:hidden;position:relative">
+          <div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(200,39,31,.05) 0 14px,transparent 14px 28px);pointer-events:none"></div>
+          <div style="height:88px;background:#1B1D1E;border-bottom:1px solid #2C2F31;display:flex;align-items:center;gap:16px;padding:0 24px;position:relative">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:34px;color:#C8C4BC">‹</div>
+            <div style="font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.08em;text-transform:uppercase;color:#C8C4BC">Back to Marta's turn</div>
+          </div>
+          <div style="background:#1B1D1E;border-bottom:1px solid #2C2F31;padding:24px 32px;display:flex;align-items:flex-start;justify-content:space-between;gap:24px;position:relative">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:24px;letter-spacing:.14em;text-transform:uppercase;color:#C8C4BC;border:1px solid #6E7276;padding:5px 13px;border-radius:2px">Browsing</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#6E7276">ID 09 · EXPELLED ROUND 2</div>
+              </div>
+              <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:48px;letter-spacing:.04em;text-transform:uppercase;line-height:1;color:#6E7276;text-decoration:line-through;text-decoration-color:#C8271F;text-decoration-thickness:4px">Yurii B.</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:14px">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:30px;letter-spacing:.18em;color:#C8271F;border:3px solid #C8271F;padding:8px 18px;transform:rotate(-4deg)">EXPELLED</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#6E7276">FILE DECLASSIFIED 7/7</div>
+            </div>
+          </div>
+          <div style="padding:24px 32px 32px;display:flex;flex-direction:column;gap:16px;position:relative">
+            <div style="display:flex;gap:24px;align-items:flex-start;background:#1B1D1E;border:1px solid #2C2F31;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#6E7276;padding-top:4px">Gender</div><div style="flex:1;font-size:30px;line-height:1.35;color:#9A9892">Male</div></div>
+            <div style="display:flex;gap:24px;align-items:flex-start;background:#1B1D1E;border:1px solid #2C2F31;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#6E7276;padding-top:4px">Age</div><div style="flex:1;font-size:30px;line-height:1.35;color:#9A9892">22</div></div>
+            <div style="display:flex;gap:24px;align-items:flex-start;background:#1B1D1E;border:1px solid #2C2F31;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#6E7276;padding-top:4px">Health</div><div style="flex:1;font-size:30px;line-height:1.35;color:#9A9892">Broken wrist, healing</div></div>
+            <div style="display:flex;gap:24px;align-items:flex-start;background:#1B1D1E;border:1px solid #2C2F31;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#6E7276;padding-top:4px">Profession</div><div style="flex:1;font-size:30px;line-height:1.35;color:#9A9892">Third-year veterinary student</div></div>
+            <div style="display:flex;gap:24px;align-items:flex-start;background:#1B1D1E;border:1px solid #2C2F31;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#6E7276;padding-top:4px">Baggage</div><div style="flex:1;font-size:30px;line-height:1.35;color:#9A9892">Two crates of tinned food and a hunting rifle with no ammunition</div></div>
+            <div style="display:flex;gap:24px;align-items:flex-start;background:#1B1D1E;border:1px solid #2C2F31;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#6E7276;padding-top:4px">Hobby</div><div style="flex:1;font-size:30px;line-height:1.35;color:#9A9892">Amateur radio</div></div>
+            <div style="display:flex;gap:24px;align-items:flex-start;background:#1B1D1E;border:1px solid #2C2F31;border-radius:4px;padding:18px 24px"><div style="width:220px;flex:none;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#6E7276;padding-top:4px">Fact</div><div style="flex:1;font-size:30px;line-height:1.35;color:#9A9892">Lied about the rifle in round one and was caught out by Marta</div></div>
+          </div>
+        </div>
+
+        <sc-if value="{{ showAnnotations }}" hint-placeholder-val="{{ true }}">
+        <div style="width:1016px;display:flex;flex-direction:column;gap:20px;font-size:26px;line-height:1.5;color:#C8C4BC;border-top:1px solid #34383B;padding-top:24px">
+          <div><b style="color:#E8E4DC">Eliminated card</b> — everything declassifies on expulsion, so the card has no hidden slots. Plates drop to #1B1D1E, values to textSecondary, and the red hatch overlay + EXPELLED stamp sit above the content at 5%. The special slot is removed, not disabled.</div>
+          <div><b style="color:#E8E4DC">Loading</b> — a card opened before its state arrives shows the header with the name and 7 skeleton slots (#1E2021 plates, two grey bars each), no censor bars: skeleton ≠ classified.</div>
+        </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:40px">
+    <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:52px;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid #34383B;padding-bottom:16px">04 · Reveal phase panel — bottom anchored, 1080 × 560</div>
+
+    <div style="display:flex;gap:48px;flex-wrap:wrap;align-items:flex-start">
+
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#FFB02E;text-transform:uppercase">4.1 Your turn — timer calm (15–11s)</div>
+        <div style="width:1080px;background:#141617;border-top:1px solid #34383B;box-shadow:0 -12px 0 rgba(0,0,0,.55);padding:32px 32px 56px;display:flex;flex-direction:column;gap:24px">
+          <div style="display:flex;align-items:center;gap:32px">
+            <div style="position:relative;width:176px;height:176px;flex:none;border-radius:50%;background:conic-gradient(#FFB02E 0 87%,#2A2D2F 87% 100%);display:flex;align-items:center;justify-content:center">
+              <div style="position:absolute;inset:14px;border-radius:50%;background:#141617;border:1px solid #34383B"></div>
+              <div style="position:relative;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:96px;line-height:1;color:#FFB02E">13</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;flex:1">
+              <div style="display:flex;align-items:center;gap:14px">
+                <div style="width:0;height:0;border-left:16px solid #FFB02E;border-top:11px solid transparent;border-bottom:11px solid transparent"></div>
+                <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:48px;letter-spacing:.04em;text-transform:uppercase;color:#FFB02E">Your turn</div>
+              </div>
+              <div style="font-size:30px;color:#C8C4BC">Reveal one trait before the timer expires.</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+            <div style="height:112px;background:#212426;border:1px solid #4A4C4A;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0 12px;text-align:center"><div style="font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#5E605E;text-decoration:line-through">Gender</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.12em;color:#4E8C55">✓ DONE</div></div>
+            <div style="height:112px;background:#212426;border:1px solid #4A4C4A;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0 12px;text-align:center"><div style="font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#5E605E;text-decoration:line-through">Age</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.12em;color:#4E8C55">✓ DONE</div></div>
+            <div style="height:112px;background:#2B2318;border:2px solid #FFB02E;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0 12px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#FFB02E">Health</div>
+            <div style="height:112px;background:#2B2318;border:2px solid #FFB02E;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0 12px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#FFB02E;line-height:1.05">Profession</div>
+            <div style="height:112px;background:#2B2318;border:2px solid #FFB02E;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0 12px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#FFB02E">Baggage</div>
+            <div style="height:112px;background:#2B2318;border:2px solid #FFB02E;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0 12px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#FFB02E">Hobby</div>
+            <div style="height:112px;background:#FFB02E;border:2px solid #FFD08A;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0 12px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#0B0C0B">Fact</div>
+            <div style="height:112px;border:1px dashed #2C2F31;border-radius:4px"></div>
+          </div>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#9A9892;text-transform:uppercase">Fact = pressed state (solid accent fill, black label). Cell 8 reserved, always dashed.</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#FFB02E;text-transform:uppercase">4.2 Last 5 seconds — critical</div>
+        <div style="width:1080px;background:#141617;border-top:2px solid #C8271F;box-shadow:0 -12px 0 rgba(0,0,0,.55);padding:32px 32px 56px;display:flex;flex-direction:column;gap:24px;position:relative;overflow:hidden">
+          <div style="position:absolute;inset:0;background:radial-gradient(120% 100% at 50% 100%,rgba(200,39,31,.18),transparent 70%);pointer-events:none"></div>
+          <div style="display:flex;align-items:center;gap:32px;position:relative">
+            <div style="position:relative;width:176px;height:176px;flex:none;border-radius:50%;background:conic-gradient(#C8271F 0 20%,#2A2D2F 20% 100%);display:flex;align-items:center;justify-content:center;animation:pulseRed 1s steps(2,end) infinite">
+              <div style="position:absolute;inset:14px;border-radius:50%;background:#141617;border:2px solid #C8271F"></div>
+              <div style="position:relative;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:96px;line-height:1;color:#C8271F">03</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;flex:1">
+              <div style="display:flex;align-items:center;gap:14px">
+                <div style="width:26px;height:26px;background:#C8271F"></div>
+                <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:48px;letter-spacing:.04em;text-transform:uppercase;color:#C8271F">Choose now</div>
+              </div>
+              <div style="font-size:30px;color:#E8E4DC">At zero a random hidden trait is revealed for you.</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative">
+            <div style="height:112px;background:#212426;border:1px solid #4A4C4A;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0 12px;text-align:center"><div style="font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#5E605E;text-decoration:line-through">Gender</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.12em;color:#4E8C55">✓ DONE</div></div>
+            <div style="height:112px;background:#212426;border:1px solid #4A4C4A;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0 12px;text-align:center"><div style="font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#5E605E;text-decoration:line-through">Age</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.12em;color:#4E8C55">✓ DONE</div></div>
+            <div style="height:112px;background:#2B2318;border:2px solid #FFB02E;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0 12px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#FFB02E">Health</div>
+            <div style="height:112px;background:#2B2318;border:2px solid #FFB02E;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0 12px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#FFB02E;line-height:1.05">Profession</div>
+            <div style="height:112px;background:#2B2318;border:2px solid #FFB02E;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0 12px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#FFB02E">Baggage</div>
+            <div style="height:112px;background:#2B2318;border:2px solid #FFB02E;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0 12px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#FFB02E">Hobby</div>
+            <div style="height:112px;background:#2B2318;border:2px solid #FFB02E;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0 12px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#FFB02E">Fact</div>
+            <div style="height:112px;border:1px dashed #2C2F31;border-radius:4px"></div>
+          </div>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#9A9892;text-transform:uppercase">Buttons do not change colour with the timer — only the timer, top edge, glow and headline escalate.</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#FFB02E;text-transform:uppercase">4.3 Waiting for another player — inert</div>
+        <div style="width:1080px;background:#121314;border-top:1px solid #2C2F31;box-shadow:0 -12px 0 rgba(0,0,0,.55);padding:32px 32px 56px;display:flex;flex-direction:column;gap:24px">
+          <div style="display:flex;align-items:center;gap:32px">
+            <div style="position:relative;width:176px;height:176px;flex:none;border-radius:50%;background:conic-gradient(#6E7276 0 53%,#232526 53% 100%);display:flex;align-items:center;justify-content:center">
+              <div style="position:absolute;inset:14px;border-radius:50%;background:#121314;border:1px solid #2C2F31"></div>
+              <div style="position:relative;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:96px;line-height:1;color:#9A9892">08</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;flex:1">
+              <div style="display:flex;align-items:center;gap:14px">
+                <div style="width:26px;height:26px;border:2px solid #6E7276;border-radius:50%"></div>
+                <div style="font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:38px;letter-spacing:.06em;text-transform:uppercase;color:#9A9892">Waiting for Marta K.</div>
+              </div>
+              <div style="font-size:30px;color:#6E7276">She is choosing which trait to reveal.</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+            <div style="height:112px;background:#191B1C;border:1px solid #2C2F31;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0 12px;text-align:center"><div style="font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#4A4C4A;text-decoration:line-through">Gender</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.12em;color:#3E5B42">✓ DONE</div></div>
+            <div style="height:112px;background:#191B1C;border:1px solid #2C2F31;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0 12px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#5E605E">Age</div>
+            <div style="height:112px;background:#191B1C;border:1px solid #2C2F31;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0 12px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#5E605E">Health</div>
+            <div style="height:112px;background:#191B1C;border:1px solid #2C2F31;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0 12px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#5E605E;line-height:1.05">Profession</div>
+            <div style="height:112px;background:#191B1C;border:1px solid #2C2F31;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0 12px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#5E605E">Baggage</div>
+            <div style="height:112px;background:#191B1C;border:1px solid #2C2F31;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0 12px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#5E605E">Hobby</div>
+            <div style="height:112px;background:#191B1C;border:1px solid #2C2F31;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0 12px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#5E605E">Fact</div>
+            <div style="height:112px;border:1px dashed #232526;border-radius:4px"></div>
+          </div>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#9A9892;text-transform:uppercase">Whole panel drops one step in luminance; ring is hollow-circle + grey, headline is 38 not 48, no caret.</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#FFB02E;text-transform:uppercase">4.4 Reveal pass complete — discussion unlocked</div>
+        <div style="width:1080px;background:#141617;border-top:1px solid #4E8C55;box-shadow:0 -12px 0 rgba(0,0,0,.55);padding:32px 32px 56px;display:flex;flex-direction:column;gap:24px">
+          <div style="display:flex;align-items:center;gap:32px">
+            <div style="position:relative;width:176px;height:176px;flex:none;border-radius:50%;background:#232526;display:flex;align-items:center;justify-content:center">
+              <div style="position:absolute;inset:14px;border-radius:50%;background:#141617;border:1px solid #4E8C55"></div>
+              <div style="position:relative;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:72px;line-height:1;color:#4E8C55">✓</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;flex:1">
+              <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:48px;letter-spacing:.04em;text-transform:uppercase;color:#E8E4DC">Pass complete</div>
+              <div style="font-size:30px;color:#C8C4BC">All 7 survivors revealed a trait this round.</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+            <div style="height:112px;background:#212426;border:1px solid #4A4C4A;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0 12px;text-align:center"><div style="font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#5E605E;text-decoration:line-through">Gender</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.12em;color:#4E8C55">✓ DONE</div></div>
+            <div style="height:112px;background:#212426;border:1px solid #4A4C4A;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0 12px;text-align:center"><div style="font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#5E605E;text-decoration:line-through">Age</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.12em;color:#4E8C55">✓ DONE</div></div>
+            <div style="height:112px;background:#212426;border:1px solid #4A4C4A;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0 12px;text-align:center"><div style="font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#5E605E;text-decoration:line-through">Health</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.12em;color:#4E8C55">✓ DONE</div></div>
+            <div style="height:112px;background:#191B1C;border:1px solid #2C2F31;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0 12px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#5E605E;line-height:1.05">Profession</div>
+            <div style="height:112px;background:#191B1C;border:1px solid #2C2F31;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0 12px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#5E605E">Baggage</div>
+            <div style="height:112px;background:#191B1C;border:1px solid #2C2F31;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0 12px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#5E605E">Hobby</div>
+            <div style="height:112px;background:#191B1C;border:1px solid #2C2F31;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0 12px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em;text-transform:uppercase;color:#5E605E">Fact</div>
+            <div style="height:112px;background:#1E2A20;border:2px solid #4E8C55;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0 10px;text-align:center"><div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:28px;letter-spacing:.04em;text-transform:uppercase;color:#8FD39A;line-height:1.05">Start discussion</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#4E8C55">›</div></div>
+          </div>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#9A9892;text-transform:uppercase">Start discussion fades into the reserved 8th cell — zero layout shift.</div>
+      </div>
+    </div>
+
+    <sc-if value="{{ showAnnotations }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;gap:64px;flex-wrap:wrap;margin-top:16px;font-size:26px;line-height:1.5;color:#C8C4BC">
+      <div style="width:700px;display:flex;flex-direction:column;gap:24px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#FFB02E;text-transform:uppercase">Geometry</div>
+        <div><b style="color:#E8E4DC">Panel</b> — anchor bottom-stretch, 1080 wide, height 560 fixed across all four states. Padding 32 / 32 / 56. Top edge is a 1px→2px line whose colour is the only structural state cue: border, danger, success.</div>
+        <div><b style="color:#E8E4DC">Timer</b> — 176 radial, 14px track, ring at (32,32). Numerals XL/96 mono, two digits always ("03" not "3") so the glyph box never reflows. Escalation: 15–11 accent, 10–6 warning, 5–0 danger + 2px ring, 1Hz two-step blink, panel glow, headline switches from "Your turn" to "Choose now".</div>
+        <div><b style="color:#E8E4DC">Turn indicator</b> — right of the ring, flexible width. Your turn: L/48 accent + solid caret. Waiting: M/38 textSecondary + hollow circle, name inline and allowed to wrap to 2 lines.</div>
+        <div><b style="color:#E8E4DC">Grid</b> — 4 columns × 2 rows, cell 238×112, gap 16. Labels are Saira Condensed 30 with auto-size floor 24 and 2-line wrap, so a 14-character Ukrainian label ("Особливість") fits without truncation. Cell 8 is permanently reserved.</div>
+      </div>
+      <div style="width:700px;display:flex;flex-direction:column;gap:24px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#FFB02E;text-transform:uppercase">Button states — four, all non-colour-coded</div>
+        <div><b style="color:#E8E4DC">Enabled</b> — #2B2318 plate, 2px accent border, accent label. The only outlined-in-amber element on screen.</div>
+        <div><b style="color:#E8E4DC">Pressed</b> — solid accent fill, black label, shadow removed, 80ms.</div>
+        <div><b style="color:#E8E4DC">Already revealed</b> — raised grey plate, label struck through, plus a green "✓ DONE" line. Locked reads as an outcome, not an absence.</div>
+        <div><b style="color:#E8E4DC">Not your turn</b> — sunken plate #191B1C, 1px border, textDisabled label, no ✓ line unless that trait is genuinely revealed. No border accent anywhere, so the panel is visibly not addressed to you.</div>
+        <div style="height:1px;background:#34383B"></div>
+        <div><b style="color:#E8E4DC">Timeout</b> — at 00 the client locks the grid, auto-reveals a random hidden trait, and the headline becomes "Time up — Baggage revealed" in danger for 1200ms before the turn passes.</div>
+      </div>
+    </div>
+    </sc-if>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:40px">
+    <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:52px;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid #34383B;padding-bottom:16px">05 · Z-order story</div>
+
+    <div style="display:flex;gap:64px;align-items:flex-start;flex-wrap:wrap">
+      <div style="position:relative;width:900px;height:760px">
+        <div style="position:absolute;left:0;top:0;width:560px;height:300px;background:#17191A;border:1px solid #34383B;border-top:4px solid #FFB02E;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:10px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#FFB02E">SORT 0 · BASE</div>
+          <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:34px;text-transform:uppercase;letter-spacing:.04em">Current-turn card</div>
+          <div style="font-size:24px;color:#9A9892;line-height:1.45">Always present. Amber top edge. No scrim, no back bar — there is nothing behind it.</div>
+        </div>
+        <div style="position:absolute;left:110px;top:150px;width:560px;height:300px;background:#17191A;border:2px dashed #6E7276;border-radius:8px;box-shadow:0 12px 0 rgba(0,0,0,.9),-24px 0 0 rgba(0,0,0,.55);padding:24px;display:flex;flex-direction:column;gap:10px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#9A9892">SORT 10 · OVERLAY + SCRIM 72%</div>
+          <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:34px;text-transform:uppercase;letter-spacing:.04em">Browsed player card</div>
+          <div style="font-size:24px;color:#9A9892;line-height:1.45">Dashed frame + ‹ BACK bar naming what is underneath: "Back to Marta's turn".</div>
+        </div>
+        <div style="position:absolute;left:220px;top:300px;width:560px;height:300px;background:#17191A;border:1px solid #34383B;border-top:2px solid #FFB02E;border-radius:8px;box-shadow:0 12px 0 rgba(0,0,0,.9),-24px 0 0 rgba(0,0,0,.55);padding:24px;display:flex;flex-direction:column;gap:10px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#9A9892">SORT 20 · OVERLAY + SCRIM 72%</div>
+          <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:34px;text-transform:uppercase;letter-spacing:.04em">Expanded player list</div>
+          <div style="font-size:24px;color:#9A9892;line-height:1.45">Anchored to its own collapsed bar, so its origin is unambiguous. Opens above a browsed card and closes back to it.</div>
+        </div>
+        <div style="position:absolute;left:330px;top:450px;width:560px;height:300px;background:#1E2021;border:3px solid #FFB02E;border-radius:8px;box-shadow:0 12px 0 rgba(0,0,0,.9),-24px 0 0 rgba(0,0,0,.55);padding:24px;display:flex;flex-direction:column;gap:10px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#FFB02E">SORT 30 · MODAL + SCRIM 88%</div>
+          <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:34px;text-transform:uppercase;letter-spacing:.04em">Special card modal</div>
+          <div style="font-size:24px;color:#9A9892;line-height:1.45">Only blocking layer. Heavier scrim, 3px accent frame, explicit Cancel / Confirm — no tap-outside.</div>
+        </div>
+      </div>
+
+      <div style="width:640px;display:flex;flex-direction:column;gap:24px;font-size:26px;line-height:1.5;color:#C8C4BC">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.16em;color:#FFB02E;text-transform:uppercase">Rules</div>
+        <div><b style="color:#E8E4DC">One scrim per level.</b> Each overlay owns its own scrim, so two stacked overlays read as two steps of darkness. The base card is never legible enough to be mistaken for interactive.</div>
+        <div><b style="color:#E8E4DC">Frame vocabulary = depth.</b> Solid accent top edge = base. Dashed grey = dismissible overlay. Solid 3px accent = blocking modal. You can name your layer without reading a word.</div>
+        <div><b style="color:#E8E4DC">Every layer says where back goes.</b> Overlays carry a ‹ bar naming the layer beneath; the modal carries a labelled Cancel. Android back and tap-outside pop exactly one level.</div>
+        <div><b style="color:#E8E4DC">The reveal panel never moves.</b> It stays at sort 0 under every scrim: your timer keeps running while you browse, and you can see it running.</div>
+        <div><b style="color:#E8E4DC">Max depth 2 overlays + 1 modal.</b> Opening a player card from the list closes the list rather than stacking a third panel.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:40px">
+    <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:52px;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid #34383B;padding-bottom:16px">06 · Sprite &amp; asset list</div>
+
+    <div style="display:grid;grid-template-columns:420px 220px 300px 700px;gap:2px;background:#22262A;border:1px solid #34383B;font-size:24px;width:max-content">
+      <div style="background:#212426;padding:16px 20px;font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#FFB02E">ASSET</div>
+      <div style="background:#212426;padding:16px 20px;font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#FFB02E">TYPE</div>
+      <div style="background:#212426;padding:16px 20px;font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#FFB02E">SIZE / BORDER</div>
+      <div style="background:#212426;padding:16px 20px;font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#FFB02E">USED BY / NOTES</div>
+
+      <div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace">panel_r8.png</div><div style="background:#17191A;padding:16px 20px">9-slice</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">48×48 · 12,12,12,12</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Bar, card, reveal panel. White 1px inner edge + flat fill, tinted per token</div>
+      <div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace">panel_r4.png</div><div style="background:#17191A;padding:16px 20px">9-slice</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">32×32 · 8,8,8,8</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Trait slots, category buttons, rows</div>
+      <div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace">panel_r4_2px.png</div><div style="background:#17191A;padding:16px 20px">9-slice</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">32×32 · 8,8,8,8</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Enabled button, just-revealed slot. 2px edge, tint accent</div>
+      <div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace">panel_r8_dashed.png</div><div style="background:#17191A;padding:16px 20px">9-slice</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">64×64 · 16,16,16,16</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Browsed-card frame. Dash period 16px, must divide the slice evenly</div>
+      <div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace">hatch_45.png</div><div style="background:#17191A;padding:16px 20px">tiled sprite</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">32×32 wrap</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Censor bar, eliminated plates. Tile mode, not stretch — never in a 9-slice centre</div>
+      <div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace">hazard_stripe.png</div><div style="background:#17191A;padding:16px 20px">tiled sprite</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">64×14 wrap-x</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Divider above the special slot, round banners</div>
+      <div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace">timer_ring.png</div><div style="background:#17191A;padding:16px 20px">radial fill</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">176×176</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Image type Filled / Radial 360, origin Top, clockwise. Track is a second copy at 12% alpha</div>
+      <div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace">pip_square.png</div><div style="background:#17191A;padding:16px 20px">sprite + tint</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">30×30</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Alive / eliminated / you. 2px stroke baked, fill transparent</div>
+      <div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace">pip_diamond.png</div><div style="background:#17191A;padding:16px 20px">sprite + tint</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">44×44</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Current turn. Solid; halo is a second 60×60 copy at 20%</div>
+      <div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace">icon_x / icon_check / icon_chevron / icon_caret / icon_bang</div><div style="background:#17191A;padding:16px 20px">icon atlas</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">48×48 cells</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Single white atlas, tinted at use. Chevron rotates 180° for the expand state</div>
+      <div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace">stamp_expelled / stamp_used</div><div style="background:#17191A;padding:16px 20px">9-slice</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">64×48 · 20,10,20,10</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Border box only — the word is TMP text inside, rotated −4° with the box, so it localises</div>
+      <div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace">scrim.png</div><div style="background:#17191A;padding:16px 20px">solid + tint</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">4×4</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Full-screen Button with transparent target, alpha 72% / 88%</div>
+      <div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace">vignette.png / grain.png</div><div style="background:#17191A;padding:16px 20px">sprite / tiled</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">512×910 · 64×64</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Back of the canvas, raycast off, 8% / 5%</div>
+      <div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace">glow_bottom.png</div><div style="background:#17191A;padding:16px 20px">sprite + tint</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">512×256</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Critical-timer glow behind the reveal panel, alpha animated 0→18%</div>
+    </div>
+
+    <div style="font-size:26px;line-height:1.5;color:#C8C4BC;max-width:1500px">Fifteen sprites cover every screen. No per-screen bitmaps, no baked text: every stamp, badge and label is TMP text inside a 9-slice box. Fonts: Saira Condensed and JetBrains Mono ship as static TMP assets with Cyrillic + Latin subsets; Barlow uses a dynamic atlas for trait values.</div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:40px">
+    <div style="font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:52px;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid #34383B;padding-bottom:16px">07 · Motion</div>
+
+    <div style="display:grid;grid-template-columns:420px 200px 420px 620px;gap:2px;background:#22262A;border:1px solid #34383B;font-size:24px;width:max-content">
+      <div style="background:#212426;padding:16px 20px;font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#FFB02E">TRANSITION</div>
+      <div style="background:#212426;padding:16px 20px;font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#FFB02E">DURATION</div>
+      <div style="background:#212426;padding:16px 20px;font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#FFB02E">EASING</div>
+      <div style="background:#212426;padding:16px 20px;font-family:'JetBrains Mono',monospace;font-size:22px;letter-spacing:.14em;color:#FFB02E">DETAIL</div>
+
+      <div style="background:#17191A;padding:16px 20px">Dropdown open</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">220ms</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">cubic-bezier(.16,1,.3,1)</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Panel scale-y 0→1 from the bar's bottom edge; scrim alpha 0→72% over 160ms; rows fade in staggered 20ms, max 6 stagger steps</div>
+      <div style="background:#17191A;padding:16px 20px">Dropdown close</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">160ms</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">cubic-bezier(.4,0,1,1)</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">No stagger. Chevron rotates back over the same 160ms</div>
+      <div style="background:#17191A;padding:16px 20px">Chevron rotate</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">220ms</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">ease-out</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">0→180°, synced to the panel unfold</div>
+      <div style="background:#17191A;padding:16px 20px">Card overlay push</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">260ms</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">cubic-bezier(.16,1,.3,1)</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Overlay y +48→0, alpha 0→1; base card scale 1→0.97 and alpha to 60% under the scrim, so depth is felt, not just seen</div>
+      <div style="background:#17191A;padding:16px 20px">Card overlay dismiss</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">180ms</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">ease-in</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Reverse; base card returns to scale 1 on the same curve</div>
+      <div style="background:#17191A;padding:16px 20px">Trait reveal</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">120 + 180ms</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">ease-in, then ease-out</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Censor bar scale-x 1→0 from centre (120ms), value fades up with y −8→0 (180ms). No 3D flip: slots are rows, not cards</div>
+      <div style="background:#17191A;padding:16px 20px">Just-revealed decay</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">2500ms hold + 400ms</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">linear</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Amber plate and border cross-fade to the plain revealed slot; the "REVEALED THIS TURN" line fades with it</div>
+      <div style="background:#17191A;padding:16px 20px">Timer tick</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">1000ms per unit</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">linear</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Ring fill is continuous, numerals step. Never interpolate the numerals</div>
+      <div style="background:#17191A;padding:16px 20px">Timer escalation 11→10, 6→5</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">300ms</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">ease-out</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Colour cross-fade accent→warning→danger plus one 1.06 scale pulse on the ring; glow alpha 0→18% at 5s</div>
+      <div style="background:#17191A;padding:16px 20px">Critical blink (≤5s)</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">1000ms loop</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">steps(2)</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Ring and numerals 100%→35% alpha. Hard step, not a sine — it should read as a relay, not a breath</div>
+      <div style="background:#17191A;padding:16px 20px">Turn hand-off</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">400ms</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">ease-in-out</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Panel cross-fades between your-turn and waiting; the amber pip travels to the next player's position on the same curve</div>
+      <div style="background:#17191A;padding:16px 20px">Start discussion appear</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">240ms</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">ease-out</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Alpha 0→1 and scale .96→1 inside the reserved cell. Layout never moves</div>
+      <div style="background:#17191A;padding:16px 20px">Button press</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">80ms down / 120ms up</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">ease-out</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Scale .98, fill to solid accent, shadow to 0. Locked and inert buttons have no press animation at all</div>
+      <div style="background:#17191A;padding:16px 20px">Elimination stamp</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">180ms</div><div style="background:#17191A;padding:16px 20px;font-family:'JetBrains Mono',monospace;color:#9A9892">cubic-bezier(.3,1.6,.6,1)</div><div style="background:#17191A;padding:16px 20px;color:#C8C4BC">Scale 1.4→1 with a −4° settle, one 60ms screen shake of 6px. Fires once, on the vote result</div>
+    </div>
+
+    <div style="font-size:26px;line-height:1.5;color:#C8C4BC;max-width:1500px">Nothing exceeds 400ms except the deliberate 2.5s reveal hold. Respect the OS reduce-motion flag: keep every colour cross-fade and the ring fill, drop the stagger, scale pulses, blink and shake.</div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showAnnotations&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Spec sheet&quot;},&quot;showGrain&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Spec sheet&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      showAnnotations: this.props.showAnnotations ?? true,
+      showGrain: this.props.showGrain ?? true
+    };
+  }
+}
+</script>
+</body>
+</html>

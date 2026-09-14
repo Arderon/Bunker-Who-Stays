@@ -367,6 +367,150 @@ MonoBehaviour:
     m_Key: ui_settings_back
     m_Metadata:
       m_Items: []
+  - m_Id: 41034985491
+    m_Key: ui_v2_alive_label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985492
+    m_Key: ui_v2_syncing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985493
+    m_Key: ui_v2_revealing_now
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985494
+    m_Key: ui_v2_revealed_count
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985495
+    m_Key: ui_v2_next_up
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985496
+    m_Key: ui_v2_you
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985497
+    m_Key: ui_v2_file_closed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985498
+    m_Key: ui_v2_expelled
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985499
+    m_Key: ui_v2_tap_outside_close
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985500
+    m_Key: ui_v2_waiting_survivors
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985501
+    m_Key: ui_v2_badge_your_file
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985502
+    m_Key: ui_v2_badge_current_turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985503
+    m_Key: ui_v2_badge_browsing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985504
+    m_Key: ui_v2_id_alive
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985505
+    m_Key: ui_v2_id_expelled
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985506
+    m_Key: ui_v2_classified
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985507
+    m_Key: ui_v2_revealed_this_turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985508
+    m_Key: ui_v2_file_declassified
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985509
+    m_Key: ui_v2_back_to
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985510
+    m_Key: ui_v2_file_index
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985511
+    m_Key: ui_v2_special_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985512
+    m_Key: ui_v2_special_desc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985513
+    m_Key: ui_v2_special_use
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985514
+    m_Key: ui_v2_special_used_stamp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985515
+    m_Key: ui_v2_special_spent
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985516
+    m_Key: ui_v2_your_turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985517
+    m_Key: ui_v2_your_turn_hint
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985518
+    m_Key: ui_v2_choose_now
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985519
+    m_Key: ui_v2_choose_now_hint
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985520
+    m_Key: ui_v2_waiting_for
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985521
+    m_Key: ui_v2_waiting_hint
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985522
+    m_Key: ui_v2_pass_complete
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985523
+    m_Key: ui_v2_pass_complete_hint
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985524
+    m_Key: ui_v2_done
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985525
+    m_Key: ui_v2_start_discussion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985526
+    m_Key: ui_v2_time_up
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

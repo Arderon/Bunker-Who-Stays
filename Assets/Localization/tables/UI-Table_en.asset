@@ -370,6 +370,150 @@ MonoBehaviour:
     m_Localized: Back
     m_Metadata:
       m_Items: []
+  - m_Id: 41034985491
+    m_Localized: "ALIVE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985492
+    m_Localized: "SYNCING\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985493
+    m_Localized: "REVEALING NOW \u00B7 {0}/{1}"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985494
+    m_Localized: "REVEALED {0}/{1}"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985495
+    m_Localized: "REVEALED {0}/{1} \u00B7 NEXT UP"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985496
+    m_Localized: "YOU"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985497
+    m_Localized: "FILE CLOSED \u00B7 ROUND {0}"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985498
+    m_Localized: "EXPELLED"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985499
+    m_Localized: "TAP ANYWHERE OUTSIDE TO CLOSE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985500
+    m_Localized: "WAITING FOR SURVIVORS\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985501
+    m_Localized: "YOUR FILE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985502
+    m_Localized: "CURRENT TURN"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985503
+    m_Localized: "BROWSING"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985504
+    m_Localized: "ID {0} \u00B7 ALIVE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985505
+    m_Localized: "ID {0} \u00B7 EXPELLED ROUND {1}"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985506
+    m_Localized: "CLASSIFIED"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985507
+    m_Localized: "REVEALED THIS TURN"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985508
+    m_Localized: "FILE DECLASSIFIED {0}/{1}"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985509
+    m_Localized: "BACK TO {0}"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985510
+    m_Localized: "FILE {0}/{1}"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985511
+    m_Localized: "SPECIAL CARD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985512
+    m_Localized: "One use per game"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985513
+    m_Localized: "USE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985514
+    m_Localized: "USED"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985515
+    m_Localized: "Already spent this game"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985516
+    m_Localized: "YOUR TURN"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985517
+    m_Localized: "Reveal one trait before the timer expires."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985518
+    m_Localized: "CHOOSE NOW"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985519
+    m_Localized: "At zero a random hidden trait is revealed for you."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985520
+    m_Localized: "WAITING FOR {0}"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985521
+    m_Localized: "They are choosing which trait to reveal."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985522
+    m_Localized: "PASS COMPLETE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985523
+    m_Localized: "All survivors revealed a trait this round."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985524
+    m_Localized: "DONE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985525
+    m_Localized: "START DISCUSSION"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41034985526
+    m_Localized: "TIME UP"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
