@@ -47,7 +47,7 @@ namespace Bunker.UI.GameV2
         [SerializeField] private TMP_Text _panelAliveLabel;
         [SerializeField] private Button _panelCloseButton;
         [SerializeField] private RectTransform _rowsContent;
-        [SerializeField] private PlayerRowV2 _rowPrefab;
+        [SerializeField] private PlayerListItem _rowPrefab;
         [SerializeField] private TMP_Text _footerLabel;
 
         [Header("Geometry")]
@@ -55,7 +55,7 @@ namespace Bunker.UI.GameV2
         [SerializeField] private float _panelTopInset = BunkerTheme.BarTop;
 
         private readonly List<PlayerPip> _pips = new();
-        private readonly List<PlayerRowV2> _rows = new();
+        private readonly List<PlayerListItem> _rows = new();
 
         private IGameSessionView _session;
         private string _localPlayerId;
@@ -202,15 +202,38 @@ namespace Bunker.UI.GameV2
                     if (player.IsCategoryRevealed(category)) revealed++;
                 }
 
-                _rows[i].Bind(
-                    player,
-                    isCurrentTurn: player.PlayerId == _session.CurrentTurnPlayerId,
-                    isLocal: player.PlayerId == _localPlayerId,
-                    isNextUp: player.PlayerId == nextUpId,
-                    revealed: revealed,
-                    total: TraitCardViewV2.Order.Length,
-                    eliminatedRound: _eliminatedRound?.Invoke(player.PlayerId) ?? 0,
-                    host: this);
+                bool isCurrentTurn = player.PlayerId == _session.CurrentTurnPlayerId;
+                bool isNextUp = player.PlayerId == nextUpId;
+                bool isLocal = player.PlayerId == _localPlayerId;
+
+                // One state per row, so these are priority-ordered: who is
+                // eliminated or currently revealing matters more than "this is
+                // you" — You only shows once nothing more urgent applies.
+                if (player.IsEliminated)
+                {
+                    int round = _eliminatedRound?.Invoke(player.PlayerId) ?? 0;
+                    _rows[i].Bind(player.PlayerId, player.DisplayName, PlayerState.Expelled, round);
+                }
+                else if (isCurrentTurn)
+                {
+                    _rows[i].Bind(player.PlayerId, player.DisplayName, PlayerState.Revealing,
+                        revealed, TraitCardViewV2.Order.Length);
+                }
+                else if (isNextUp)
+                {
+                    _rows[i].Bind(player.PlayerId, player.DisplayName, PlayerState.NextUp,
+                        revealed, TraitCardViewV2.Order.Length);
+                }
+                else if (isLocal)
+                {
+                    _rows[i].Bind(player.PlayerId, player.DisplayName, PlayerState.You,
+                        revealed, TraitCardViewV2.Order.Length);
+                }
+                else
+                {
+                    _rows[i].Bind(player.PlayerId, player.DisplayName, PlayerState.Revealed,
+                        revealed, TraitCardViewV2.Order.Length);
+                }
             }
         }
 
@@ -250,11 +273,15 @@ namespace Bunker.UI.GameV2
             if (_open || _session == null) return;
             _open = true;
 
-            RefreshRows(_session.Players);
-            AlignPanelToBar();
-
+            // Activate before binding: localization resolves through a
+            // coroutine that no-ops on an inactive GameObject, so binding rows
+            // while the overlay (their parent) is still hidden would leave
+            // status/badge text silently blank on the first open of a session.
             _overlayRoot.SetActive(true);
             _overlayRoot.transform.SetAsLastSibling();
+
+            RefreshRows(_session.Players);
+            AlignPanelToBar();
 
             if (_animation != null) StopCoroutine(_animation);
             _animation = StartCoroutine(Animate(true));
