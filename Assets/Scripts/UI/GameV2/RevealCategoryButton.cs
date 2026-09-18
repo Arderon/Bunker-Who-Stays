@@ -15,9 +15,34 @@ namespace Bunker.UI.GameV2
     // cell without truncation.
     public class RevealCategoryButton : MonoBehaviour
     {
+        // Public surface RevealPhasePanelV2 drives — unchanged, so callers never
+        // see the visual split below.
         public enum State { Enabled, Locked, Inert }
 
-        [Tooltip("Which category this cell reveals. Set per instance in the grid.")]
+        // Locked has two real appearances depending on whether the panel is
+        // currently addressed to you: bright when it's your own turn and this
+        // trait is already revealed, dim everywhere else (someone else's turn,
+        // or the reveal pass is over). That is a second axis the public State
+        // enum deliberately doesn't expose — this key is where it gets resolved
+        // into one of four resting looks before the Inspector table is consulted.
+        // Public only so Visual (a nested public struct) can implement
+        // IStateVisual<VisualKey> without an accessibility mismatch.
+        public enum VisualKey { Enabled, Locked, LockedDimmed, Inert }
+
+        // Resting appearance for one key, configured in the Inspector.
+        [Serializable]
+        public struct Visual : IStateVisual<VisualKey>
+        {
+            public VisualKey key;
+            public VisualKey State => key;
+
+            public PlateVisual plate;
+            public LabelVisual label;
+            public bool showDoneLine;
+            public LabelVisual doneLine;
+        }
+
+        [Tooltip("Which trait this cell reveals. Set per instance in the grid.")]
         public CardCategory Category;
 
         [SerializeField] private Plate _plate;
@@ -26,6 +51,9 @@ namespace Bunker.UI.GameV2
         [SerializeField] private TMP_Text _doneLabel;
         [SerializeField] private Button _button;
         [SerializeField] private PressTint _pressTint;
+
+        [Header("Стани (заповнити в інспекторі): Enabled, Locked, LockedDimmed, Inert")]
+        [SerializeField] private Visual[] _visuals;
 
         private Action<CardCategory> _onClick;
 
@@ -41,33 +69,23 @@ namespace Bunker.UI.GameV2
         public void Apply(State state, bool dimmed)
         {
             if (_button != null) _button.interactable = state == State.Enabled;
-            _doneLine.SetActive(state == State.Locked);
 
-            switch (state)
+            var key = state switch
             {
-                case State.Enabled:
-                    _plate.Set(BunkerTheme.AccentPlate, BunkerTheme.Accent);
-                    _plate.SetBorderWidth(2f);
-                    _label.color = BunkerTheme.Accent;
-                    _label.fontStyle = FontStyles.Bold | FontStyles.UpperCase;
-                    break;
+                State.Enabled => VisualKey.Enabled,
+                State.Locked => dimmed ? VisualKey.LockedDimmed : VisualKey.Locked,
+                _ => VisualKey.Inert
+            };
 
-                case State.Locked:
-                    _plate.Set(dimmed ? BunkerTheme.InertPlate : BunkerTheme.SurfaceRaised,
-                        dimmed ? BunkerTheme.SunkenBorder : BunkerTheme.StrokeDim);
-                    _plate.SetBorderWidth(1f);
-                    _label.color = dimmed ? BunkerTheme.StrokeDim : BunkerTheme.TextDisabled;
-                    _label.fontStyle = FontStyles.Bold | FontStyles.UpperCase | FontStyles.Strikethrough;
-                    _doneLabel.color = dimmed ? BunkerTheme.SuccessDim : BunkerTheme.Success;
-                    LocText.Set(this, _doneLabel, LocKeys.Done);
-                    break;
+            var visual = StateVisual.Find(_visuals, key, this);
+            visual.plate.ApplyTo(_plate);
+            visual.label.ApplyTo(_label);
 
-                default:
-                    _plate.Set(BunkerTheme.InertPlate, BunkerTheme.SunkenBorder);
-                    _plate.SetBorderWidth(1f);
-                    _label.color = BunkerTheme.TextDisabled;
-                    _label.fontStyle = FontStyles.Bold | FontStyles.UpperCase;
-                    break;
+            _doneLine.SetActive(visual.showDoneLine);
+            if (visual.showDoneLine)
+            {
+                visual.doneLine.ApplyTo(_doneLabel);
+                LocText.Set(this, _doneLabel, LocKeys.Done);
             }
 
             if (_pressTint != null) _pressTint.CaptureRest();

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Bunker.Core;
 using TMPro;
@@ -13,7 +14,25 @@ namespace Bunker.UI.GameV2
     // three-line Profession share the same grid without either being truncated.
     public class TraitSlotV2 : MonoBehaviour
     {
-        public enum SlotState { Hidden, Revealed, JustRevealed, Declassified }
+        public enum SlotState { Hidden, Revealed, JustRevealed, Declassified, Loading }
+
+        // Resting appearance for one state, configured in the Inspector —
+        // nothing here is a BunkerTheme constant baked into code, so restyling
+        // a slot never requires touching this script.
+        [Serializable]
+        public struct Visual : IStateVisual<SlotState>
+        {
+            public SlotState state;
+            public SlotState State => state;
+
+            public PlateVisual plate;
+            public LabelVisual categoryLabel;
+            public LabelVisual valueLabel;
+            [Tooltip("Hidden state only: a filled hatched bar, not an outline — withheld must not read as empty.")]
+            public bool showCensorBar;
+            public bool showCheckIcon;
+            public bool showJustRevealedLine;
+        }
 
         private const float JustRevealedHold = 2.5f;
         private const float JustRevealedFade = 0.4f;
@@ -33,6 +52,9 @@ namespace Bunker.UI.GameV2
         [SerializeField] private RectTransform _censorBar;
         [SerializeField] private TMP_Text _classifiedLabel;
         [SerializeField] private GameObject _checkIcon;
+
+        [Header("Стани (заповнити в інспекторі)")]
+        [SerializeField] private Visual[] _visuals;
 
         private SlotState _state = SlotState.Hidden;
         private Coroutine _decay;
@@ -67,15 +89,12 @@ namespace Bunker.UI.GameV2
                 _decay = null;
             }
 
-            bool hidden = state == SlotState.Hidden;
-            _censorBar.gameObject.SetActive(hidden);
-            _valueLabel.gameObject.SetActive(!hidden);
-            _justRevealedLabel.gameObject.SetActive(state == SlotState.JustRevealed);
-            _checkIcon.SetActive(state == SlotState.Revealed);
+            var visual = StateVisual.Find(_visuals, state, this);
+            ApplyVisual(visual);
 
+            bool hidden = state == SlotState.Hidden;
             if (hidden)
             {
-                PaintHidden();
                 _censorBar.localScale = Vector3.one;
                 return;
             }
@@ -83,75 +102,48 @@ namespace Bunker.UI.GameV2
             if (trait != null) LocText.SetContent(this, _valueLabel, trait.LocalizationKey);
             else _valueLabel.text = string.Empty;
 
-            switch (state)
+            if (state == SlotState.JustRevealed)
             {
-                case SlotState.JustRevealed:
-                    PaintJustRevealed();
-                    LocText.Set(this, _justRevealedLabel, LocKeys.RevealedThisTurn);
-                    if (isActiveAndEnabled) _decay = StartCoroutine(DecayToRevealed(animateReveal && wasHidden));
-                    else PaintRevealed();
-                    break;
-
-                case SlotState.Declassified:
-                    PaintDeclassified();
-                    break;
-
-                default:
-                    PaintRevealed();
-                    break;
+                LocText.Set(this, _justRevealedLabel, LocKeys.RevealedThisTurn);
+                if (isActiveAndEnabled) _decay = StartCoroutine(DecayToRevealed(animateReveal && wasHidden));
+                else ApplyVisual(StateVisual.Find(_visuals, SlotState.Revealed, this));
             }
         }
 
         /// Loading: plates present, value blank, no censor bar — a skeleton must
-        /// never be mistaken for a classified field.
+        /// never be mistaken for a classified field. Configure the Loading
+        /// entry's visual with showCensorBar/showCheckIcon/showJustRevealedLine
+        /// all off.
         public void ApplySkeleton()
         {
-            _state = SlotState.Hidden;
-            _censorBar.gameObject.SetActive(false);
-            _justRevealedLabel.gameObject.SetActive(false);
-            _checkIcon.SetActive(false);
-            _valueLabel.gameObject.SetActive(true);
+            _state = SlotState.Loading;
+            if (_decay != null)
+            {
+                StopCoroutine(_decay);
+                _decay = null;
+            }
+
+            ApplyVisual(StateVisual.Find(_visuals, SlotState.Loading, this));
             _valueLabel.text = string.Empty;
-            _plate.Set(BunkerTheme.HeaderPlate, BunkerTheme.SunkenBorder);
-            _categoryLabel.color = BunkerTheme.Skeleton;
         }
 
-        // --- Painting ---------------------------------------------------------
-
-        private void PaintHidden()
+        private void ApplyVisual(Visual visual)
         {
-            _plate.Set(BunkerTheme.Sunken, BunkerTheme.SunkenBorder);
-            _plate.SetBorderWidth(1f);
-            _categoryLabel.color = BunkerTheme.Stroke;
-        }
+            visual.plate.ApplyTo(_plate);
+            visual.categoryLabel.ApplyTo(_categoryLabel);
+            visual.valueLabel.ApplyTo(_valueLabel);
 
-        private void PaintRevealed()
-        {
-            _plate.Set(BunkerTheme.SurfaceRaised, BunkerTheme.Border);
-            _plate.SetBorderWidth(1f);
-            _categoryLabel.color = BunkerTheme.TextSecondary;
-            _valueLabel.color = BunkerTheme.TextPrimary;
-        }
-
-        private void PaintJustRevealed()
-        {
-            _plate.Set(BunkerTheme.AccentPlate, BunkerTheme.Accent);
-            _plate.SetBorderWidth(2f);
-            _categoryLabel.color = BunkerTheme.Accent;
-            _valueLabel.color = BunkerTheme.AccentValue;
-        }
-
-        private void PaintDeclassified()
-        {
-            _plate.Set(BunkerTheme.Sunken, BunkerTheme.SunkenBorder);
-            _plate.SetBorderWidth(1f);
-            _categoryLabel.color = BunkerTheme.Stroke;
-            _valueLabel.color = BunkerTheme.TextSecondary;
+            _censorBar.gameObject.SetActive(visual.showCensorBar);
+            _valueLabel.gameObject.SetActive(!visual.showCensorBar);
+            _justRevealedLabel.gameObject.SetActive(visual.showJustRevealedLine);
+            _checkIcon.SetActive(visual.showCheckIcon);
         }
 
         // The censor bar wipes out from the centre, the value rises into place,
         // then the amber emphasis decays back to a plain revealed slot. No 3D
-        // flip: these are rows, not cards.
+        // flip: these are rows, not cards. The end colours come from the
+        // configured Revealed visual, not a hardcoded constant, so a restyle in
+        // the Inspector is reflected here automatically.
         private IEnumerator DecayToRevealed(bool animateWipe)
         {
             if (animateWipe)
@@ -185,28 +177,26 @@ namespace Bunker.UI.GameV2
 
             yield return new WaitForSeconds(JustRevealedHold);
 
-            float f = 0f;
-            Color fromFill = _plate.Fill.color, fromBorder = _plate.Border.color;
-            Color fromLabel = _categoryLabel.color, fromValue = _valueLabel.color;
+            var from = StateVisual.Find(_visuals, SlotState.JustRevealed, this);
+            var to = StateVisual.Find(_visuals, SlotState.Revealed, this);
 
+            float f = 0f;
             while (f < JustRevealedFade)
             {
                 f += Time.deltaTime;
                 float k = Mathf.Clamp01(f / JustRevealedFade);
                 _plate.Set(
-                    Color.Lerp(fromFill, BunkerTheme.SurfaceRaised, k),
-                    Color.Lerp(fromBorder, BunkerTheme.Border, k));
-                _categoryLabel.color = Color.Lerp(fromLabel, BunkerTheme.TextSecondary, k);
-                _valueLabel.color = Color.Lerp(fromValue, BunkerTheme.TextPrimary, k);
+                    Color.Lerp(from.plate.fill, to.plate.fill, k),
+                    Color.Lerp(from.plate.border, to.plate.border, k));
+                _plate.SetBorderWidth(Mathf.Lerp(from.plate.borderWidth, to.plate.borderWidth, k));
+                _categoryLabel.color = Color.Lerp(from.categoryLabel.color, to.categoryLabel.color, k);
+                _valueLabel.color = Color.Lerp(from.valueLabel.color, to.valueLabel.color, k);
                 _justRevealedLabel.alpha = 1f - k;
                 yield return null;
             }
 
-            _justRevealedLabel.gameObject.SetActive(false);
-            _justRevealedLabel.alpha = 1f;
             _state = SlotState.Revealed;
-            _checkIcon.SetActive(true);
-            PaintRevealed();
+            ApplyVisual(to);
             _decay = null;
         }
     }

@@ -27,9 +27,10 @@ namespace Bunker.UI.GameV2
     /// а не самі рядки — переклад uk/en підтягується автоматично.
     /// </summary>
     [Serializable]
-    public struct PlayerStateVisual
+    public struct PlayerStateVisual : IStateVisual<PlayerState>
     {
         public PlayerState state;
+        public PlayerState State => state;
 
         [Header("Рамка / фон")]
         public bool showBorder;
@@ -95,7 +96,7 @@ namespace Bunker.UI.GameV2
             // Localization is a coroutine and no-ops while this row is inactive
             // (see LocText.Set) — re-run it once the row, or its parent overlay,
             // comes back on screen, matching the pattern the rest of GameV2 uses.
-            if (_bound) ApplyVisual(FindVisual(_currentState));
+            if (_bound) ApplyVisual(StateVisual.Find(stateVisuals, _currentState, this));
         }
 
         /// <summary>Хто отримує id гравця при тапі по рядку.</summary>
@@ -115,7 +116,7 @@ namespace Bunker.UI.GameV2
         {
             _currentState = state;
             _statusArgs = statusArgs ?? Array.Empty<object>();
-            ApplyVisual(FindVisual(state));
+            ApplyVisual(StateVisual.Find(stateVisuals, state, this));
         }
 
         private void ApplyVisual(PlayerStateVisual visual)
@@ -140,18 +141,6 @@ namespace Bunker.UI.GameV2
             nameText.fontStyle = visual.strikethroughName
                 ? FontStyles.Strikethrough
                 : FontStyles.Normal;
-        }
-
-        private PlayerStateVisual FindVisual(PlayerState state)
-        {
-            foreach (var v in stateVisuals)
-            {
-                if (v.state == state)
-                    return v;
-            }
-
-            Debug.LogWarning($"Не знайдено PlayerStateVisual для стану {state} на {name}");
-            return default;
         }
     }
 }

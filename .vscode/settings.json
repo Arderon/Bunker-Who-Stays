@@ -1,3 +1,4 @@
 {
-    "js/ts.experimental.useTsgo": false
+    "js/ts.experimental.useTsgo": false,
+    "dotnet.defaultSolution": "Bunker-Who-Stays.slnx"
 }
