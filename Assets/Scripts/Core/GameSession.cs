@@ -63,6 +63,12 @@ namespace Bunker.Core
 
         public string CurrentTurnPlayerId => _turnOrder.CurrentPlayerId;
 
+        // Hot-seat: one device, players take it in turns, so "local" and
+        // "whoever is up" are the same person by definition.
+        public string LocalPlayerId => _turnOrder.CurrentPlayerId;
+
+        public event Action<string> OnTurnChanged;
+
         // Required by IGameSessionView, but never raised here: local play
         // reports every rejection synchronously through the bool /
         // SpecialCardEffectResult return values. Only the networked
@@ -154,6 +160,7 @@ namespace Bunker.Core
 
             SetPhase(GamePhase.Reveal);
             OnRoundStarted?.Invoke(CurrentRound);
+            OnTurnChanged?.Invoke(_turnOrder.CurrentPlayerId);
         }
 
         // --- Reveal phase ----------------------------------------------------
@@ -205,6 +212,7 @@ namespace Bunker.Core
         private void AdvanceToNextTurn()
         {
             bool passContinues = _turnOrder.AdvanceTurn();
+            OnTurnChanged?.Invoke(_turnOrder.CurrentPlayerId);
 
             if (!passContinues)
             {

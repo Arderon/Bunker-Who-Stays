@@ -22,8 +22,23 @@ namespace Bunker.Core
         List<PlayerData> Players { get; }
         string CurrentTurnPlayerId { get; }
 
+        // Who is sitting in front of this screen. The UI cannot derive it —
+        // Players is in server insertion order, so the first entry is the host,
+        // not necessarily the viewer. Anything that decides "is this mine"
+        // (own trait card, reveal buttons, the "your turn" call) must read this.
+        // For hot-seat play the local player is whoever's turn it is.
+        string LocalPlayerId { get; }
+
         event Action<GamePhase> OnPhaseChanged;
         event Action<int> OnRoundStarted;
+
+        // Fires whenever the turn moves to a different player, including moves
+        // the client did not cause (another player's reveal, a server-side
+        // timeout, a player leaving). Subscribers must not infer turn changes
+        // from OnTraitRevealed: the state patch carrying the new turn and the
+        // message carrying the revealed trait arrive in the same packet with no
+        // guaranteed order between them.
+        event Action<string> OnTurnChanged;
         event Action<PlayerData, CharacterTrait> OnTraitRevealed;
         event Action OnRevealPassCompleted;
         event Action<PlayerData, SpecialCard> OnSpecialCardUsed;

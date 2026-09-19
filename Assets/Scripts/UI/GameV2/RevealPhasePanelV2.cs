@@ -90,6 +90,7 @@ namespace Bunker.UI.GameV2
             session.OnRoundStarted += OnRoundStarted;
             session.OnTraitRevealed += OnTraitRevealed;
             session.OnRevealPassCompleted += OnRevealPassCompleted;
+            session.OnTurnChanged += OnTurnChanged;
         }
 
         private void Unsubscribe()
@@ -97,6 +98,7 @@ namespace Bunker.UI.GameV2
             _session.OnRoundStarted -= OnRoundStarted;
             _session.OnTraitRevealed -= OnTraitRevealed;
             _session.OnRevealPassCompleted -= OnRevealPassCompleted;
+            _session.OnTurnChanged -= OnTurnChanged;
         }
 
         private void OnDestroy()
@@ -122,6 +124,16 @@ namespace Bunker.UI.GameV2
         }
 
         private void OnTraitRevealed(PlayerData player, CharacterTrait trait) => Refresh();
+
+        // The authoritative signal that the clock should restart. Relying on
+        // OnTraitRevealed alone would miss a turn that moved without a reveal
+        // (server-side timeout, a player leaving), and would race the state
+        // patch that carries the new turn id.
+        private void OnTurnChanged(string turnPlayerId)
+        {
+            _lockedByTimeout = false;
+            Refresh();
+        }
 
         private void OnRevealPassCompleted()
         {

@@ -31,9 +31,11 @@ namespace Bunker.Networking
         public int CurrentRound { get; private set; }
         public List<PlayerData> Players => localPlayers.Values.ToList();
         public string CurrentTurnPlayerId { get; private set; }
+        public string LocalPlayerId => localPlayerId;
 
         public event Action<GamePhase> OnPhaseChanged;
         public event Action<int> OnRoundStarted;
+        public event Action<string> OnTurnChanged;
         public event Action<PlayerData, CharacterTrait> OnTraitRevealed;
         public event Action OnRevealPassCompleted;
         public event Action<PlayerData, SpecialCard> OnSpecialCardUsed;
@@ -74,7 +76,11 @@ namespace Bunker.Networking
                     OnRoundStarted?.Invoke(CurrentRound);
                 }
 
-                CurrentTurnPlayerId = room.State.currentTurnPlayerId;
+                if (room.State.currentTurnPlayerId != CurrentTurnPlayerId)
+                {
+                    CurrentTurnPlayerId = room.State.currentTurnPlayerId;
+                    OnTurnChanged?.Invoke(CurrentTurnPlayerId);
+                }
             });
 
             callbacks.OnAdd(state => state.players, (string key, PlayerSchema netPlayer) =>

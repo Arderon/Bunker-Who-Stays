@@ -3,6 +3,7 @@ using System.Collections;
 using Bunker.Core;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Bunker.UI.GameV2
@@ -14,7 +15,26 @@ namespace Bunker.UI.GameV2
     // three-line Profession share the same grid without either being truncated.
     public class TraitSlotV2 : MonoBehaviour
     {
-        public enum SlotState { Hidden, Revealed, JustRevealed, Declassified, Loading }
+        public enum SlotState
+        {
+            /// Someone else's unrevealed trait: censored, unreadable.
+            Hidden,
+
+            /// Your own unrevealed trait. You know your own character, so the
+            /// value is legible — but it is not public yet, so it is styled as
+            /// withheld and carries a "only you can see this" hint.
+            Private,
+
+            Revealed,
+            JustRevealed,
+
+            /// Eliminated player: everything declassifies, nothing is hidden.
+            Declassified,
+
+            /// Data has not arrived yet. Must not look like Hidden — a skeleton
+            /// is not a classified field.
+            Loading
+        }
 
         // Resting appearance for one state, configured in the Inspector —
         // nothing here is a BunkerTheme constant baked into code, so restyling
@@ -28,10 +48,16 @@ namespace Bunker.UI.GameV2
             public PlateVisual plate;
             public LabelVisual categoryLabel;
             public LabelVisual valueLabel;
-            [Tooltip("Hidden state only: a filled hatched bar, not an outline — withheld must not read as empty.")]
+
+            [Tooltip("Hidden only: a filled hatched bar, not an outline — withheld must not read as empty.")]
             public bool showCensorBar;
             public bool showCheckIcon;
-            public bool showJustRevealedLine;
+
+            [Header("Другий рядок (підказка)")]
+            public LabelVisual hintLabel;
+            [Tooltip("Ключ у UI-Table, напр. ui_v2_revealed_this_turn або ui_v2_private_trait. " +
+                     "Порожньо — рядок сховано.")]
+            public string hintKey;
         }
 
         private const float JustRevealedHold = 2.5f;
@@ -48,7 +74,8 @@ namespace Bunker.UI.GameV2
         [SerializeField] private TMP_Text _categoryLabel;
         [SerializeField] private RectTransform _valueColumn;
         [SerializeField] private TMP_Text _valueLabel;
-        [SerializeField] private TMP_Text _justRevealedLabel;
+        [FormerlySerializedAs("_justRevealedLabel")]
+        [SerializeField] private TMP_Text _hintLabel;
         [SerializeField] private RectTransform _censorBar;
         [SerializeField] private TMP_Text _classifiedLabel;
         [SerializeField] private GameObject _checkIcon;
@@ -80,7 +107,7 @@ namespace Bunker.UI.GameV2
 
         public void Apply(CharacterTrait trait, SlotState state, bool animateReveal)
         {
-            bool wasHidden = _state == SlotState.Hidden;
+            bool wasConcealed = _state == SlotState.Hidden || _state == SlotState.Private;
             _state = state;
 
             if (_decay != null)
@@ -89,31 +116,27 @@ namespace Bunker.UI.GameV2
                 _decay = null;
             }
 
-            var visual = StateVisual.Find(_visuals, state, this);
-            ApplyVisual(visual);
+            ApplyVisual(StateVisual.Find(_visuals, state, this));
 
-            bool hidden = state == SlotState.Hidden;
-            if (hidden)
+            if (state == SlotState.Hidden)
             {
                 _censorBar.localScale = Vector3.one;
                 return;
             }
 
+            // Private, Revealed, JustRevealed and Declassified all show the real
+            // value; only Hidden withholds it.
             if (trait != null) LocText.SetContent(this, _valueLabel, trait.LocalizationKey);
             else _valueLabel.text = string.Empty;
 
             if (state == SlotState.JustRevealed)
             {
-                LocText.Set(this, _justRevealedLabel, LocKeys.RevealedThisTurn);
-                if (isActiveAndEnabled) _decay = StartCoroutine(DecayToRevealed(animateReveal && wasHidden));
+                if (isActiveAndEnabled) _decay = StartCoroutine(DecayToRevealed(animateReveal && wasConcealed));
                 else ApplyVisual(StateVisual.Find(_visuals, SlotState.Revealed, this));
             }
         }
 
-        /// Loading: plates present, value blank, no censor bar — a skeleton must
-        /// never be mistaken for a classified field. Configure the Loading
-        /// entry's visual with showCensorBar/showCheckIcon/showJustRevealedLine
-        /// all off.
+        /// Loading: plates present, value blank, no censor bar.
         public void ApplySkeleton()
         {
             _state = SlotState.Loading;
@@ -135,8 +158,16 @@ namespace Bunker.UI.GameV2
 
             _censorBar.gameObject.SetActive(visual.showCensorBar);
             _valueLabel.gameObject.SetActive(!visual.showCensorBar);
-            _justRevealedLabel.gameObject.SetActive(visual.showJustRevealedLine);
             _checkIcon.SetActive(visual.showCheckIcon);
+
+            bool hasHint = !string.IsNullOrEmpty(visual.hintKey);
+            _hintLabel.gameObject.SetActive(hasHint);
+            if (hasHint)
+            {
+                visual.hintLabel.ApplyTo(_hintLabel);
+                _hintLabel.alpha = 1f;
+                LocText.Set(this, _hintLabel, visual.hintKey);
+            }
         }
 
         // The censor bar wipes out from the centre, the value rises into place,
@@ -191,7 +222,7 @@ namespace Bunker.UI.GameV2
                 _plate.SetBorderWidth(Mathf.Lerp(from.plate.borderWidth, to.plate.borderWidth, k));
                 _categoryLabel.color = Color.Lerp(from.categoryLabel.color, to.categoryLabel.color, k);
                 _valueLabel.color = Color.Lerp(from.valueLabel.color, to.valueLabel.color, k);
-                _justRevealedLabel.alpha = 1f - k;
+                _hintLabel.alpha = 1f - k;
                 yield return null;
             }
 

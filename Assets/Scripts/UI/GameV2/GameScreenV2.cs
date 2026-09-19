@@ -59,13 +59,17 @@ namespace Bunker.UI.GameV2
             if (_session != null) Unsubscribe();
 
             _session = session;
-            _localPlayerId = localPlayerId
-                ?? (session.Players.Count > 0 ? session.Players[0].PlayerId : null);
+
+            // Never fall back to Players[0]: that is the host (server insertion
+            // order), so on every non-host client it would point the reveal
+            // buttons, the timer and the "own card" at the wrong player.
+            _localPlayerId = string.IsNullOrEmpty(localPlayerId) ? session.LocalPlayerId : localPlayerId;
 
             session.OnTraitRevealed += OnTraitRevealed;
             session.OnPlayerEliminated += OnPlayerEliminated;
             session.OnRoundStarted += OnRoundStarted;
             session.OnSpecialCardUsed += OnSpecialCardUsed;
+            session.OnTurnChanged += OnTurnChanged;
 
             _playerList.Bind(session, _localPlayerId, OpenPlayerCard, EliminationRoundOf);
             _revealPanel.Bind(session, _localPlayerId);
@@ -79,6 +83,7 @@ namespace Bunker.UI.GameV2
             _session.OnPlayerEliminated -= OnPlayerEliminated;
             _session.OnRoundStarted -= OnRoundStarted;
             _session.OnSpecialCardUsed -= OnSpecialCardUsed;
+            _session.OnTurnChanged -= OnTurnChanged;
         }
 
         private void OnDestroy()
@@ -111,6 +116,16 @@ namespace Bunker.UI.GameV2
         {
             RefreshTurnCard();
             _playerList.Refresh();
+        }
+
+        // The base card follows the turn, and the roster's amber diamond has to
+        // travel with it. A browsed card stays put — you opened it deliberately,
+        // so it is not dismissed just because the turn moved on.
+        private void OnTurnChanged(string turnPlayerId)
+        {
+            RefreshTurnCard();
+            _playerList.Refresh();
+            if (_browsedPlayerId != null) RefreshBrowsedCard();
         }
 
         private void OnTraitRevealed(PlayerData player, CharacterTrait trait)

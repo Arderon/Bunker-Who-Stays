@@ -221,13 +221,20 @@ namespace Bunker.UI.GameV2
                 }
             }
 
+            // Your own file is the one card where unrevealed traits are legible:
+            // you know your own character, and the server sends you your full
+            // hand up front (dealtHand) precisely so you can plan what to give
+            // away. Everyone else's unrevealed traits stay censored.
+            bool ownFile = _context.Mode == CardMode.Own;
+
             foreach (var category in Order)
             {
                 if (!_slotsByCategory.TryGetValue(category, out var slot) || slot == null) continue;
 
                 TraitSlotV2.SlotState state;
                 if (eliminated) state = TraitSlotV2.SlotState.Declassified;
-                else if (!player.IsCategoryRevealed(category)) state = TraitSlotV2.SlotState.Hidden;
+                else if (!player.IsCategoryRevealed(category))
+                    state = ownFile ? TraitSlotV2.SlotState.Private : TraitSlotV2.SlotState.Hidden;
                 else if (_justRevealed == category) state = TraitSlotV2.SlotState.JustRevealed;
                 else state = TraitSlotV2.SlotState.Revealed;
 

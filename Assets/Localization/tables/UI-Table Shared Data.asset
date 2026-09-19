@@ -511,6 +511,10 @@ MonoBehaviour:
     m_Key: ui_v2_time_up
     m_Metadata:
       m_Items: []
+  - m_Id: 41034985527
+    m_Key: ui_v2_private_trait
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -26,12 +26,10 @@ namespace Bunker.UI
         public void Bind(IGameSessionView session, string localPlayerId = null)
         {
             _session = session;
-            // For local hot-seat testing without network identity yet,
-            // default to the first player so the screen has something to drive.
-            // A network-backed session may legitimately be bound before its
-            // player list has decoded, hence the Count check.
-            LocalPlayerId = localPlayerId
-                ?? (session.Players.Count > 0 ? session.Players[0].PlayerId : null);
+            // The session knows who is holding this device; Players[0] is the
+            // host in server insertion order, so falling back to it pointed
+            // every non-host client's UI at the wrong player.
+            LocalPlayerId = string.IsNullOrEmpty(localPlayerId) ? session.LocalPlayerId : localPlayerId;
 
             _session.OnPhaseChanged += OnPhaseChanged;
             _session.OnRoundStarted += _ => _topBar.RefreshRound(_session.CurrentRound);

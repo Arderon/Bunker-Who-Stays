@@ -27,6 +27,9 @@ namespace Bunker.UI.GameV2
         public const string IdExpelled = "ui_v2_id_expelled";
         public const string Classified = "ui_v2_classified";
         public const string RevealedThisTurn = "ui_v2_revealed_this_turn";
+
+        /// Hint on your own still-unrevealed traits — legible to you, nobody else.
+        public const string PrivateTrait = "ui_v2_private_trait";
         public const string FileDeclassified = "ui_v2_file_declassified";
         public const string BackTo = "ui_v2_back_to";
         public const string FileIndex = "ui_v2_file_index";
